@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Configurar perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="dividers">
+    <div>
+      <img class="photo-profile" src="assets/icon/penguin.svg"/>     
+      <button  class="plus-button" >
+        <img class="add-photo" src="assets/icon/plus.svg"/>
+     </button>
+    </div>
+  </div>
+  <hr color="#86C14F" size=1 width="300"> 
+  <form >
+    <ion-list class="inputs-list" lines="full">
+      <ion-item class="input-item">
+        <ion-label position="stacked" color="primary" class="label-input">Nombre: </ion-label>
+        <ion-input type="username"></ion-input>
+      </ion-item>
+      <ion-item class="input-item">
+        <ion-label position="stacked" color="primary" class="label-input">Nickname: </ion-label>
+        <ion-input type="username" placeholder="Ex: Penguin12"></ion-input>
+      </ion-item>
+      <ion-item class="input-item">
+        <ion-label position="stacked" color="primary" class="label-input">Correo <br>electrónico: </ion-label>
+        <ion-input type="email"></ion-input>
+      </ion-item>
+      <ion-item class="input-item">
+        <ion-label position="stacked" color="primary" class="label-input">Sobre mí: </ion-label>
+        <ion-textarea placeholder="Ingresa una descripción breve sobre tí "></ion-textarea> 
+      </ion-item>
+    </ion-list>
+    <ion-row>
+      <ion-col>
+        <ion-button class="sign-in-btn" type="submit" expand="block" >Cancelar</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button class="sign-in-btn" type="submit" expand="block"  [routerLink]="['/profile']" >Guardar</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
