@@ -1,0 +1,39 @@
+.photo-profile{
+    width: 80px;
+    height: 80px;
+}
+.user-name-container{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.user-about{
+    border: 1px solid #EAEAEA;
+    padding: 6px;
+}
+.followers{
+    text-align: center;
+}
+.user-publications-container{
+    padding: 10px;
+    .publication-n{
+        .publication-header{
+            .title{
+                font-size: 20px;
+            }
+            .date{
+                font-size: 15px;
+            }
+        }
+        .publication-options{
+            .option-n{
+                width: 20px;
+                height: 20px;
+                padding: 0px;
+                .icon-save, .icon-comments, .icon-share, .icon-download{
+                    width: 20px;
+                    height: 20px; 
+                }
+            }
+        }
+    }
+}
