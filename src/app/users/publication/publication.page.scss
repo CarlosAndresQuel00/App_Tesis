@@ -1,0 +1,21 @@
+.publication-n{
+    .publication-header{
+        .title{
+            font-size: 20px;
+        }
+        .date{
+            font-size: 15px;
+        }
+    }
+    .publication-options{
+        .option-n{
+            width: 20px;
+            height: 20px;
+            padding: 0px;
+            .icon-save, .icon-comments, .icon-share, .icon-download{
+                width: 20px;
+                height: 20px; 
+            }
+        }
+    }
+}

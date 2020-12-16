@@ -4,20 +4,24 @@ import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
-      {
-        path: 'profile',
-        loadChildren: () => import('../users/profile/profile.module').then(m => m.ProfilePageModule)
-      },
       {
         path: 'home',
         loadChildren: () => import('../users/home/home.module').then(m => m.HomePageModule)
       },
       {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'saved',
+        loadChildren: () => import('../users/saved/saved.module').then(m => m.SavedPageModule)
+      },
+      {
+        path: 'followers',
+        loadChildren: () => import('../users/followers/followers.module').then(m => m.FollowersPageModule)
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import('../users/profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
         path: '',

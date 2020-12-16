@@ -1,65 +1,81 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start" >
-      <ion-button [routerLink]="['/home']">
+      <ion-button [routerLink]="['/followers']">
          <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
      
     </ion-buttons>
-    <ion-title>Notificaciones</ion-title>
+    <ion-title>Personas que sigues</ion-title>
     
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
-  <div class="notifications-container">
-    <div class="notification">
+  <ion-list class="follows-container">
+    <ion-item class="follows">
       <ion-row>
         <ion-col size="2" size-lg>
           <div>
             <img class="photo-profile" src="assets/icon/penguin.svg"/>   
           </div>
         </ion-col>
-        <ion-col size="10" size-lg>
+        <ion-col size="8" size-lg>
           <ion-item class="search">
             <div class="publication-about"> 
-              <a>Penguin12 ha compartido una idea</a> <br>         
-              99/99/9999     
+              <a>Panda2 </a> <br>         
             </div>
           </ion-item>     
         </ion-col>  
+        <ion-col size="2" size-lg>
+          <ion-button>
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
       </ion-row>
-    </div>
-    <div class="notification">
+    </ion-item>
+    <ion-item class="followers">
       <ion-row>
         <ion-col size="2" size-lg>
+          <div>
             <img class="photo-profile" src="assets/icon/penguin.svg"/>   
+          </div>
         </ion-col>
-        <ion-col size="10" size-lg>
+        <ion-col size="8" size-lg>
           <ion-item class="search">
             <div class="publication-about"> 
-              <a>Penguin12 comenzó a seguirte</a> <br>         
-              99/99/9999     
+              <a>Penguin122 </a> <br>         
             </div>
           </ion-item>     
         </ion-col>  
+        <ion-col size="2" size-lg>
+          <ion-button>
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
       </ion-row>
-    </div>
-    <div class="notification">
+    </ion-item>
+    <ion-item class="followers">
       <ion-row>
         <ion-col size="2" size-lg>
           <div>
             <img class="photo-profile" src="assets/icon/weasel.svg"/>   
           </div>
         </ion-col>
-        <ion-col size="10" size-lg>
+        <ion-col size="8" size-lg>
           <ion-item class="search">
             <div class="publication-about"> 
-              <a>weasel2 ha compartido una idea</a> <br>         
-              99/99/9999     
+              <a>weasel </a> <br>         
             </div>
           </ion-item>     
         </ion-col>  
+        <ion-col size="2" size-lg>
+          <ion-button>
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
       </ion-row>
-    </div>
-  </div>
+    </ion-item>
+    
+  </ion-list>
 </ion-content>
