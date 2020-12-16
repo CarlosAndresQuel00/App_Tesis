@@ -32,6 +32,22 @@ const routes: Routes = [
   {
     path: 'user-profile',
     loadChildren: () => import('./users/user-profile/user-profile.module').then( m => m.UserProfilePageModule)
+  },
+  {
+    path: 'follows',
+    loadChildren: () => import('./users/follows/follows.module').then( m => m.FollowsPageModule)
+  },
+  {
+    path: 'followers',
+    loadChildren: () => import('./users/followers/followers.module').then( m => m.FollowersPageModule)
+  },
+  {
+    path: 'publication',
+    loadChildren: () => import('./users/publication/publication.module').then( m => m.PublicationPageModule)
+  },
+  {
+    path: 'saved',
+    loadChildren: () => import('./users/saved/saved.module').then( m => m.SavedPageModule)
   }
 
 ];
