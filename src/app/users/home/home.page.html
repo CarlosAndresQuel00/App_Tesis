@@ -1,9 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-item>
-      <ion-label>Inicio</ion-label>  
-         <a href="/notifications" > <img class="photo-profile" src="assets/icon/activo.svg"/></a>
+      <ion-label>Inicio</ion-label> 
+      <ion-label>{{ userEmail }}</ion-label> 
+         <a href="/notifications" > <img class="icon-notification" src="assets/icon/activo.svg"/></a>
+         <button (click)="logout()"> <img class="icon-logout" src="assets/icon/logout.svg"/></button>
     </ion-item>
+    
   </ion-toolbar>
 </ion-header>
 
