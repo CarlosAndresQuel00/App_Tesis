@@ -1,5 +1,7 @@
 {
   "name": "App_Tesis",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

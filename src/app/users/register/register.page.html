@@ -12,27 +12,41 @@
 </ion-header>
 
 <ion-content class="sign-in-content">
-  <form >
+  <form class="form" [formGroup]="validations_form" (ngSubmit)="tryRegister(validations_form.value)">
     <ion-list class="inputs-list" lines="full">
       <ion-item class="input-item">
         <ion-label position="floating" color="primary" class="label-input">Correo electrónico</ion-label>
-        <ion-input type="email"></ion-input>
+        <ion-input type="text" formControlName="email"></ion-input>
       </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.email">
+          <div class="error-message"
+            *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
       <ion-item class="input-item">
         <ion-label position="floating" color="primary" class="label-input">Contraseña</ion-label>
-        <ion-input type="password"></ion-input>
+        <ion-input type="password" formControlName="password" class="form-controll" required></ion-input>
       </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.password">
+          <div class="error-message"
+            *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
     </ion-list>
 
-    <ion-button class="sign-in-btn" type="submit" expand="block"  [routerLink]="['/profile-settings']">Registrarme</ion-button>
+    <ion-button class="sign-in-btn" type="submit" expand="block" [disabled]="!validations_form.valid">Registrarme</ion-button>
     <div class="error-container">
-      <!-- <div class="error-message">
-        <ion-icon name="information-circle-outline"></ion-icon>
-        
-      </div>-->
+      <label class="error-message">{{errorMessage}}</label>
+      <label class="success-message">{{successMessage}}</label>
     </div>
     <ion-row class="sign-up-btn-wrapper">
-      <ion-button class="sign-up-btn" fill="clear" [routerLink]="['/login']">
+      <ion-button class="sign-up-btn" fill="clear" (click)="goLoginPage()">
         Ya tienes cuenta?
       </ion-button>
     </ion-row>
