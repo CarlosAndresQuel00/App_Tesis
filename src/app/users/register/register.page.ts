@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,8 +12,33 @@ import { NavController } from '@ionic/angular';
 })
 export class RegisterPage implements OnInit {
 
+  constructor(private authSvc: AuthService, private router: Router){}
 
-  validations_form: FormGroup;
+  ngOnInit(){}
+
+  async onRegister(email, password){
+    try{
+      const user = await this.authSvc.register(email.value, password.value);
+      if (user){
+        const isVerified = this.authSvc.isEmailVerified(user);
+        this.redirectUser(isVerified);
+        console.log('verified->', isVerified);
+      }
+    }catch (error){
+      console.log(error);
+    }
+  }
+  redirectUser(isVerified: boolean){
+    if (isVerified){
+      this.router.navigate(['profile']);
+    }else{
+      this.router.navigate(['verify-email']);
+    }
+  }
+  goLoginPage() {
+    this.router.navigate(['login']);
+  }
+  /*validations_form: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
 
@@ -62,6 +88,6 @@ export class RegisterPage implements OnInit {
   goLoginPage() {
     this.navCtrl.navigateBack('');
   }
-
+*/
 
 }

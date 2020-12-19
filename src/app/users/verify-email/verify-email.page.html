@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Verificar correo electrónico</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="user$ | async as user">
+  <div class="dividers">
+    <div class="textIn">
+      <h1 class="titles" > 
+        ¡Gracias por registrarte a R-usa!
+      </h1>
+      <h2>
+        Te hemos enviado un correo de verificación a <strong>{{ user.email}}</strong>
+      </h2>
+      <h3>Por favor, revisa tu bandeja de entrada o tu correo spam</h3>
+    </div>
+    <div class="iconIn">
+      <img id="iconBottle" src="assets/icon/planta.svg">
+    </div>
+  </div>
+  <ion-button class="sign-in-btn" expand="block" type="submit" (click)="onSendEmail()">Reenviar correo de verificación</ion-button>
+
+</ion-content>

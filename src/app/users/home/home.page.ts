@@ -1,6 +1,8 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { AuthService } from '../../services/auth.service';
+import { AngularFireAuth } from '@angular/fire/auth';
+
 
 @Component({
   selector: 'app-home',
@@ -11,13 +13,12 @@ export class HomePage implements OnInit {
   userEmail: string;
 
   constructor(
-    private navCtrl: NavController,
-    private authService: AuthService
+    private authSvc: AngularFireAuth,
   ) { }
 
   ngOnInit() {
 
-    this.authService.userDetails().subscribe(res => {
+   /* this.authService.userDetails().subscribe(res => {
       console.log('res', res);
       if (res !== null) {
         this.userEmail = res.email;
@@ -26,11 +27,11 @@ export class HomePage implements OnInit {
       }
     }, err => {
       console.log('err', err);
-    })
+    })*/
 
   }
 
-  logout() {
+  /*logout() {
     this.authService.logoutUser()
       .then(res => {
         console.log(res);
@@ -39,5 +40,12 @@ export class HomePage implements OnInit {
       .catch(error => {
         console.log(error);
       })
+  }*/
+  async logout(): Promise<void>{
+    try{
+      await this.authSvc.signOut();
+    }catch (error){
+      console.log('Error->', error);
+    }
   }
 }

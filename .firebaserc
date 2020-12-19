@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "authentcation-fbdda": {
+      "hosting": {
+        "app": [
+          "authentcation-fbdda"
+        ]
+      }
+    }
+  }
+}

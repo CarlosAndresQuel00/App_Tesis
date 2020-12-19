@@ -1,11 +1,14 @@
+
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes, CanActivate } from '@angular/router';
+import { AuthGuard } from './users/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },  {
+  },
+  {
     path: 'login',
     loadChildren: () => import('./users/login/login.module').then( m => m.LoginPageModule)
   },
@@ -23,7 +26,8 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./users/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./users/home/home.module').then( m => m.HomePageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'notifications',
@@ -48,6 +52,14 @@ const routes: Routes = [
   {
     path: 'saved',
     loadChildren: () => import('./users/saved/saved.module').then( m => m.SavedPageModule)
+  },
+  {
+    path: 'verify-email',
+    loadChildren: () => import('./users/verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./users/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   }
 
 ];
