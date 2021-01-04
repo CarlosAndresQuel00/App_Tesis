@@ -1,7 +1,7 @@
 
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes, CanActivate } from '@angular/router';
-import { AuthGuard } from './users/auth.guard';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+
 
 const routes: Routes = [
   {
@@ -26,8 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./users/home/home.module').then( m => m.HomePageModule),
-    canActivate: [AuthGuard]
+    loadChildren: () => import('./users/home/home.module').then( m => m.HomePageModule)
   },
   {
     path: 'notifications',
@@ -60,8 +59,19 @@ const routes: Routes = [
   {
     path: 'reset-password',
     loadChildren: () => import('./users/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
+  {
+    path: 'publication-modal',
+    loadChildren: () => import('./users/modals/publication-modal/publication-modal.module').then( m => m.PublicationModalPageModule)
+  },
+  {
+    path: 'new-publication',
+    loadChildren: () => import('./users/new-publication/new-publication.module').then( m => m.NewPublicationPageModule)
+  },
+  {
+    path: 'edit-publication/:id',
+    loadChildren: () => import('./users/edit-publication/edit-publication.module').then( m => m.EditPublicationPageModule)
   }
-
 ];
 @NgModule({
   imports: [

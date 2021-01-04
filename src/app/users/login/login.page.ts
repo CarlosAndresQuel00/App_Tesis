@@ -2,9 +2,14 @@ import { RouterModule } from '@angular/router';
 // login.page.ts
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { UserInterface } from 'src/app/shared/user.interface';
+import firebase from 'firebase';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { FirestoreService } from 'src/app/services/firestore.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -12,139 +17,80 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
+  user: UserInterface = {
+    uid: '',
+    name: '',
+    description: '',
+    email: '',
+    photo: '',
+    password: '',
+    emailVerified: false,
+  };
   validationsForm: FormGroup;
   errorMessage: '';
   constructor(
     private authSvc: AuthService,
     private router: Router,
-    private formBuild: FormBuilder
-  ) { }
+    public fireAuth: AngularFireAuth,
+    public toastController: ToastController,
+    public firestoreService: FirestoreService,
+  ) {}
 
-  validationMessages = {
-    email: [
-      { type: 'required', message: 'Campo requerido.' },
-      { type: 'pattern', message: 'Ingresa un correo válido.' }
-    ],
-    password: [
-      { type: 'required', message: 'Campo requerido.' },
-      { type: 'minlength', message: 'La contraseña debe contener min. 5 caracteres.' }
-    ]
-  };
-
-  ngOnInit() {
-    this.validationsForm = this.formBuild.group({
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-      ])),
-      password: new FormControl('', Validators.compose([
-        Validators.minLength(5),
-        Validators.required
-      ])),
-    });
+  async ngOnInit() {
+    console.log(this.user);
+    const id = await this.authSvc.getUid();
+    console.log(id);
   }
 
-  async onLogin(email, password){
+  async onLogin(){
     try{
-      const user = await this.authSvc.login(email.value, password.value);
+      const user = await this.authSvc.loginUser(this.user.email, this.user.password);
       if (user){
-        const isVerified = this.authSvc.isEmailVerified(user);
-        this.redirectUser(isVerified);
-        this.errorMessage = '';
+        this.redirectUser(true);
       }
-
     } catch (error){
-      this.errorMessage = error;
+      console.log(error.errorMessage);
     }
   }
 
   async onLoginGoogle(){
+    const path = 'Users';
     try{
-      const user = await this.authSvc.loginGoogle();
+      const res = await this.fireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      const user = res.user;
       if (user){
-        const isVerified = this.authSvc.isEmailVerified(user);
-        this.redirectUser(isVerified);
+       // const isVerified = this.authSvc.isEmailVerified(user);
+        this.user.name = user.displayName;
+        this.user.photo = user.photoURL;
+        this.user.email = user.email;
+        this.user.uid = user.uid;
+        this.firestoreService.createDoc(this.user, path, user.uid).then(res => {
+        this.redirectUser(true);
+      }).catch (err => {
+        console.log(err);
+        this.presentToast(err.message);
+      });
       }
     } catch (error){
-      this.errorMessage = error;
+      console.log(error);
     }
+  }
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 4500,
+      color: 'dark'
+    });
+    toast.present();
   }
   redirectUser(isVerified: boolean){
     if (isVerified){
-      this.router.navigate(['profile']);
+      this.router.navigate(['home']);
     }else{
       this.router.navigate(['verify-email']);
     }
   }
 
-}
-
-/* // login.page.ts
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { NavController } from '@ionic/angular';
-import { AuthService } from '../../services/auth.service';
-
-@Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
-})
-export class LoginPage implements OnInit {
-
-  validations_form: FormGroup;
-  errorMessage: string = '';
-
-  constructor(
-
-    private navCtrl: NavController,
-    private authService: AuthService,
-    private formBuilder: FormBuilder
-
-  ) { }
-
-  ngOnInit() {
-    this.validations_form = this.formBuilder.group({
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-      ])),
-      password: new FormControl('', Validators.compose([
-        Validators.minLength(5),
-        Validators.required
-      ])),
-    });
-  }
-
-
-  validation_messages = {
-    'email': [
-      { type: 'required', message: 'Campo requerido.' },
-      { type: 'pattern', message: 'Ingresa un correo válido.' }
-    ],
-    'password': [
-      { type: 'required', message: 'Campo requerido.' },
-      { type: 'minlength', message: 'La contraseña debe contener min. 5 caracteres.' }
-    ]
-  };
-
-
-  loginUser(value) {
-    this.authService.loginUser(value)
-      .then(res => {
-        console.log(res);
-        this.errorMessage = "";
-        this.navCtrl.navigateForward('/home');
-      }, err => {
-        this.errorMessage = err.message;
-      })
-  }
-  loginGoogle(){
-    alert("holi");
-  }
-  goToRegisterPage() {
-    this.navCtrl.navigateForward('/register');
-  }
 
 }
-*/
+

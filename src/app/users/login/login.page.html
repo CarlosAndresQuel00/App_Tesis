@@ -5,6 +5,7 @@
         Iniciar Sesión
         </ion-label>
     </div>
+    
     <div class="iconIn">
       <img id="iconBottle" src="assets/icon/planta.svg">
     </div>
@@ -12,63 +13,52 @@
 </ion-header>
 
 <ion-content class="sign-in-content">
-  <form class="form" [formGroup]="validationsForm">
+  <form>
       <ion-item class="input-item">
         <ion-label position="floating" color="primary" class="label-input">Correo electrónico</ion-label>
-        <ion-input type="email" #email formControlName="email"></ion-input>
+        <ion-input type="email" [(ngModel)]="user.email" name="email"></ion-input>
       </ion-item>
-      <div class="validation-errors">
+      <!--<div class="validation-errors">
         <ng-container *ngFor="let validation of validationMessages.email">
           <div class="error-message"
             *ngIf="validationsForm.get('email').hasError(validation.type) && (validationsForm.get('email').dirty || validationsForm.get('email').touched)">
             {{ validation.message }}
           </div>
         </ng-container>
-      </div>
+      </div>-->
       <ion-item class="input-item">
         <ion-label position="floating" color="primary" class="label-input">Contraseña</ion-label>
-        <ion-input type="password" #password class="form-control" formControlName="password"></ion-input>
+        <ion-input type="password" 
+          [(ngModel)]="user.password" 
+          class="form-control" 
+          name="password">
+        </ion-input>
       </ion-item>
-      <div class="validation-errors">
+     <!--<div class="validation-errors">
         <ng-container *ngFor="let validation of validationMessages.password">
           <div class="error-message"
             *ngIf="validationsForm.get('password').hasError(validation.type) && (validationsForm.get('password').dirty || validationsForm.get('password').touched)">
             {{ validation.message }}
           </div>
         </ng-container>
-      </div>
+      </div>--> 
     
-    <ion-button class="sign-in-btn" expand="block" type="submit" (click)="onLogin(email, password)">Ingresar</ion-button>
-    <ion-row class="forgot-password">
+    <ion-button class="sign-in-btn" expand="block"(click)="onLogin()">
+      Ingresar
+    </ion-button>
+    <ion-row class="sign-up-btn-wrapper">
       <ion-button class="reset-password-btn" fill="clear" routerLink="/reset-password" >
         Olvidaste tu contraseña?
       </ion-button>
-
-    </ion-row>
-    <div class="error-container">
-      <label class="error-message">{{errorMessage}}</label>
-    </div>
-    <ion-row class="sign-up-btn-wrapper">
-      <ion-button class="sign-up-btn" fill="clear" routerLink="/register">
+      <ion-button class="sign-up-btn" fill="clear" routerLink="../register">
         No tienes una cuenta?
       </ion-button>
     </ion-row>
   </form>
   
   <div class="social-auth-options">
-    <p class="options-divider">- Otras opciones -</p>
-    <ion-button  color="primary" expand="block" >
-      <ion-row>
-        <ion-col>
-          <ion-icon name="logo-facebook"></ion-icon>
-        </ion-col>
-        <ion-col>
-          Ingresar con Facebook
-        </ion-col>
-      </ion-row>
-        
-    </ion-button>
-    <ion-button type="submit" color="danger" expand="block" router="onLoginGoogle()">
+    <p class="options-divider">- O -</p>
+    <ion-button type="submit" color="danger" expand="block" (click)="onLoginGoogle()">
       <ion-row>
         <ion-col>
           <ion-icon name="logo-google"></ion-icon>
@@ -77,16 +67,6 @@
           Ingresar con Google
         </ion-col>
       </ion-row> 
-    </ion-button>
-    <ion-button  color="secondary" expand="block" >
-      <ion-row>
-        <ion-col>
-          <ion-icon name="logo-twitter"></ion-icon>
-        </ion-col>
-        <ion-col>
-          Ingresar con Twitter
-        </ion-col>
-      </ion-row>
     </ion-button>
   </div>
 </ion-content>

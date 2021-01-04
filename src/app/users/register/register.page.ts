@@ -1,10 +1,14 @@
+import { UserInterface } from 'src/app/shared/user.interface';
+import { Observable } from 'rxjs';
 // register.page.ts
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
-
+import { FirestorageService } from '../../services/firestorage.service';
+import { FirestoreService } from '../../services/firestore.service';
+import { ToastController } from '@ionic/angular';
+import firebase from 'firebase';
+import { AngularFireAuth } from '@angular/fire/auth';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -12,82 +16,115 @@ import { Router } from '@angular/router';
 })
 export class RegisterPage implements OnInit {
 
-  constructor(private authSvc: AuthService, private router: Router){}
+  newFile: '';
+  newImage: '';
 
-  ngOnInit(){}
-
-  async onRegister(email, password){
-    try{
-      const user = await this.authSvc.register(email.value, password.value);
-      if (user){
-        const isVerified = this.authSvc.isEmailVerified(user);
-        this.redirectUser(isVerified);
-        console.log('verified->', isVerified);
-      }
-    }catch (error){
-      console.log(error);
-    }
-  }
-  redirectUser(isVerified: boolean){
-    if (isVerified){
-      this.router.navigate(['profile']);
-    }else{
-      this.router.navigate(['verify-email']);
-    }
-  }
-  goLoginPage() {
-    this.router.navigate(['login']);
-  }
-  /*validations_form: FormGroup;
-  errorMessage: string = '';
-  successMessage: string = '';
-
-  validation_messages = {
-    'email': [
-      { type: 'required', message: 'Campo requerido.' },
-      { type: 'pattern', message: 'Ingresa un correo válido.' }
-    ],
-    'password': [
-      { type: 'required', message: 'Campo requerido.' },
-      { type: 'minlength', message: 'La contraseña debe tener min. 5 caracteres.' }
-    ]
+  user: UserInterface = {
+    uid: '',
+    name: '',
+    description: '',
+    email: '',
+    photo: '',
+    password: '',
+    emailVerified: false,
+    displayName: ''
   };
 
   constructor(
-    private navCtrl: NavController,
-    private authService: AuthService,
-    private formBuilder: FormBuilder
-  ) { }
+    public firestoreService: FirestoreService,
+    public authSvc: AuthService,
+    private router: Router,
+    public fireStorageService: FirestorageService,
+    public toastController: ToastController,
+    public fireAuth: AngularFireAuth
+  ){}
 
-  ngOnInit() {
-    this.validations_form = this.formBuilder.group({
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-      ])),
-      password: new FormControl('', Validators.compose([
-        Validators.minLength(5),
-        Validators.required
-      ])),
+  async ngOnInit(){
+ // retorna identificador de user
+    console.log(this.user);
+    const id = await this.authSvc.getUid();
+    console.log(id);
+  }
+
+  async onRegister(){
+    const credentials = {
+      email: this.user.email,
+      password: this.user.password
+    };
+    const res = await this.authSvc.register(credentials.email, credentials.password).catch(err => {
+    });
+    // const isVerified = this.authSvc.isEmailVerified(this.user);
+    const id = await this.authSvc.getUid();
+    this.user.uid = id;
+    this.saveUser();
+    this.presentToast('Registro exitoso!');
+    console.log(id);
+  }
+
+  async saveUser() { // registrar usuario en la base de datos con id de auth
+    const path = 'Users';
+    const name = this.user.name;
+    if (this.newFile !== undefined){
+      const res = await this.fireStorageService.uploadImage(this.newFile, path, name);
+      this.user.photo = res;
+    }
+    this.firestoreService.createDoc(this.user, path, this.user.uid).then(res => {
+      this.redirectUser(true);
+    }).catch (err => {
+      console.log(err);
+      this.presentToast(err.message);
     });
   }
 
-  tryRegister(value) {
-    this.authService.registerUser(value)
-      .then(res => {
-        console.log(res);
-        this.errorMessage = "";
-        this.successMessage = "¡Registro exitoso! Intenta iniciar sesión.";
-      }, err => {
+  async newPhotoProfile(event: any){
+    if (event.target.files && event.target.files[0]){
+      this.newFile = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = ((image) => {
+        this.user.photo = image.target.result as string;
+      });
+      reader.readAsDataURL(event.target.files[0]);
+
+    }
+
+  }
+  async redirectUser(isVerified: boolean){
+    if (isVerified){
+      await this.router.navigate(['profile']);
+    }else{
+      // await this.router.navigate(['verify-email']);
+      console.log('no');
+    }
+  }
+
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 4500,
+      color: 'dark'
+    });
+    toast.present();
+  }
+  async onRegisterGoogle(){
+    const path = 'Users';
+    try{
+      const res = await this.fireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      const user = res.user;
+      if (user){
+       // const isVerified = this.authSvc.isEmailVerified(user);
+        this.user.name = user.displayName;
+        this.user.photo = user.photoURL;
+        this.user.email = user.email;
+        this.user.uid = user.uid;
+        this.firestoreService.createDoc(this.user, path, user.uid).then( res => {
+        this.redirectUser(true);
+      }).catch (err => {
         console.log(err);
-        this.errorMessage = err.message;
-        this.successMessage = "";
-      })
+        this.presentToast(err.message);
+      });
+      }
+    } catch (error){
+      console.log(error);
+    }
   }
-
-  goLoginPage() {
-    this.navCtrl.navigateBack('');
-  }
-*/
-
 }
