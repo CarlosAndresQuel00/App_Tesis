@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { PublicationInterface } from 'src/app/shared/publication.interface';
+import { UserInterface } from 'src/app/shared/user.interface';
 
 @Component({
   selector: 'app-saved',
@@ -7,9 +13,90 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SavedPage implements OnInit {
 
-  constructor() { }
+  uid: string;
+  idCurrentUser: string;
+  private path = 'Saved/';
+  user: UserInterface = {
+    uid: '',
+    name: '',
+    description: '',
+    email: '',
+    photo: '',
+    password: '',
+    emailVerified: false,
+
+  };
+  publications: PublicationInterface[] = [];
+  constructor(
+    private authSvc: AuthService,
+    public firestoreService: FirestoreService,
+    private router: Router,
+    public alertController: AlertController
+
+  ) {
+    this.authSvc.stateAuth().subscribe(res => {
+      console.log(res);
+      if (res != null){
+        this.idCurrentUser = res.uid;
+        this.getUserInfo(this.idCurrentUser);
+        console.log('id ini', this.idCurrentUser);
+      }else{
+        this.initUser();
+      }
+    });
+   }
 
   ngOnInit() {
+    this.getPublications();
+  }
+  initUser(){
+    this.idCurrentUser = '';
+    this.user = {
+      uid: '',
+      name: '',
+      description: '',
+      email: '',
+      photo: '',
+      password: '',
+      emailVerified: false,
+    };
+  }
+  getPublications(){
+    this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
+    this.publications = res;
+    console.log('guaradados', res);
+   });
+  }
+  getUserInfo(uid: string){ // trae info de la bd
+    const path = 'Users';
+    this.firestoreService.getDoc<UserInterface>(path, uid).subscribe( res => {
+      this.user = res;
+    });
+  }
+
+  async presentAlertConfirm(idea: PublicationInterface) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Eliminar idea',
+      message: 'Quitar idea de tu lista de guardados?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Sí',
+          handler: () => {
+            this.firestoreService.deleteDoc(this.path, idea.idSaved);
+            console.log('eliminado');
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
 }

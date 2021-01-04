@@ -1,71 +1,47 @@
-<ion-header >
-  <div class="dividers">
-    <div class="textIn">
-      <ion-label class="titles" > 
-        Regístrate
-        </ion-label>
-    </div>
-    <div class="iconIn">
-      <img id="iconBottle" src="assets/icon/planta.svg">
-    </div>
+<div class="dividers">
+  <div class="textIn">
+    <ion-label class="titles" > 
+      Regístrate
+      </ion-label>
+      <div class="div-img-photo">
+        <img id="iconBottle" src="assets/icon/planta.svg">
+         
+      </div>
   </div>
-</ion-header>
-
+  
+</div>
 <ion-content class="sign-in-content">
-  <form class="form" [formGroup]="validations_form" (ngSubmit)="tryRegister(validations_form.value)">
+  
+  <form >
     <ion-list class="inputs-list" lines="full">
       <ion-item class="input-item">
-        <ion-label position="floating" color="primary" class="label-input">Correo electrónico</ion-label>
-        <ion-input type="text" formControlName="email"></ion-input>
+        <ion-label position="floating" color="primary" class="label-input">Nombre</ion-label>
+        <ion-input [(ngModel)]="user.name" type="text" name="name"></ion-input>
       </ion-item>
-      <div class="validation-errors">
-        <ng-container *ngFor="let validation of validation_messages.email">
-          <div class="error-message"
-            *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
-            {{ validation.message }}
-          </div>
-        </ng-container>
-      </div>
+      <ion-item class="input-item">
+        <ion-label position="floating" color="primary" class="label-input">Correo electrónico</ion-label>
+        <ion-input [(ngModel)]="user.email" type="email" name="email" required></ion-input>
+      </ion-item>
+ 
       <ion-item class="input-item">
         <ion-label position="floating" color="primary" class="label-input">Contraseña</ion-label>
-        <ion-input type="password" formControlName="password" class="form-controll" required></ion-input>
-      </ion-item>
-      <div class="validation-errors">
-        <ng-container *ngFor="let validation of validation_messages.password">
-          <div class="error-message"
-            *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
-            {{ validation.message }}
-          </div>
-        </ng-container>
-      </div>
+        <ion-input [(ngModel)]="user.password" type="password" name="password" required></ion-input>
+      </ion-item>  
     </ion-list>
 
-    <ion-button class="sign-in-btn" type="submit" expand="block" [disabled]="!validations_form.valid">Registrarme</ion-button>
-    <div class="error-container">
-      <label class="error-message">{{errorMessage}}</label>
-      <label class="success-message">{{successMessage}}</label>
-    </div>
+    <ion-button class="sign-in-btn"  expand="block" (click)="onRegister()">
+      Registrarme
+    </ion-button>
     <ion-row class="sign-up-btn-wrapper">
-      <ion-button class="sign-up-btn" fill="clear" (click)="goLoginPage()">
+      <ion-button class="sign-up-btn" fill="clear" routerLink="/login" routerLinkActive="router-link-active">
         Ya tienes cuenta?
       </ion-button>
     </ion-row>
   </form>
 
   <div class="social-auth-options">
-    <p class="options-divider">- Otras opciones -</p>
-    <ion-button  color="primary" expand="block" >
-      <ion-row>
-        <ion-col>
-          <ion-icon name="logo-facebook"></ion-icon>
-        </ion-col>
-        <ion-col>
-          Regístrate con Facebook
-        </ion-col>
-      </ion-row>
-        
-    </ion-button>
-    <ion-button  color="danger" expand="block" >
+    <p class="options-divider">- O -</p>
+    <ion-button (click)="onRegisterGoogle()" color="danger" expand="block" >
       <ion-row>
         <ion-col>
           <ion-icon name="logo-google"></ion-icon>
@@ -74,16 +50,6 @@
           Regístrate con Google
         </ion-col>
       </ion-row> 
-    </ion-button>
-    <ion-button  color="secondary" expand="block" >
-      <ion-row>
-        <ion-col>
-          <ion-icon name="logo-twitter"></ion-icon>
-        </ion-col>
-        <ion-col>
-          Regístrate con Twitter
-        </ion-col>
-      </ion-row>
     </ion-button>
   </div>
 </ion-content>

@@ -41,18 +41,12 @@
     margin-left: 42%;
 }
 
-
-.sign-in-btn {
-    margin: 16px 0px;
-    --background: #6C9843;
-}
 .sign-up-btn-wrapper {
     justify-content: flex-end;
     align-items: center;
 
-    .sign-up-btn {
+    .sign-up-btn, .reset-password-btn {
       --padding-end: 0px;
-      
     }
   }
 .options-divider{

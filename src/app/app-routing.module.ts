@@ -1,11 +1,14 @@
+
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+
 
 const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },  {
+  },
+  {
     path: 'login',
     loadChildren: () => import('./users/login/login.module').then( m => m.LoginPageModule)
   },
@@ -48,8 +51,27 @@ const routes: Routes = [
   {
     path: 'saved',
     loadChildren: () => import('./users/saved/saved.module').then( m => m.SavedPageModule)
+  },
+  {
+    path: 'verify-email',
+    loadChildren: () => import('./users/verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./users/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
+  {
+    path: 'publication-modal',
+    loadChildren: () => import('./users/modals/publication-modal/publication-modal.module').then( m => m.PublicationModalPageModule)
+  },
+  {
+    path: 'new-publication',
+    loadChildren: () => import('./users/new-publication/new-publication.module').then( m => m.NewPublicationPageModule)
+  },
+  {
+    path: 'edit-publication/:id',
+    loadChildren: () => import('./users/edit-publication/edit-publication.module').then( m => m.EditPublicationPageModule)
   }
-
 ];
 @NgModule({
   imports: [

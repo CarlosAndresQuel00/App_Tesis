@@ -1,8 +1,14 @@
+import { RouterModule } from '@angular/router';
 // login.page.ts
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { UserInterface } from 'src/app/shared/user.interface';
+import firebase from 'firebase';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { FirestoreService } from 'src/app/services/firestore.service';
 
 @Component({
   selector: 'app-login',
@@ -11,57 +17,80 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginPage implements OnInit {
 
-  validations_form: FormGroup;
-  errorMessage: string = '';
-
-  constructor(
-
-    private navCtrl: NavController,
-    private authService: AuthService,
-    private formBuilder: FormBuilder
-
-  ) { }
-
-  ngOnInit() {
-    this.validations_form = this.formBuilder.group({
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-      ])),
-      password: new FormControl('', Validators.compose([
-        Validators.minLength(5),
-        Validators.required
-      ])),
-    });
-    
-  }
-
-
-  validation_messages = {
-    'email': [
-      { type: 'required', message: 'Campo requerido.' },
-      { type: 'pattern', message: 'Ingresa un correo válido.' }
-    ],
-    'password': [
-      { type: 'required', message: 'Campo requerido.' },
-      { type: 'minlength', message: 'La contraseña debe contener min. 5 caracteres.' }
-    ]
+  user: UserInterface = {
+    uid: '',
+    name: '',
+    description: '',
+    email: '',
+    photo: '',
+    password: '',
+    emailVerified: false,
   };
+  validationsForm: FormGroup;
+  errorMessage: '';
+  constructor(
+    private authSvc: AuthService,
+    private router: Router,
+    public fireAuth: AngularFireAuth,
+    public toastController: ToastController,
+    public firestoreService: FirestoreService,
+  ) {}
 
-
-  loginUser(value) {
-    this.authService.loginUser(value)
-      .then(res => {
-        console.log(res);
-        this.errorMessage = "";
-        this.navCtrl.navigateForward('/home');
-      }, err => {
-        this.errorMessage = err.message;
-      })
+  async ngOnInit() {
+    console.log(this.user);
+    const id = await this.authSvc.getUid();
+    console.log(id);
   }
 
-  goToRegisterPage() {
-    this.navCtrl.navigateForward('/register');
+  async onLogin(){
+    try{
+      const user = await this.authSvc.loginUser(this.user.email, this.user.password);
+      if (user){
+        this.redirectUser(true);
+      }
+    } catch (error){
+      console.log(error.errorMessage);
+    }
   }
+
+  async onLoginGoogle(){
+    const path = 'Users';
+    try{
+      const res = await this.fireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      const user = res.user;
+      if (user){
+       // const isVerified = this.authSvc.isEmailVerified(user);
+        this.user.name = user.displayName;
+        this.user.photo = user.photoURL;
+        this.user.email = user.email;
+        this.user.uid = user.uid;
+        this.firestoreService.createDoc(this.user, path, user.uid).then(res => {
+        this.redirectUser(true);
+      }).catch (err => {
+        console.log(err);
+        this.presentToast(err.message);
+      });
+      }
+    } catch (error){
+      console.log(error);
+    }
+  }
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 4500,
+      color: 'dark'
+    });
+    toast.present();
+  }
+  redirectUser(isVerified: boolean){
+    if (isVerified){
+      this.router.navigate(['home']);
+    }else{
+      this.router.navigate(['verify-email']);
+    }
+  }
+
 
 }
+

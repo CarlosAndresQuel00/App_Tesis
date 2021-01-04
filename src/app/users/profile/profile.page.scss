@@ -1,6 +1,7 @@
 .photo-profile{
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
+    border-radius: 250px;
 }
 .user-name-container{
     margin-top: 10px;
@@ -9,31 +10,54 @@
 .user-about{
     border: 1px solid #EAEAEA;
     padding: 6px;
+    font-size: 12px;
 }
 .followers{
     text-align: center;
+    font-size: 12px;
 }
-.user-publications-container{
-    padding: 10px;
-    .publication-n{
-        .publication-header{
-            .title{
-                font-size: 20px;
-            }
-            .date{
-                font-size: 15px;
-            }
-        }
-        .publication-options{
-            .option-n{
-                width: 20px;
-                height: 20px;
-                padding: 0px;
-                .icon-save, .icon-comments, .icon-share, .icon-download{
-                    width: 20px;
-                    height: 20px; 
-                }
-            }
+.publications-container{
+    border-bottom: 1px solid #E3E0E0;
+    border-top: 1px solid #E3E0E0; 
+    margin-bottom: 10px;    
+}
+.publication-options{
+    .option-n{
+        width: 20px;
+        height: 20px;
+        padding: 0px;
+        .icon-save, .icon-comments, .icon-share, .icon-download{
+            width: 20px;
+            height: 20px; 
         }
     }
+}
+.publication-info{
+    margin-left: 5px;
+    .date{
+        font-size: 11px;
+    }
+    .title{
+        font-size: 13px;
+    }
+    .user{
+        font-size: 12px;
+    }
+    .user-photo-profile{
+        width: 35px;
+        height: 35px;
+        border-radius: 250px;
+    }
+    .alert-icon{
+        width: 20px;
+        height: 20px;
+    }
+}
+.publication-description{
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 13px;
+}
+.user-photo-f{
+    margin-left: 8px;
 }

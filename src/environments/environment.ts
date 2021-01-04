@@ -5,15 +5,14 @@
 export const environment = {
   production: false,
   credencialesFirebase : {
-    apiKey: "AIzaSyBBA9nltwry0C-Frj39YwTv_UjavE-dJZI",
-    authDomain: "authentcation-fbdda.firebaseapp.com",
-    projectId: "authentcation-fbdda",
-    storageBucket: "authentcation-fbdda.appspot.com",
-    messagingSenderId: "127646725751",
-    appId: "1:127646725751:web:4607efc9a685551ccd7872",
-    measurementId: "G-P402XH65D6"
+    apiKey: "AIzaSyAFuTDYcStF0EBHAIOzBJpTyJ01y3BUyyU",
+    authDomain: "r-utiliza.firebaseapp.com",
+    projectId: "r-utiliza",
+    storageBucket: "r-utiliza.appspot.com",
+    messagingSenderId: "938752442008",
+    appId: "1:938752442008:web:01068bc2946a01fe00daed",
+    measurementId: "G-7DD7WRHKGH"
   }
-  
 };
 
 /*

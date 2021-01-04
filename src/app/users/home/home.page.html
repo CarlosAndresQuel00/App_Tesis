@@ -1,10 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-item>
-      <ion-label>Inicio</ion-label> 
-      <ion-label>{{ userEmail }}</ion-label> 
+      <ion-label>R-Utiliza</ion-label> 
+      <ion-label></ion-label> 
          <a href="/notifications" > <img class="icon-notification" src="assets/icon/activo.svg"/></a>
-         <button (click)="logout()"> <img class="icon-logout" src="assets/icon/logout.svg"/></button>
+         <button (click)="logout()"> 
+           <img class="icon-logout" src="assets/icon/logout.svg"/>
+          </button>
     </ion-item>
     
   </ion-toolbar>
@@ -15,7 +17,7 @@
     <ion-row>
       <ion-col size="2" size-lg>
         <div>
-          <img class="photo-profile" src="assets/icon/penguin.svg"/>   
+          <img [src]="user.photo" class="photo-profile">      
         </div>
       </ion-col>
       <ion-col size="10" size-lg>
@@ -26,42 +28,49 @@
       </ion-col>  
     </ion-row>
   </div>
-  <hr color="#86C14F" size=1 width="350">
-  <div class="user-publications-container">
-    <div class="publication-n">
-      <div class="publication-header">
-        <ion-row>
-          <ion-col size="1.7" size-lg>
-            <div>
-              <img src="assets/icon/penguin.svg"/>   
-            </div>
-          </ion-col>
-          <ion-col size="8.5" size-lg>
-            <div>
-            <ion-label class="title"><strong>Título</strong></ion-label><br> 
-            <ion-label class="date">99/99/9999</ion-label>
-            </div>
-          </ion-col> 
-          <ion-col size="1.2">
-            <img src="assets/icon/signo-de-exclamacion.svg"/>
-          </ion-col> 
-        </ion-row>  
-      </div>
-      <div class="publication-about">          
-        Sed ut perspiciatis unde omnis iste natus 
-        error sit voluptatem accusantium doloremque 
-        laudantium, totam rem aperiam.       
-      </div>
-      <div class="publication-video">
-        <img src="assets/img/839.jpg">
-
+  <hr color="#86C14F" size = 1 width="350">
+  <div *ngFor= "let publication of publications" class="publications-container">
+    <div class="publication-info">
+      <ion-row>
+        <ion-col size="1.5" size-lg>
+          <img [src]="publication.userPhoto" class="user-photo-profile" />   
+        </ion-col>
+        <ion-col size="7" size-lg>
+          
+          <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
+          <ion-label class="user" >Idea creada por: <a>{{publication.userName}}</a></ion-label><br>
+          <ion-label class="date">{{publication.date.toDate() | date: 'dd LLLL yyyy'}}</ion-label>
+        </ion-col> 
+        <ion-col size="3">
+        <ion-buttons *ngIf="idCurrentUser == publication.userId">
+          <ion-button (click)="presentAlertConfirm(publication)">
+            <ion-icon name="trash-bin" color="danger"></ion-icon>
+          </ion-button>
+          <ion-button (click)="gotoEditPublication(publication.id)">
+            <ion-icon name="create" color="secondary"></ion-icon>
+        </ion-button>
+            <ion-icon  slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+        </ion-buttons>
+        </ion-col>  
+      </ion-row>
+    </div>
+    <div class="publication-description">
+      <p>          
+        <ion-label> {{publication.id}}</ion-label><br>
+        {{publication.description}}     <br> 
+        <ion-label> {{publication.userId}}</ion-label>
+      </p>
+    </div>
+    
+      <div>
+        <img [src]="publication.photo"/>
       </div>
       <div class="publication-options">
-        <ion-segment >
+        <ion-segment class="seg">
           <ion-segment-button class="option-n">
             <img class="icon-comments" src="assets/icon/conversation.svg">
           </ion-segment-button>
-          <ion-segment-button class="option-n">
+          <ion-segment-button class="option-n" (click)="savePublication(publication.id)">
             <img class="icon-save" src="assets/icon/bookmark.svg">
           </ion-segment-button>
           <ion-segment-button class="option-n">
@@ -73,55 +82,8 @@
         </ion-segment>
       </div>
     </div>
-  <br>
-  <div class="publication-n">
-    <div class="publication-header">
-      <ion-row>
-        <ion-col size="1.7" size-lg>
-          <div>
-            <img src="assets/icon/weasel.svg"/>   
-          </div>
-        </ion-col>
-        <ion-col size="8.5" size-lg>
-          <div>
-          <ion-label class="title"><strong>Título</strong></ion-label><br> 
-          <ion-label class="date">99/99/9999</ion-label>
-          </div>
-        </ion-col>
-        <ion-col size="1.2">
-          <img src="assets/icon/signo-de-exclamacion.svg"/>
-        </ion-col>   
-      </ion-row>  
-    </div>
-    <div class="publication-about">          
-      Sed ut perspiciatis unde omnis iste natus 
-      error sit voluptatem accusantium doloremque 
-      laudantium, totam rem aperiam.       
-    </div>
-    <div class="publication-video">
-      <img src="assets/img/839.jpg">
-
-    </div>
-    <div class="publication-options">
-      <ion-segment >
-        <ion-segment-button class="option-n">
-          <img class="icon-comments" src="assets/icon/conversation.svg">
-        </ion-segment-button>
-        <ion-segment-button class="option-n">
-          <img class="icon-save" src="assets/icon/bookmark.svg">
-        </ion-segment-button>
-        <ion-segment-button class="option-n">
-          <img class="icon-download" src="assets/icon/direct-download.svg">
-        </ion-segment-button>
-        <ion-segment-button class="option-n">
-          <img class="icon-share" src="assets/icon/share.svg">
-        </ion-segment-button>
-      </ion-segment>
-    </div>
-  </div>
-  </div>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button>
+    <ion-fab-button  [routerLink]="['/new-publication']" routerLinkActive="router-link-active" >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
