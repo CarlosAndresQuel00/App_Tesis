@@ -13,7 +13,30 @@
 </ion-header>
 
 <ion-content class="sign-in-content">
-  <form>
+  <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="segment1">
+      <ion-label>Social</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="segment2">
+      <ion-label>Email</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <div *ngIf="segment1">
+    <br>
+    <div class="social-auth-options">
+      <ion-button type="submit" color="danger" expand="block" (click)="onLoginGoogle()">
+        <ion-row>
+          <ion-col>
+            <ion-icon name="logo-google"></ion-icon>
+          </ion-col>
+          <ion-col>
+            Ingresar con Google
+          </ion-col>
+        </ion-row> 
+      </ion-button>
+    </div>
+  </div>
+  <form *ngIf="segment2">
       <ion-item class="input-item">
         <ion-label position="floating" color="primary" class="label-input">Correo electrónico</ion-label>
         <ion-input type="email" [(ngModel)]="user.email" name="email"></ion-input>
@@ -55,18 +78,6 @@
       </ion-button>
     </ion-row>
   </form>
-  
-  <div class="social-auth-options">
-    <p class="options-divider">- O -</p>
-    <ion-button type="submit" color="danger" expand="block" (click)="onLoginGoogle()">
-      <ion-row>
-        <ion-col>
-          <ion-icon name="logo-google"></ion-icon>
-        </ion-col>
-        <ion-col>
-          Ingresar con Google
-        </ion-col>
-      </ion-row> 
-    </ion-button>
-  </div>
+
+ 
 </ion-content>

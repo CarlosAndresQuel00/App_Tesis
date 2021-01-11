@@ -18,7 +18,8 @@ export class RegisterPage implements OnInit {
 
   newFile: '';
   newImage: '';
-
+  segment1: boolean;
+  segment2: boolean;
   user: UserInterface = {
     uid: '',
     name: '',
@@ -41,6 +42,7 @@ export class RegisterPage implements OnInit {
 
   async ngOnInit(){
  // retorna identificador de user
+    this.segment1 = true;
     console.log(this.user);
     const id = await this.authSvc.getUid();
     console.log(id);
@@ -126,5 +128,17 @@ export class RegisterPage implements OnInit {
     } catch (error){
       console.log(error);
     }
+  }
+  segmentChanged(event){
+    const seg = event.target.value;
+    if (seg === 'segment1'){
+      this.segment1 = true;
+      this.segment2 = false;
+    }
+    if (seg === 'segment2'){
+      this.segment1 = false;
+      this.segment2 = true;
+    }
+
   }
 }

@@ -7,6 +7,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
+import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,7 @@ export class HomePage implements OnInit {
   userEmail: string;
   idCurrentUser: string;
   private path = 'Ideas/';
-  
+  userName: string;
   newPublication: PublicationInterface = {
     id: '',
     title: '',
@@ -38,13 +39,8 @@ export class HomePage implements OnInit {
     photo: '',
     password: '',
     emailVerified: false,
-
   };
   publications: PublicationInterface[] = [];
-  savedPublication: {
-    userId: string;
-    publication: PublicationInterface;
-  };
 
   constructor(
     private authSvc: AuthService,
@@ -81,20 +77,16 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.getPublications();
   }
-  /*async presentModal() {
+  async presentModal(id: string) {
     const modal = await this.modalController.create({
       component: PublicationModalPage,
-      cssClass: 'my-custom-class'
+      componentProps: {
+        idPubli: id
+      }
     });
     return await modal.present();
-  }*/
-  dismiss() {
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
-    this.modalController.dismiss({
-    //  'dismissed': true
-    });
   }
+
   logout() {
     this.authSvc.logout();
     console.log('saliendo');
@@ -121,6 +113,9 @@ export class HomePage implements OnInit {
   async deletePublication(idea: PublicationInterface){
     // await this.firestoreService.deleteDoc(this.path, idea.id);
     console.log('eliminado');
+  }
+  gotoUserProfile(id: string ){
+    this.router.navigate(['/user-profile', id]);
   }
   savePublication(id: string){
     const path = 'Saved/';
