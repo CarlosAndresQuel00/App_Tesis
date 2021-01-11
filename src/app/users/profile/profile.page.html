@@ -16,9 +16,6 @@
         <ion-col size="2.5" size-lg>
           <div class="user-photo-f">
             <img [src]="user.photo" class="photo-profile">   
-          <div class="followers">
-            <a class="num-followers">2<br>Seguidores</a>
-          </div>
           </div>
         </ion-col>
         <ion-col size="9.5" size-lg>
@@ -33,11 +30,10 @@
         </ion-col>  
       </ion-row>
   </div>
-  <hr color="#86C14F" size=1 width="350">
-  <h6 style="text-align: center;">Publicaciones</h6>
-  <div *ngFor= "let publication of publications" class="publications-container">
-   <div *ngIf="idCurrentUser == publication.userId">
-    <div class="publication-info">
+  <hr color="#86C14F" size=1 width="100%">
+  <div *ngFor= "let publication of publications" class="publications-container" style="border: none;">
+   <div *ngIf="idCurrentUser == publication.userId" style="border: none;">
+    <div class="publication-info" style="border: none;">
       <ion-row>
         <ion-col size="1.5" size-lg>
           <img [src]="user.photo" class="user-photo-profile" />   
@@ -56,10 +52,7 @@
           <ion-button (click)="gotoEditPublication(publication.id)">
             <ion-icon name="create" color="secondary"></ion-icon>
         </ion-button>
-          
             <ion-icon  slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
-
-          
         </ion-buttons>
         </ion-col>  
       </ion-row>
@@ -77,7 +70,7 @@
       </div>
       <div class="publication-options">
         <ion-segment class="seg">
-          <ion-segment-button class="option-n">
+          <ion-segment-button class="option-n" (click)="presentModal(publication.id)"> 
             <img class="icon-comments" src="assets/icon/conversation.svg">
           </ion-segment-button>
           <ion-segment-button class="option-n">

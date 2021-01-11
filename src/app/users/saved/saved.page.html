@@ -1,10 +1,5 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button [routerLink]="['/home']" routerLinkActive="router-link-active" >
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
     <ion-title>Guardados</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -31,10 +26,7 @@
            <ion-button>
              <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
          </ion-button>
-           
              <ion-icon  slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
- 
-           
          </ion-buttons>
          </ion-col>  
        </ion-row>
@@ -51,7 +43,7 @@
          <img [src]="publication.photo"/>
        </div>
        <div class="publication-options">
-         <ion-segment class="seg">
+         <ion-segment class="seg" (click)="presentModal(publication.id)">
            <ion-segment-button class="option-n">
              <img class="icon-comments" src="assets/icon/conversation.svg">
            </ion-segment-button>

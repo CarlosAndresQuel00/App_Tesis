@@ -1,7 +1,7 @@
 .photo-profile{
-    width: 50px;
-    height:50px;
-    border-radius: 250px;
+    width: 47px;
+    height: 47px;
+    border-radius: 300px;
 }
 .publications-container{
     border-bottom: 1px solid #E3E0E0;
@@ -36,9 +36,9 @@
         font-size: 12px;
     }
     .user-photo-profile{
-        width: 35px;
-        height: 35px;
-        border-radius: 250px;
+        width: 34px;
+        height: 34px;
+        border-radius: 300px;
     }
     .alert-icon{
         width: 20px;
@@ -49,4 +49,7 @@
     margin-left: 10px;
     margin-right: 10px;
     font-size: 13px;
+}
+ion-toolbar{
+    --background: #86C14F;
 }

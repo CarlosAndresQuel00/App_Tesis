@@ -17,6 +17,8 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 })
 export class LoginPage implements OnInit {
 
+  segment1: boolean;
+  segment2: boolean;
   user: UserInterface = {
     uid: '',
     name: '',
@@ -37,6 +39,7 @@ export class LoginPage implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.segment1 = true;
     console.log(this.user);
     const id = await this.authSvc.getUid();
     console.log(id);
@@ -90,7 +93,18 @@ export class LoginPage implements OnInit {
       this.router.navigate(['verify-email']);
     }
   }
+  segmentChanged(event){
+    const seg = event.target.value;
+    if (seg === 'segment1'){
+      this.segment1 = true;
+      this.segment2 = false;
+    }
+    if (seg === 'segment2'){
+      this.segment1 = false;
+      this.segment2 = true;
+    }
 
+  }
 
 }
 
