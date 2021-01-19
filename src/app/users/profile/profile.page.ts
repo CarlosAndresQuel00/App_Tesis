@@ -2,9 +2,9 @@ import { UserInterface } from 'src/app/shared/user.interface';
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 
-import { FirestoreService } from './../../services/firestore.service';
+import { FirestoreService } from '../../services/firestore.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { PublicationInterface } from 'src/app/shared/publication.interface';
+import { PublicationInterface } from '../../shared/publication.interface';
 import { Router } from '@angular/router';
 import { CommentInterface } from 'src/app/shared/comments.interface';
 import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';

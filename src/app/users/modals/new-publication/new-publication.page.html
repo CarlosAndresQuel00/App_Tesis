@@ -34,6 +34,10 @@
         <ion-note color="danger" style="font-size: 12px;">Solo puede cargar uno de los siguientes archivos</ion-note>
       </div>
       <ion-item class="input-item">
+        <ion-label position="stacked" color="primary" class="label-input">URL</ion-label>
+        <ion-textarea [(ngModel)]= "newPublication.videoURL" type="text" name="videoURL"></ion-textarea>
+      </ion-item>
+      <ion-item class="input-item">
           <ion-button>
             <label for="img-upload">
               <ion-icon name="images"></ion-icon>

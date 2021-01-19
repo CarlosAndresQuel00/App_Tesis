@@ -1,17 +1,15 @@
 import { AuthService } from 'src/app/services/auth.service';
 import { UserInterface } from './../../shared/user.interface';
-import { FirestoreService } from './../../services/firestore.service';
+import { FirestoreService } from '../../services/firestore.service';
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { PublicationInterface } from 'src/app/shared/publication.interface';
-
+import { PublicationInterface } from '../../shared/publication.interface';
 import { ReportPage } from '../modals/report/report.page';
 import { MenuController } from '@ionic/angular';
 import { CommentsPage } from '../modals/comments/comments.page';
-import { NewPublicationPage } from '../modals/new-publication/new-publication.page';
-
+import { NewPublicationPage } from './../modals/new-publication/new-publication.page';
 
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { EmbedVideoService } from 'ngx-embed-video';
@@ -21,7 +19,6 @@ import { stringify } from '@angular/compiler/src/util';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 
 import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
-
 
 
 @Component({
@@ -74,17 +71,14 @@ public dato:String;
     public firestoreService: FirestoreService,
     public navCtrl: NavController,
     public alertController: AlertController,
-
     private menu: MenuController,
     public toastController: ToastController,
-
 
     private sanitizer: DomSanitizer,
 
     private youtube:YoutubeVideoPlayer,
     private embedService: EmbedVideoService,
     
-
   ) {
     
     this.authSvc.stateAuth().subscribe(res => {

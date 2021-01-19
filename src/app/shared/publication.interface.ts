@@ -13,13 +13,10 @@ export interface PublicationInterface {
     userPhoto?: string;
     idSaved?: string;
     idUserSave?: string;
-<<<<<<< HEAD
     idReport?: string;
     idUserReported?: string;
     commentReport?: string;
     reasonReport?: string;
     state?: string;
-=======
     videoURL?:any;
->>>>>>> 41b5c42528fa8c64ac9d394abaec05e8cae11156
 }
