@@ -42,7 +42,8 @@ export class NewPublicationPage implements OnInit {
     userName: '',
     userPhoto: '',
     idSaved: '',
-    idUserSave: ''
+    idUserSave: '',
+    videoURL:'',
   };
 
   constructor(
@@ -75,6 +76,7 @@ export class NewPublicationPage implements OnInit {
     this.newPublication.userId = this.uid;
     this.newPublication.userName = this.uName;
     this.newPublication.userPhoto = this.uPhoto;
+    this.newPublication.videoURL= this.getIdVideo(this.newPublication.videoURL);
     if (this.newFile !== undefined){
       const res = await this.fireStorageService.uploadImage(this.newFile, path, name);
       this.newPublication.photo = res;
@@ -133,5 +135,16 @@ export class NewPublicationPage implements OnInit {
       this.uName = this.user.name;
       this.uPhoto = this.user.photo;
     });
+  }
+//Obtiene el ID de las URL de los videos de Youtube
+  getIdVideo(url) {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+console.log('este id', (match && match[2].length === 11)
+? match[2]
+: null)
+    return (match && match[2].length === 11)
+      ? match[2]
+      : null;
   }
 }

@@ -7,6 +7,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { EmbedVideoService } from 'ngx-embed-video';
+import { PublicationModalPageModule } from '../modals/publication-modal/publication-modal.module';
+import { PublicationPage } from '../publication/publication.page';
+import { stringify } from '@angular/compiler/src/util';
+import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 
 @Component({
   selector: 'app-home',
@@ -15,10 +21,15 @@ import { PublicationInterface } from 'src/app/shared/publication.interface';
 })
 export class HomePage implements OnInit {
 
+  yt_iframe_html: any;
+
+  videoURL: string;
   userEmail: string;
   idCurrentUser: string;
   private path = 'Ideas/';
-  
+public dato:String;
+  //youtubeUrl : any;
+
   newPublication: PublicationInterface = {
     id: '',
     title: '',
@@ -29,6 +40,7 @@ export class HomePage implements OnInit {
     userId: '',
     idSaved: '',
     idUserSave: '',
+    videoURL:'',
   };
   user: UserInterface = {
     uid: '',
@@ -52,18 +64,27 @@ export class HomePage implements OnInit {
     public modalController: ModalController,
     public firestoreService: FirestoreService,
     public navCtrl: NavController,
-    public alertController: AlertController
+    public alertController: AlertController,
+
+    private sanitizer: DomSanitizer,
+
+    private youtube:YoutubeVideoPlayer,
+    private embedService: EmbedVideoService,
+    
   ) {
+    
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
       if (res != null){
         this.idCurrentUser = res.uid;
         this.getUserInfo(this.idCurrentUser);
+        
         console.log('id ini', this.idCurrentUser);
       }else{
         this.initUser();
       }
     });
+   
   }
   initUser(){
     this.idCurrentUser = '';
@@ -80,6 +101,9 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.getPublications();
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.body.appendChild(tag);
   }
   /*async presentModal() {
     const modal = await this.modalController.create({
@@ -88,6 +112,65 @@ export class HomePage implements OnInit {
     });
     return await modal.present();
   }*/
+
+  url (url1:string){
+    console.log('urls',url1);
+    return this.videoURL = this.embedService.embed(url1);
+  }
+  url1 (youtubeUrl){
+    const you=youtubeUrl;
+    console.log('la url',you);
+    console.log('la url embed', this.yt_iframe_html = this.embedService.embed(youtubeUrl));
+    this.yt_iframe_html = this.embedService.embed(youtubeUrl);
+
+
+  }
+
+
+youtube_parser(url){
+  var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  var match = url.match(regExp);
+  console.log('la url embebida',(match&&match[7].length==11)? match[7]:false);
+  var videoId=(match&&match[7].length==11)? match[7] : false;
+  var enbed="//www.youtube.com/embed/"+ videoId;
+  //this.yt_iframe_html = this.embedService.embed(enbed);
+  this.yt_iframe_html = this.sanitizer.bypassSecurityTrustResourceUrl(enbed);  
+  console.log('yaaa',this.yt_iframe_html);
+  return enbed;
+}
+
+  getId(url) {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+console.log('este id', (match && match[2].length === 11)
+? match[2]
+: null)
+    return (match && match[2].length === 11)
+      ? match[2]
+      : null;
+  }
+
+  openMyVideo(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    var videoId=(match&&match[7].length==11)? match[7] : false;
+    console.log('iddddd',videoId);
+    this.youtube.openVideo(videoId);
+  }
+
+  getVideoIframe(url) {
+    var video, results;
+ 
+    if (url === null) {
+        return '';
+    }
+    results = url.match('[\\?&]v=([^&#]*)');
+    video   = (results === null) ? url : results[1];
+ 
+    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video);   
+}
+
+
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
@@ -114,6 +197,8 @@ export class HomePage implements OnInit {
      console.log('publi', res);
     });
   }
+
+  
 
   gotoEditPublication(id: string){
     this.router.navigate(['/edit-publication', id]);
