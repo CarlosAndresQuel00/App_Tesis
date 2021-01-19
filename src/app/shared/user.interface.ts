@@ -7,4 +7,8 @@ export interface UserInterface{
     password: string;
     emailVerified: boolean;
     displayName?: string;
+    idFollow?: string;
+    idUserFollower?: string;
+    idUserFollow?: string;
+    countFollowers?: number;
 }

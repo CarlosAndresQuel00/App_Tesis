@@ -5,14 +5,19 @@
       </ion-label>
       <div class="div-img-photo">
         <img id="iconBottle" src="assets/icon/planta.svg">
-         
       </div>
   </div>
-  
 </div>
 <ion-content class="sign-in-content">
-  
-  <form >
+  <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="segment1" style="border-bottom:1px greenyellow;">
+      <ion-label>Social</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="segment2">
+      <ion-label>Email</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <form *ngIf="segment2">
     <ion-list class="inputs-list" lines="full">
       <ion-item class="input-item">
         <ion-label position="floating" color="primary" class="label-input">Nombre</ion-label>
@@ -38,9 +43,9 @@
       </ion-button>
     </ion-row>
   </form>
-
+  <div *ngIf="segment1">
+    <br>
   <div class="social-auth-options">
-    <p class="options-divider">- O -</p>
     <ion-button (click)="onRegisterGoogle()" color="danger" expand="block" >
       <ion-row>
         <ion-col>
@@ -52,4 +57,5 @@
       </ion-row> 
     </ion-button>
   </div>
+</div>
 </ion-content>

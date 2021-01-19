@@ -86,7 +86,7 @@ export class ProfileSettingsPage implements OnInit {
   }
   async redirectUser(isVerified: boolean){
     if (isVerified){
-      await this.router.navigate(['home']);
+      await this.router.navigate(['profile']);
     }else{
       // await this.router.navigate(['verify-email']);
       console.log('no');
@@ -104,7 +104,7 @@ export class ProfileSettingsPage implements OnInit {
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'Eliminar idea',
+      header: 'Editar perfil',
       message: 'Está seguro de deshacer cambios?',
       buttons: [
         {

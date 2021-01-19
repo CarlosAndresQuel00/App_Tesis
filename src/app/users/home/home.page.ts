@@ -7,12 +7,16 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
+
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { EmbedVideoService } from 'ngx-embed-video';
 import { PublicationModalPageModule } from '../modals/publication-modal/publication-modal.module';
 import { PublicationPage } from '../publication/publication.page';
 import { stringify } from '@angular/compiler/src/util';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
+
+import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
+
 
 @Component({
   selector: 'app-home',
@@ -27,8 +31,12 @@ export class HomePage implements OnInit {
   userEmail: string;
   idCurrentUser: string;
   private path = 'Ideas/';
+
 public dato:String;
   //youtubeUrl : any;
+
+
+  userName: string;
 
   newPublication: PublicationInterface = {
     id: '',
@@ -50,13 +58,8 @@ public dato:String;
     photo: '',
     password: '',
     emailVerified: false,
-
   };
   publications: PublicationInterface[] = [];
-  savedPublication: {
-    userId: string;
-    publication: PublicationInterface;
-  };
 
   constructor(
     private authSvc: AuthService,
@@ -105,12 +108,15 @@ public dato:String;
     tag.src = 'https://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
   }
-  /*async presentModal() {
+  async presentModal(id: string) {
     const modal = await this.modalController.create({
       component: PublicationModalPage,
-      cssClass: 'my-custom-class'
+      componentProps: {
+        idPubli: id
+      }
     });
     return await modal.present();
+
   }*/
 
   url (url1:string){
@@ -177,7 +183,9 @@ console.log('este id', (match && match[2].length === 11)
     this.modalController.dismiss({
     //  'dismissed': true
     });
+
   }
+
   logout() {
     this.authSvc.logout();
     console.log('saliendo');
@@ -206,6 +214,9 @@ console.log('este id', (match && match[2].length === 11)
   async deletePublication(idea: PublicationInterface){
     // await this.firestoreService.deleteDoc(this.path, idea.id);
     console.log('eliminado');
+  }
+  gotoUserProfile(id: string ){
+    this.router.navigate(['/user-profile', id]);
   }
   savePublication(id: string){
     const path = 'Saved/';
