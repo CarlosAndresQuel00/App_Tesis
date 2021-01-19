@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/home']" routerLinkActive="router-link-active" >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Categoría: Telas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor= "let publication of publications" class="publications-container" style="border: none;">
+    <div *ngIf="publication.category == 'Telas'" style="border: none;">
+      <div class="publication-info">
+        <ion-row>
+          <ion-col size="1.5" size-lg >
+            <img [src]="publication.userPhoto" class="user-photo-profile" />   
+          </ion-col>
+          <ion-col size="7.5" size-lg >
+            <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
+            <ion-label class="user" >Idea creada por: <a *ngIf="idCurrentUser !== publication.userId" (click)="gotoUserProfile(publication.userId)" >{{publication.userName}}</a><a *ngIf="idCurrentUser === publication.userId" [routerLink]="['/profile']" style="text-decoration:none">{{publication.userName}}</a></ion-label><br>
+            <ion-label class="date">{{publication.date.toDate() | date: 'dd LLLL yyyy'}}</ion-label>
+          </ion-col> 
+          <ion-col size="3">
+          <ion-buttons *ngIf="idCurrentUser == publication.userId">
+            <ion-button (click)="presentAlertConfirm(publication)">
+              <ion-icon name="trash-bin" color="danger"></ion-icon>
+            </ion-button>
+            <ion-button (click)="gotoEditPublication(publication.id)">
+              <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+          </ion-buttons>
+          <ion-buttons *ngIf="idCurrentUser !== publication.userId">
+              <ion-button (click)="modalReport(publication.id)">
+                <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+              </ion-button>
+          </ion-buttons>
+          </ion-col>  
+        </ion-row>
+      </div>
+      <div class="publication-description">
+        <p>          
+          {{publication.description}} 
+        </p>
+      </div>
+      
+        <div>
+          <img [src]="publication.image"/>
+          <a [href]="publication.file">{{publication.file}}</a>
+        </div>
+        <div class="publication-options">
+          <ion-segment class="seg">
+            <ion-segment-button class="option-n" (click)="modalComments(publication.id)">
+              <img class="icon-comments" src="assets/icon/conversation.svg">
+            </ion-segment-button>
+            <ion-segment-button class="option-n" (click)="savePublication(publication.id)">
+              <img class="icon-save" src="assets/icon/bookmark.svg">
+            </ion-segment-button>
+            <ion-segment-button class="option-n">
+              <img class="icon-download" src="assets/icon/direct-download.svg">
+            </ion-segment-button>
+            <ion-segment-button class="option-n">
+              <img class="icon-share" src="assets/icon/share.svg">
+            </ion-segment-button>
+          </ion-segment>
+        </div>
+     </div>
+   </div>
+</ion-content>

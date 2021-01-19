@@ -43,7 +43,7 @@ export class PublicationModalPage implements OnInit {
     id: this.firestoreService.getId(),
     title: '',
     description: '',
-    photo: '',
+    image: '',
     file: '',
     date: new Date(),
     userId: '',

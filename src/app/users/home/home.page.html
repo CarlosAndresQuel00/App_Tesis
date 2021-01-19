@@ -1,5 +1,13 @@
 <ion-header>
   <ion-toolbar>
+<<<<<<< HEAD
+    <ion-buttons slot="start">
+      <ion-button (click)="openFirst()">
+        <ion-icon name="menu-outline"></ion-icon>
+      </ion-button>
+
+    </ion-buttons>
+=======
 
     <ion-item>
       <ion-label>R-Utiliza</ion-label> 
@@ -11,20 +19,39 @@
     </ion-item>
     
 
+>>>>>>> 41b5c42528fa8c64ac9d394abaec05e8cae11156
     <ion-buttons slot="end">
       <ion-button>
         <a href="/notifications" > <img class="icon-notification" src="assets/icon/activo.svg"/></a>
       </ion-button>
-      <ion-button >
+      <ion-button (click)="logout()" >
         <img class="icon-logout" src="assets/icon/logout.svg"/>
       </ion-button>
     </ion-buttons>
     <ion-title>R-Utiliza</ion-title>
 
   </ion-toolbar>
+  
 </ion-header>
-
+<ion-menu side="start" menuId="first" contentId="main">
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-title>Categorías</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item><a [routerLink]="['/papel-carton']" >Papel y cartón</a></ion-item>
+      <ion-item><a [routerLink]="['/cristal-vidrio']">Cristal y vidrio</a></ion-item>
+      <ion-item><a [routerLink]="['/metales']">Metales</a></ion-item>
+      <ion-item><a [routerLink]="['/plastico']">Plástico</a></ion-item>
+      <ion-item><a [routerLink]="['/telas']">Telas</a></ion-item>
+      <ion-item><a [routerLink]="['/otros']">Otros</a></ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
 <ion-content>
+  <ion-router-outlet id="main" main></ion-router-outlet>
   <div class="user-information-container">
     <ion-row>
       <ion-col size="2" size-lg>
@@ -46,9 +73,9 @@
         <ion-col size="1.5" size-lg >
           <img [src]="publication.userPhoto" class="user-photo-profile" />   
         </ion-col>
-        <ion-col size="7" size-lg >
+        <ion-col size="7.5" size-lg >
           <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
-          <ion-label class="user" >Idea creada por: <a *ngIf="idCurrentUser !== publication.userId" (click)="gotoUserProfile(publication.userId)" >{{publication.userName}}</a><a *ngIf="idCurrentUser === publication.userId" [routerLink]="['/profile']" style="text-decoration:none">{{publication.userName}}</a></ion-label><br>
+          <ion-label class="user" >Idea creada por: <a *ngIf="idCurrentUser !== publication.userId" (click)="gotoUserProfile(publication.userId)" >{{publication.userName}}</a><a *ngIf="idCurrentUser === publication.userId" [routerLink]="['/profile']" >{{publication.userName}}</a></ion-label><br>
           <ion-label class="date">{{publication.date.toDate() | date: 'dd LLLL yyyy'}}</ion-label>
         </ion-col> 
         <ion-col size="3">
@@ -59,21 +86,24 @@
           <ion-button (click)="gotoEditPublication(publication.id)">
             <ion-icon name="create" color="secondary"></ion-icon>
         </ion-button>
-            <ion-icon  slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+        </ion-buttons>
+        <ion-buttons *ngIf="idCurrentUser !== publication.userId">
+            <ion-button (click)="modalReport(publication.id)">
+              <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+            </ion-button>
         </ion-buttons>
         </ion-col>  
       </ion-row>
     </div>
     <div class="publication-description">
       <p>          
-        <ion-label> {{publication.id}}</ion-label><br>
-        {{publication.description}}     <br> 
-        <ion-label> {{publication.userId}}</ion-label>
+        {{publication.description}}
       </p>
     </div>
     
       <div>
-        <img [src]="publication.photo"/>
+        <img [src]="publication.image"/>
+        <a [href]="publication.file">{{publication.file}}</a>
       </div>
 
   
@@ -89,7 +119,7 @@
 
       <div class="publication-options">
         <ion-segment class="seg">
-          <ion-segment-button class="option-n" (click)="presentModal(publication.id)">
+          <ion-segment-button class="option-n" (click)="modalComments(publication.id)">
             <img class="icon-comments" src="assets/icon/conversation.svg">
           </ion-segment-button>
           <ion-segment-button class="option-n" (click)="savePublication(publication.id)">
@@ -103,12 +133,12 @@
           </ion-segment-button>
         </ion-segment>
       </div>
-    </div>
+  </div>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button  [routerLink]="['/new-publication']" routerLinkActive="router-link-active" color="dark" >
+    <ion-fab-button  (click)="modalNewPublication()" routerLinkActive="router-link-active" >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
+  
   
 </ion-content>

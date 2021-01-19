@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start" >
+      <ion-button (click)="dismiss()">
+         <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Reportar publicación</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-radio-group value="lenguaje-inapropiado" [(ngModel)]="reason" name="reason">
+      <ion-list-header>
+        <ion-label>Seleccione el motivo de su reporte</ion-label>
+      </ion-list-header>
+  
+      <ion-item>
+        <ion-label>Lenguaje inapropiado</ion-label>
+        <ion-radio slot="start" value="Lenguaje inapropiado"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Spam</ion-label>
+        <ion-radio slot="start" value="Spam" ></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Contenido repulsivo</ion-label>
+        <ion-radio slot="start" value="Contenido repulsivo"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Contenido no relacionado a la reutilización</ion-label>
+        <ion-radio slot="start" value="Contenido no relacionado a la reutilización"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+    
+  </ion-list>
+  <div style="margin: 7px; justify-content: flex-end;">
+    <ion-label>Deje algún comentario</ion-label>
+    <ion-textarea [(ngModel)]="comment" type="text" name="comment" style="border:1px solid;"></ion-textarea>
+    <ion-button (click)="savePublicationReported()">Enviar</ion-button>
+ </div>
+</ion-content>

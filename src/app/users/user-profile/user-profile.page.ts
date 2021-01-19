@@ -7,6 +7,9 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { ActivatedRoute, Params} from '@angular/router';
+import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
+import { CommentsPage } from '../modals/comments/comments.page';
+import { ReportPage } from '../modals/report/report.page';
 
 @Component({
   selector: 'app-user-profile',
@@ -47,12 +50,23 @@ export class UserProfilePage implements OnInit {
     idUserFollower: ''
 
   };
+  newPublication: PublicationInterface = {
+    id: '',
+    title: '',
+    description: '',
+    image: '',
+    file: '',
+    date: new Date(),
+    userId: '',
+    idSaved: '',
+    idUserSave: '',
+  };
 
   publications: PublicationInterface[] = [];
   constructor(
     public firestoreService: FirestoreService,
     public authSvc: AuthService,
-    private router: Router,
+    public modalController: ModalController,
     public fireStorageService: FirestorageService,
     public toastController: ToastController,
     public loadingController: LoadingController,
@@ -87,12 +101,13 @@ export class UserProfilePage implements OnInit {
 
   saveFollowed(){
     const path = 'Followed/';
+    const msg = 'Comenzaste a seguir a ' + this.user.name;
     this.user.idFollow = this.firestoreService.getId();
     this.user.idUserFollower = this.idCurrentUser;
     this.user.password = '';
     this.firestoreService.createDoc(this.user, path, this.user.idFollow).then(res => {
       this.saveFollower();
-      console.log('seguido!');
+      this.presentToast(msg);
     }).catch (err => {
         console.log(err);
     });
@@ -107,10 +122,51 @@ export class UserProfilePage implements OnInit {
         console.log(err);
     });
   }
+  savePublication(id: string){
+    const path = 'Saved/';
+    const asd = this.firestoreService.getOnePublication(id).subscribe(res => {
+      this.newPublication = res;
+      this.newPublication.idUserSave = this.idCurrentUser;
+      this.newPublication.idSaved = this.firestoreService.getId();
+      console.log('publication->', this.newPublication.idSaved);
+      this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
+        this.presentToast('Publicación guardada');
+      }).catch (err => {
+          console.log(err);
+      });
+      asd.unsubscribe();
+    });
+  }
   getCurrentUserInfo(uid: string){ // trae info de la bd
     const path = 'Users';
     this.firestoreService.getDoc<UserInterface>(path, uid).subscribe( res => {
       this.userFollower = res;
     });
+  }
+  async modalComments(id: string) {
+    const modal = await this.modalController.create({
+      component: CommentsPage,
+      componentProps: {
+        idPubli: id
+      }
+    });
+    return await modal.present();
+  }
+  async modalReport(id: string) {
+    const modal = await this.modalController.create({
+      component: ReportPage,
+      componentProps: {
+        idPubli: id
+      }
+    });
+    return await modal.present();
+  }
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000,
+      color: 'success'
+    });
+    toast.present();
   }
 }

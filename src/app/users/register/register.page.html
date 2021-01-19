@@ -9,12 +9,12 @@
   </div>
 </div>
 <ion-content class="sign-in-content">
-  <ion-segment (ionChange)="segmentChanged($event)">
-    <ion-segment-button value="segment1" style="border-bottom:1px greenyellow;">
-      <ion-label>Social</ion-label>
+  <ion-segment (ionChange)="segmentChanged($event)" value="segment1">
+    <ion-segment-button value="segment1" >
+      <ion-label [ngClass]="segment1 ? 'withcolor':'nocolor'">Social</ion-label>
     </ion-segment-button>
     <ion-segment-button value="segment2">
-      <ion-label>Email</ion-label>
+      <ion-label [ngClass]="segment2 ? 'withcolor':'nocolor'">Email</ion-label>
     </ion-segment-button>
   </ion-segment>
   <form *ngIf="segment2">
@@ -37,11 +37,6 @@
     <ion-button class="sign-in-btn"  expand="block" (click)="onRegister()">
       Registrarme
     </ion-button>
-    <ion-row class="sign-up-btn-wrapper">
-      <ion-button class="sign-up-btn" fill="clear" routerLink="/login" routerLinkActive="router-link-active">
-        Ya tienes cuenta?
-      </ion-button>
-    </ion-row>
   </form>
   <div *ngIf="segment1">
     <br>
@@ -58,4 +53,9 @@
     </ion-button>
   </div>
 </div>
+<ion-row class="sign-up-btn-wrapper">
+  <ion-button class="sign-up-btn" fill="clear" routerLink="/login" routerLinkActive="router-link-active">
+    Ya tienes cuenta?
+  </ion-button>
+</ion-row>
 </ion-content>

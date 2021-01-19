@@ -10,7 +10,7 @@
      <div class="publication-info">
        <ion-row>
          <ion-col size="1.5" size-lg>
-           <img [src]="user.photo" class="user-photo-profile" />   
+           <img [src]="publication.userPhoto" class="user-photo-profile" />   
          </ion-col>
          <ion-col size="7" size-lg>
            
@@ -23,27 +23,25 @@
            <ion-button (click)="presentAlertConfirm(publication)">
              <ion-icon name="trash-bin" color="danger"></ion-icon>
            </ion-button>
-           <ion-button>
+           <!--<ion-button *ngIf="idCurrentUser !== publication.userId">
              <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
-         </ion-button>
-             <ion-icon  slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+           </ion-button>-->
          </ion-buttons>
          </ion-col>  
        </ion-row>
      </div>
      <div class="publication-description">
        <p>          
-         <ion-label> {{publication.id}}</ion-label><br>
-         {{publication.description}}     <br> 
-         <ion-label> {{publication.userId}}</ion-label>
+         {{publication.description}} 
        </p>
      </div>
      
        <div>
-         <img [src]="publication.photo"/>
+         <img [src]="publication.image"/>
+         <a [href]="publication.file">{{publication.file}}</a>
        </div>
        <div class="publication-options">
-         <ion-segment class="seg" (click)="presentModal(publication.id)">
+         <ion-segment class="seg" (click)="modalComments(publication.id)">
            <ion-segment-button class="option-n">
              <img class="icon-comments" src="assets/icon/conversation.svg">
            </ion-segment-button>
