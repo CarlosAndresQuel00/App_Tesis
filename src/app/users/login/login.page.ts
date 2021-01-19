@@ -93,6 +93,7 @@ export class LoginPage implements OnInit {
       this.router.navigate(['verify-email']);
     }
   }
+
   segmentChanged(event){
     const seg = event.target.value;
     if (seg === 'segment1'){
@@ -105,6 +106,7 @@ export class LoginPage implements OnInit {
     }
 
   }
+
 
 }
 

@@ -50,7 +50,13 @@ export class NewPublicationPage implements OnInit {
     userId: '',
     userName: '',
     userPhoto: '',
+<<<<<<< HEAD:src/app/users/modals/new-publication/new-publication.page.ts
     category: '',
+=======
+    idSaved: '',
+    idUserSave: '',
+    videoURL:'',
+>>>>>>> 41b5c42528fa8c64ac9d394abaec05e8cae11156:src/app/users/new-publication/new-publication.page.ts
   };
 
   constructor(
@@ -85,6 +91,7 @@ export class NewPublicationPage implements OnInit {
     this.newPublication.userId = this.uid;
     this.newPublication.userName = this.uName;
     this.newPublication.userPhoto = this.uPhoto;
+<<<<<<< HEAD:src/app/users/modals/new-publication/new-publication.page.ts
     if (this.newImage !== undefined){
       this.path = 'IdeasImg';
       const res = await this.fireStorageService.uploadImage(this.newImage, this.path, name);
@@ -92,6 +99,9 @@ export class NewPublicationPage implements OnInit {
       console.log('av', res);
 
     }
+=======
+    this.newPublication.videoURL= this.getIdVideo(this.newPublication.videoURL);
+>>>>>>> 41b5c42528fa8c64ac9d394abaec05e8cae11156:src/app/users/new-publication/new-publication.page.ts
     if (this.newFile !== undefined){
       this.path = 'IdeasFile';
       const res = await this.fireStorageService.uploadFi( this.path, this.newFile, name);
@@ -166,6 +176,7 @@ export class NewPublicationPage implements OnInit {
       this.uPhoto = this.user.photo;
     });
   }
+<<<<<<< HEAD:src/app/users/modals/new-publication/new-publication.page.ts
   getCategories(){
     const path = 'Categories/';
     this.firestoreService.getCollection<any>(path).subscribe( res => {  // res - respuesta del observador
@@ -175,5 +186,17 @@ export class NewPublicationPage implements OnInit {
   }
   dismiss() {
     this.modalCtrl.dismiss();
+=======
+//Obtiene el ID de las URL de los videos de Youtube
+  getIdVideo(url) {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+console.log('este id', (match && match[2].length === 11)
+? match[2]
+: null)
+    return (match && match[2].length === 11)
+      ? match[2]
+      : null;
+>>>>>>> 41b5c42528fa8c64ac9d394abaec05e8cae11156:src/app/users/new-publication/new-publication.page.ts
   }
 }
