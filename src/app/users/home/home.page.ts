@@ -117,7 +117,7 @@ public dato:String;
     });
     return await modal.present();
 
-  }*/
+  }
 
   url (url1:string){
     console.log('urls',url1);
