@@ -1,5 +1,16 @@
 <ion-header>
   <ion-toolbar>
+
+    <ion-item>
+      <ion-label>R-Utiliza</ion-label> 
+      <ion-label></ion-label> 
+        <a href="/notifications" > <img class="icon-notification" src="assets/icon/activo.svg"/></a>
+        <button (click)="logout()"> 
+          <img class="icon-logout" src="assets/icon/logout.svg"/>
+          </button>
+    </ion-item>
+    
+
     <ion-buttons slot="end">
       <ion-button>
         <a href="/notifications" > <img class="icon-notification" src="assets/icon/activo.svg"/></a>
@@ -9,6 +20,7 @@
       </ion-button>
     </ion-buttons>
     <ion-title>R-Utiliza</ion-title>
+
   </ion-toolbar>
 </ion-header>
 
@@ -63,6 +75,18 @@
       <div>
         <img [src]="publication.photo"/>
       </div>
+
+  
+    <youtube-player 
+    [videoId]="publication.videoURL" 
+    suggestedQuality="highest"
+    [height]="250" 
+    [width]="370" 
+    [startSeconds]="1"
+    >
+    </youtube-player>
+
+
       <div class="publication-options">
         <ion-segment class="seg">
           <ion-segment-button class="option-n" (click)="presentModal(publication.id)">

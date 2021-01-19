@@ -7,12 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
+import { YouTubePlayerModule } from "@angular/youtube-player";
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    YouTubePlayerModule,
     HomePageRoutingModule
   ],
   declarations: [HomePage]

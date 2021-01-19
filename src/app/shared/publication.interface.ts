@@ -10,5 +10,5 @@ export interface PublicationInterface {
     userPhoto?: string;
     idSaved?: string;
     idUserSave?: string;
-
+    videoURL?:any;
 }
