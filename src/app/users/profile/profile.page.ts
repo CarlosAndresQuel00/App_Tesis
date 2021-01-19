@@ -1,6 +1,6 @@
 import { UserInterface } from 'src/app/shared/user.interface';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController, NavController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 
 import { FirestoreService } from './../../services/firestore.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -8,6 +8,7 @@ import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { Router } from '@angular/router';
 import { CommentInterface } from 'src/app/shared/comments.interface';
 import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
+import { CommentsPage } from '../modals/comments/comments.page';
 
 @Component({
   selector: 'app-profile',
@@ -37,7 +38,7 @@ export class ProfilePage implements OnInit {
     uName: '',
     uPhoto: '',
   };
-  comments: CommentInterface[] = [];
+
   publications: PublicationInterface[] = [];
   constructor(
     private authSvc: AuthService,
@@ -92,15 +93,15 @@ export class ProfilePage implements OnInit {
    // await this.firestoreService.deleteDoc(this.path, idea.id);
    console.log('eliminado');
   }
-  async presentModal(id: string) {
-  const modal = await this.modalController.create({
-    component: PublicationModalPage,
-    componentProps: {
-      idPubli: id
-    }
-  });
-  return await modal.present();
- }
+  async modalComments(id: string) {
+    const modal = await this.modalController.create({
+      component: CommentsPage,
+      componentProps: {
+        idPubli: id
+      }
+    });
+    return await modal.present();
+  }
 
   async presentAlertConfirm(idea: PublicationInterface) {
    const alert = await this.alertController.create({

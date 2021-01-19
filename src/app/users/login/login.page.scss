@@ -19,8 +19,16 @@
     height: 200px;
     background-color:#86C14F;
     padding: 0 1rem;
+    display: flex;
+    align-items: center;
 }
-
+.div-img-photo{
+    margin-top: 10px;
+    margin-left: 40%;
+    width: 70px;
+    height: 70px;
+    border-radius:250px;
+}
 #iconBottle{
     width: 70px;
     height: 70px;
@@ -49,4 +57,11 @@
   }
 .options-divider{
     color: #86C14F;
+}
+.withcolor{
+    color: #86C14F;
+}
+
+ion-segment-button{
+    --color-checked: #86C14F;
 }

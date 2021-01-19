@@ -65,12 +65,44 @@ const routes: Routes = [
     loadChildren: () => import('./users/modals/publication-modal/publication-modal.module').then( m => m.PublicationModalPageModule)
   },
   {
-    path: 'new-publication',
-    loadChildren: () => import('./users/new-publication/new-publication.module').then( m => m.NewPublicationPageModule)
-  },
-  {
     path: 'edit-publication/:id',
     loadChildren: () => import('./users/edit-publication/edit-publication.module').then( m => m.EditPublicationPageModule)
+  },
+  {
+    path: 'report',
+    loadChildren: () => import('./users/modals/report/report.module').then( m => m.ReportPageModule)
+  },
+  {
+    path: 'papel-carton',
+    loadChildren: () => import('./users/categories/papel-carton/papel-carton.module').then( m => m.PapelCartonPageModule)
+  },
+  {
+    path: 'cristal-vidrio',
+    loadChildren: () => import('./users/categories/cristal-vidrio/cristal-vidrio.module').then( m => m.CristalVidrioPageModule)
+  },
+  {
+    path: 'metales',
+    loadChildren: () => import('./users/categories/metales/metales.module').then( m => m.MetalesPageModule)
+  },
+  {
+    path: 'plastico',
+    loadChildren: () => import('./users/categories/plastico/plastico.module').then( m => m.PlasticoPageModule)
+  },
+  {
+    path: 'otros',
+    loadChildren: () => import('./users/categories/otros/otros.module').then( m => m.OtrosPageModule)
+  },
+  {
+    path: 'telas',
+    loadChildren: () => import('./users/categories/telas/telas.module').then( m => m.TelasPageModule)
+  },
+  {
+    path: 'comments',
+    loadChildren: () => import('./users/modals/comments/comments.module').then( m => m.CommentsPageModule)
+  },
+  {
+    path: 'new-publication',
+    loadChildren: () => import('./users/modals/new-publication/new-publication.module').then( m => m.NewPublicationPageModule)
   }
 ];
 @NgModule({

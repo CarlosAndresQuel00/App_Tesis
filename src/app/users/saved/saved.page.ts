@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { UserInterface } from 'src/app/shared/user.interface';
+import { CommentsPage } from '../modals/comments/comments.page';
 import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
 
 @Component({
@@ -75,9 +76,9 @@ export class SavedPage implements OnInit {
       this.user = res;
     });
   }
-  async presentModal(id: string) {
+  async modalComments(id: string) {
     const modal = await this.modalController.create({
-      component: PublicationModalPage,
+      component: CommentsPage,
       componentProps: {
         idPubli: id
       }

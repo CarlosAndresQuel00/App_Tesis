@@ -2,13 +2,14 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserInterface } from './../../shared/user.interface';
 import { FirestoreService } from './../../services/firestore.service';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
-import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
-
+import { ReportPage } from '../modals/report/report.page';
+import { MenuController } from '@ionic/angular';
+import { CommentsPage } from '../modals/comments/comments.page';
+import { NewPublicationPage } from '../modals/new-publication/new-publication.page';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -24,7 +25,7 @@ export class HomePage implements OnInit {
     id: '',
     title: '',
     description: '',
-    photo: '',
+    image: '',
     file: '',
     date: new Date(),
     userId: '',
@@ -48,7 +49,9 @@ export class HomePage implements OnInit {
     public modalController: ModalController,
     public firestoreService: FirestoreService,
     public navCtrl: NavController,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private menu: MenuController,
+    public toastController: ToastController,
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -77,12 +80,30 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.getPublications();
   }
-  async presentModal(id: string) {
+  openFirst() {
+    this.menu.toggle();
+  }
+  async modalComments(id: string) {
     const modal = await this.modalController.create({
-      component: PublicationModalPage,
+      component: CommentsPage,
       componentProps: {
         idPubli: id
       }
+    });
+    return await modal.present();
+  }
+  async modalReport(id: string) {
+    const modal = await this.modalController.create({
+      component: ReportPage,
+      componentProps: {
+        idPubli: id
+      }
+    });
+    return await modal.present();
+  }
+  async modalNewPublication() {
+    const modal = await this.modalController.create({
+      component: NewPublicationPage,
     });
     return await modal.present();
   }
@@ -125,7 +146,7 @@ export class HomePage implements OnInit {
       this.newPublication.idSaved = this.firestoreService.getId();
       console.log('publication->', this.newPublication.idSaved);
       this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
-        console.log('guardado!');
+        this.presentToast('Publicación guardada');
       }).catch (err => {
           console.log(err);
       });
@@ -157,5 +178,12 @@ export class HomePage implements OnInit {
     });
     await alert.present();
   }
-
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 4500,
+      color: 'dark'
+    });
+    toast.present();
+  }
 }

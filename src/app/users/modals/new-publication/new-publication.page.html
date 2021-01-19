@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" >
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Tengo una idea!</ion-title>
+    <ion-buttons slot="end">
+      <img class="photo-profile" src="assets/icon/penguin.svg"/>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="sign-in-content"> 
+  <form >
+    <ion-list class="inputs-list" lines="full">
+      <ion-item class="input-item">
+        <ion-label position="stacked" color="primary">Título</ion-label>
+        <ion-input [(ngModel)]= "newPublication.title" type="text" name="title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary">Categoría</ion-label>
+        <ion-select  [(ngModel)]="newPublication.category" name="category" okText="Ok" cancelText="Cancelar" >
+          <ion-select-option *ngFor="let category of categories" value={{category.name}} name="name">{{category.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="input-item">
+        <ion-label position="stacked" color="primary" >Descripción</ion-label>
+        <ion-textarea [(ngModel)]= "newPublication.description" type="text" name="description"></ion-textarea>
+      </ion-item>
+      <div style="margin-left: 10px;">
+        <ion-label color="primary"  class="label-input">Archivo</ion-label><br>
+        <ion-note color="danger" style="font-size: 12px;">Solo puede cargar uno de los siguientes archivos</ion-note>
+      </div>
+      <ion-item class="input-item">
+          <ion-button>
+            <label for="img-upload">
+              <ion-icon name="images"></ion-icon>
+              Imágenes
+            </label>
+            <input  (change)="newPublicationImage($event)" id="img-upload" type="file" style="display: none;">
+          </ion-button>
+          <ion-button>
+            <label for="file-upload">
+              <ion-icon name="document"></ion-icon>
+               Documento
+            </label>
+            <input  (change)="onUploadFile($event)" id="file-upload" type="file" style="display: none;">
+          </ion-button>
+          <ion-button>
+            <ion-icon name="videocam"></ion-icon>
+            Video
+          </ion-button>
+      </ion-item>      
+      <ion-progress-bar color ="success" value={{uploadPercent|async}}></ion-progress-bar>
+    <a [href]="downloadURL | async">{{ downloadURL | async }}</a> 
+    <img *ngIf="newPublication.image" [src]="newPublication.image"> 
+    </ion-list>
+    <ion-button class="new-idea-btn"  expand="block" (click)="savePublication()">
+      Publicar idea
+    </ion-button>
+  </form>
+</ion-content>

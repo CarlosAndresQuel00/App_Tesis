@@ -26,7 +26,7 @@ export class EditPublicationPage implements OnInit {
     id: '',
     title: '',
     description: '',
-    photo: '',
+    image: '',
     file: '',
     date: new Date(),
     userId: ''
@@ -51,10 +51,10 @@ export class EditPublicationPage implements OnInit {
     const name = this.newPublication.title;
     if (this.newFile !== undefined){
       const res = await this.fireStorageService.uploadImage(this.newFile, path, name);
-      this.newPublication.photo = res;
+      this.newPublication.image = res;
     }
     this.firestoreService.createDoc(this.newPublication, path, this.newPublication.id).then(res => {
-      this.presentToast('Idea publicada!');
+      this.presentToast('Cambios guardados');
       this.redirectUser(true);
     }).catch (err => {
       console.log(err);
@@ -66,7 +66,7 @@ export class EditPublicationPage implements OnInit {
       this.newFile = event.target.files[0];
       const reader = new FileReader();
       reader.onload = ((image) => {
-        this.newPublication.photo = image.target.result as string;
+        this.newPublication.image = image.target.result as string;
       });
       reader.readAsDataURL(event.target.files[0]);
 

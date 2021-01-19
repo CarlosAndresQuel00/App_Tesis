@@ -33,7 +33,7 @@
         </ion-col> 
         <ion-col size="3">
           <ion-buttons>
-            <ion-button>
+            <ion-button (click)="modalReport(publication.id)">
               <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
           </ion-button>
           </ion-buttons>
@@ -42,17 +42,16 @@
     </div>
     <div class="publication-description">
       <p>          
-        <ion-label> {{publication.id}}</ion-label><br>
-        {{publication.description}}     <br> 
-        <ion-label> {{publication.userId}}</ion-label>
+        {{publication.description}} 
       </p>
     </div>
       <div>
-        <img [src]="publication.photo"/>
+        <img [src]="publication.image"/>
+        <a [href]="publication.file">{{publication.file}}</a>
       </div>
       <div class="publication-options">
         <ion-segment class="seg">
-          <ion-segment-button class="option-n">
+          <ion-segment-button class="option-n" (click)="modalComments(publication.id)">
             <img class="icon-comments" src="assets/icon/conversation.svg">
           </ion-segment-button>
           <ion-segment-button class="option-n">
