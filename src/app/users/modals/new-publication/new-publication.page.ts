@@ -22,7 +22,7 @@ export class NewPublicationPage implements OnInit {
   uid = '';
   uName = '';
   uPhoto = '';
-
+  public ocultar1=false;
   // p para subir archivo
   mensajeArchivo = '';
   nombreArchivo = '';
@@ -191,4 +191,11 @@ export class NewPublicationPage implements OnInit {
         ? match[2]
         : null;
     }
+   //Ocultar/mostrar item de Url
+  accion1(){
+    this.ocultar1 = !this.ocultar1;
+    if(this.ocultar1==false){
+      this.newPublication.videoURL = "";
+    }
+  } 
 }

@@ -34,10 +34,6 @@
         <ion-note color="danger" style="font-size: 12px;">Solo puede cargar uno de los siguientes archivos</ion-note>
       </div>
       <ion-item class="input-item">
-        <ion-label position="stacked" color="primary" class="label-input">URL</ion-label>
-        <ion-textarea [(ngModel)]= "newPublication.videoURL" type="text" name="videoURL"></ion-textarea>
-      </ion-item>
-      <ion-item class="input-item">
           <ion-button>
             <label for="img-upload">
               <ion-icon name="images"></ion-icon>
@@ -52,11 +48,15 @@
             </label>
             <input  (change)="onUploadFile($event)" id="file-upload" type="file" style="display: none;">
           </ion-button>
-          <ion-button>
+          <ion-button (click)="accion1()">
             <ion-icon name="videocam"></ion-icon>
             Video
           </ion-button>
-      </ion-item>      
+      </ion-item>
+      <ion-item class="input-item" *ngIf="ocultar1">
+        <ion-label position="stacked" color="primary" class="label-input">URL</ion-label>
+        <ion-textarea [(ngModel)]= "newPublication.videoURL" type="text" name="videoURL" ></ion-textarea>
+      </ion-item>
       <ion-progress-bar color ="success" value={{uploadPercent|async}}></ion-progress-bar>
     <a [href]="downloadURL | async">{{ downloadURL | async }}</a> 
     <img *ngIf="newPublication.image" [src]="newPublication.image"> 
