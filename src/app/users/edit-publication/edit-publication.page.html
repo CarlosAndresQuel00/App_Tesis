@@ -19,27 +19,37 @@
       <ion-item class="input-item">
         <ion-label position="stacked" color="primary" class="label-input">Descripción</ion-label>
         <ion-textarea [(ngModel)]= "newPublication.description" type="text" name="description"></ion-textarea>
-      </ion-item>
-      
-      <ion-item class="input-item">
+      </ion-item>  
+      <div style="margin-left: 10px;">
         <ion-label color="primary"  class="label-input">Archivo</ion-label><br>
-        <ion-buttons>
-          <ion-button type="icon-only">
-            <ion-icon name="camera"></ion-icon>
+        <ion-note color="danger" style="font-size: 12px;">Solo puede cargar uno de los siguientes archivos</ion-note>
+      </div>
+      <ion-item class="input-item">
+        <ion-label position="stacked" color="primary" class="label-input">URL</ion-label>
+        <ion-textarea [(ngModel)]= "newPublication.videoURL" type="text" name="videoURL"></ion-textarea>
+      </ion-item>
+      <ion-item class="input-item">
+          <ion-button>
+            <label for="img-upload">
+              <ion-icon name="images"></ion-icon>
+              Imágenes
+            </label>
+            <input  (change)="newPublicationImage($event)" id="img-upload" type="file" style="display: none;">
+          </ion-button>
+          <ion-button>
+            <label for="file-upload">
+              <ion-icon name="document"></ion-icon>
+               Documento
+            </label>
+            <input  (change)="onUploadFile($event)" id="file-upload" type="file" style="display: none;">
           </ion-button>
           <ion-button>
             <ion-icon name="videocam"></ion-icon>
+            Video
           </ion-button>
-        </ion-buttons>
-      </ion-item>
-      <ion-item>
-        <ion-buttons>
-          <ion-button>
-            <input  (change)="newPublicationImage($event)" id="file-upload" type="file">
-          </ion-button>
-       </ion-buttons>
-      </ion-item>
-      <img [src]="newPublication.photo" id="idea-img">  
+      </ion-item>      
+      <img [src]="newPublication.image" id="idea-img">  
+      <a [href]="newPublication.file">{{newPublication.file}}</a>
     </ion-list>
     <ion-button class="new-idea-btn"  expand="block" (click)="savePublication()">
       Guardar cambios

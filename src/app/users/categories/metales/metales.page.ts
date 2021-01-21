@@ -6,6 +6,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../../modals/comments/comments.page';
+import { ReportPage } from '../../modals/report/report.page';
 
 @Component({
   selector: 'app-metales',
@@ -63,6 +64,15 @@ export class MetalesPage implements OnInit {
   async modalComments(id: string) {
     const modal = await this.modalController.create({
       component: CommentsPage,
+      componentProps: {
+        idPubli: id
+      }
+    });
+    return await modal.present();
+  }
+  async modalReport(id: string) {
+    const modal = await this.modalController.create({
+      component: ReportPage,
       componentProps: {
         idPubli: id
       }

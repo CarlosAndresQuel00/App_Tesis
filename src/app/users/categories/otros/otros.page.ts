@@ -6,6 +6,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../../modals/comments/comments.page';
+import { ReportPage } from '../../modals/report/report.page';
 
 @Component({
   selector: 'app-otros',
@@ -68,5 +69,14 @@ export class OtrosPage implements OnInit {
     }
   });
   return await modal.present();
-}
+  }
+  async modalReport(id: string) {
+    const modal = await this.modalController.create({
+      component: ReportPage,
+      componentProps: {
+        idPubli: id
+      }
+    });
+    return await modal.present();
+  }
 }
