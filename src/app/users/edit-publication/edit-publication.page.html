@@ -16,6 +16,12 @@
         <ion-label position="stacked" color="primary" class="label-input">Título</ion-label>
         <ion-input [(ngModel)]= "newPublication.title" type="text" name="title"></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-label color="primary">Categoría</ion-label>
+        <ion-select  [(ngModel)]="newPublication.category" name="category" okText="Ok" cancelText="Cancelar" >
+          <ion-select-option *ngFor="let category of categories" value={{category.name}} name="name">{{category.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
       <ion-item class="input-item">
         <ion-label position="stacked" color="primary" class="label-input">Descripción</ion-label>
         <ion-textarea [(ngModel)]= "newPublication.description" type="text" name="description"></ion-textarea>

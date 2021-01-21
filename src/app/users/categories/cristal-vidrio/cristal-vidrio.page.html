@@ -20,8 +20,10 @@
           <ion-col size="7.5" size-lg >
             <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
             <ion-label class="user" >Idea creada por: <a *ngIf="idCurrentUser !== publication.userId" (click)="gotoUserProfile(publication.userId)" >{{publication.userName}}</a><a *ngIf="idCurrentUser === publication.userId" [routerLink]="['/profile']" style="text-decoration:none">{{publication.userName}}</a></ion-label><br>
-            <ion-label class="date">{{publication.date.toDate() | date: 'dd LLLL yyyy'}}</ion-label>
-          </ion-col> 
+            <ion-label class="date">
+              Ctg: {{publication.category}}
+              • {{publication.date.toDate() | date: shorDate}}
+            </ion-label>          </ion-col> 
           <ion-col size="3">
           <ion-buttons *ngIf="idCurrentUser == publication.userId">
             <ion-button (click)="presentAlertConfirm(publication)">

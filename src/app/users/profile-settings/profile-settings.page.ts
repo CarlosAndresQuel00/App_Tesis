@@ -60,7 +60,7 @@ export class ProfileSettingsPage implements OnInit {
       const res = await this.fireStorageService.uploadImage(this.newFile, path, name);
       this.user.photo = res;
     }
-    this.firestoreService.createDoc(this.user, path, this.user.uid).then(res => {
+    this.firestoreService.updateDoc(this.user, path, this.user.uid).then(res => {
       console.log('Guardado');
       this.redirectUser(true);
     }).catch (err => {

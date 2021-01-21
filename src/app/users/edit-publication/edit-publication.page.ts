@@ -21,7 +21,7 @@ export class EditPublicationPage implements OnInit {
 
   newFile: '';
   newImage: '';
-
+  categories = [];
   newPublication: PublicationInterface = {
     id: '',
     title: '',
@@ -29,7 +29,8 @@ export class EditPublicationPage implements OnInit {
     image: '',
     file: '',
     date: new Date(),
-    userId: ''
+    userId: '',
+    category: '',
   };
   constructor(
     public firestoreService: FirestoreService,
@@ -43,6 +44,7 @@ export class EditPublicationPage implements OnInit {
 
   ngOnInit() {
     this.getDetallesPubli();
+    this.getCategories();
   }
 
   async savePublication() { // registrar idea en firestorage y base de datos con id de auth
@@ -53,13 +55,20 @@ export class EditPublicationPage implements OnInit {
       const res = await this.fireStorageService.uploadImage(this.newFile, path, name);
       this.newPublication.image = res;
     }
-    this.firestoreService.createDoc(this.newPublication, path, this.newPublication.id).then(res => {
+    this.firestoreService.updateDoc(this.newPublication, path, this.newPublication.id).then(res => {
       this.presentToast('Cambios guardados');
       this.redirectUser(true);
     }).catch (err => {
       console.log(err);
       this.presentToast(err.message);
     });
+  }
+  getCategories(){
+    const path = 'Categories/';
+    this.firestoreService.getCollection<any>(path).subscribe( res => {  // res - respuesta del observador
+      this.categories = res;
+      console.log('categories', res);
+     });
   }
   async newPublicationImage(event: any){
     if (event.target.files && event.target.files[0]){

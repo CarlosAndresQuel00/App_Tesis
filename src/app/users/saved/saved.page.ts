@@ -76,6 +76,21 @@ export class SavedPage implements OnInit {
       this.user = res;
     });
   }
+  gotoCategory(category : string){
+    if (category == 'Papel y cartón'){
+      this.router.navigate(['/papel-carton']);
+    }else if(category == 'Cristal y vidrio'){
+      this.router.navigate(['/cristal-vidrio']);
+    }else if(category == 'Metales'){
+      this.router.navigate(['/metales']);
+    }else if(category == 'Plástico'){
+      this.router.navigate(['/plastico']);
+    }else if(category == 'Telas'){
+      this.router.navigate(['/telas']);
+    }else{
+      this.router.navigate(['/otros']);
+    }
+  }
   async modalComments(id: string) {
     const modal = await this.modalController.create({
       component: CommentsPage,

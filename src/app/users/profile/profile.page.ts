@@ -89,6 +89,21 @@ export class ProfilePage implements OnInit {
   gotoEditPublication(id: string){
    this.router.navigate(['/edit-publication', id]);
   }
+  gotoCategory(category : string){
+    if (category == 'Papel y cartón'){
+      this.router.navigate(['/papel-carton']);
+    }else if(category == 'Cristal y vidrio'){
+      this.router.navigate(['/cristal-vidrio']);
+    }else if(category == 'Metales'){
+      this.router.navigate(['/metales']);
+    }else if(category == 'Plástico'){
+      this.router.navigate(['/plastico']);
+    }else if(category == 'Telas'){
+      this.router.navigate(['/telas']);
+    }else{
+      this.router.navigate(['/otros']);
+    }
+  }
   async deletePublication(idea: PublicationInterface){
    // await this.firestoreService.deleteDoc(this.path, idea.id);
    console.log('eliminado');

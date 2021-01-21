@@ -66,6 +66,7 @@ export class UserProfilePage implements OnInit {
   constructor(
     public firestoreService: FirestoreService,
     public authSvc: AuthService,
+    private router: Router,
     public modalController: ModalController,
     public fireStorageService: FirestorageService,
     public toastController: ToastController,
@@ -142,6 +143,21 @@ export class UserProfilePage implements OnInit {
     this.firestoreService.getDoc<UserInterface>(path, uid).subscribe( res => {
       this.userFollower = res;
     });
+  }
+  gotoCategory(category : string){
+    if (category == 'Papel y cartón'){
+      this.router.navigate(['/papel-carton']);
+    }else if(category == 'Cristal y vidrio'){
+      this.router.navigate(['/cristal-vidrio']);
+    }else if(category == 'Metales'){
+      this.router.navigate(['/metales']);
+    }else if(category == 'Plástico'){
+      this.router.navigate(['/plastico']);
+    }else if(category == 'Telas'){
+      this.router.navigate(['/telas']);
+    }else{
+      this.router.navigate(['/otros']);
+    }
   }
   async modalComments(id: string) {
     const modal = await this.modalController.create({

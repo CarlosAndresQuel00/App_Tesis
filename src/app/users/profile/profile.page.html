@@ -39,11 +39,12 @@
           <img [src]="publication.userPhoto" class="user-photo-profile" />   
         </ion-col>
         <ion-col size="7" size-lg>
-          
           <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
           <ion-label class="user" >Idea creada por: <a>{{publication.userName}}</a></ion-label><br>
-          <ion-label class="date">{{publication.date.toDate() | date: 'shortDate'}}</ion-label>
-        </ion-col> 
+          <ion-label class="date">
+            Ctg: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
+            • {{publication.date.toDate() | date: shorDate}}
+          </ion-label>        </ion-col> 
         <ion-col size="3">
         <ion-buttons>
           <ion-button (click)="presentAlertConfirm(publication)">

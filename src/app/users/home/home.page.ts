@@ -140,7 +140,6 @@ public dato:String;
 
   }
 
-
 youtube_parser(url){
   var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
   var match = url.match(regExp);
@@ -229,8 +228,6 @@ console.log('este id', (match && match[2].length === 11)
     });
   }
 
-  
-
   gotoEditPublication(id: string){
     this.router.navigate(['/edit-publication', id]);
   }
@@ -255,6 +252,22 @@ console.log('este id', (match && match[2].length === 11)
       });
       asd.unsubscribe();
     });
+  }
+  gotoCategory(category : string){
+    if (category == 'Papel y cartón'){
+      this.router.navigate(['/papel-carton']);
+    }else if(category == 'Cristal y vidrio'){
+      this.router.navigate(['/cristal-vidrio']);
+    }else if(category == 'Metales'){
+      this.router.navigate(['/metales']);
+    }else if(category == 'Plástico'){
+      this.router.navigate(['/plastico']);
+    }else if(category == 'Telas'){
+      this.router.navigate(['/telas']);
+    }else{
+      this.router.navigate(['/otros']);
+    }
+    
   }
 
   async presentAlertConfirm(idea: PublicationInterface) {
@@ -289,4 +302,5 @@ console.log('este id', (match && match[2].length === 11)
     });
     toast.present();
   }
+
 }
