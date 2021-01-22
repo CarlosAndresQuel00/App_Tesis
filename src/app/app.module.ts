@@ -17,7 +17,7 @@ import { environment } from '../environments/environment';
 import { EmbedVideo } from 'ngx-embed-video';
 import { HttpClientModule } from '@angular/common/http';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
-import  {  YouTubePlayerModule  }  from  '@angular/youtube-player' ;
+import  {  YouTubePlayerModule  }  from  '@angular/youtube-player';
 @NgModule({
 
   declarations: [AppComponent],
