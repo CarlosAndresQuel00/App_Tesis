@@ -38,14 +38,14 @@ export class FollowsPage implements OnInit {
   getUsers(){
     this.firestoreService.getCollection<UserInterface>(this.path).subscribe( res => {  // res - respuesta del observador
     this.users = res;
-    console.log('guardados', res);
+    console.log('seguidos', res);
    });
   }
   async presentAlertConfirm(user: UserInterface) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'Eliminar idea',
-      message: 'Quitar idea de tu lista de guardados?',
+      header: 'Dejar de seguir',
+      message: 'Quitar idea de tu lista de seguidos?',
       buttons: [
         {
           text: 'Cancelar',
@@ -58,7 +58,8 @@ export class FollowsPage implements OnInit {
           text: 'Sí',
           handler: () => {
             this.firestoreService.deleteDoc(this.path, user.idFollow);
-            console.log('eliminado');
+            this.firestoreService.deleteDoc('Followers/', user.idFollow);
+            
           }
         }
       ]
