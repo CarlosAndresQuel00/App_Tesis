@@ -35,7 +35,7 @@
           <ion-label class="user" >Idea creada por: <a>{{publication.userName}}</a></ion-label><br>
           <ion-label class="date">
             Ctg: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
-            • {{publication.date.toDate() | date: shorDate}}
+            • {{publication.date.toDate() | date: shortDate}}
           </ion-label>        </ion-col> 
         <ion-col size="3">
           <ion-buttons>
@@ -51,10 +51,10 @@
         {{publication.description}} 
       </p>
     </div>
-      <div>
-        <img [src]="publication.image"/>
-        <a [href]="publication.file">{{publication.file}}</a>
+      <div *ngFor="let image of publication.image">
+        <img loading="lazy" [src]="image" class="preview" />
       </div>
+      <a [href]="publication.file">{{publication.file}}</a>
       <div class="publication-options">
         <ion-segment class="seg">
           <ion-segment-button class="option-n" (click)="modalComments(publication.id)">

@@ -21,7 +21,7 @@ export class ReportPage implements OnInit {
     id: '',
     title: '',
     description: '',
-    image: '',
+    image: [],
     file: '',
     date: new Date(),
     userId: '',

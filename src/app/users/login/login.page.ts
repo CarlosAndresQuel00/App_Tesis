@@ -19,6 +19,8 @@ export class LoginPage implements OnInit {
 
   segment1: boolean;
   segment2: boolean;
+  errorMessage = '';
+  error = false;
   user: UserInterface = {
     uid: '',
     name: '',
@@ -28,8 +30,7 @@ export class LoginPage implements OnInit {
     password: '',
     emailVerified: false,
   };
-  validationsForm: FormGroup;
-  errorMessage: '';
+
   constructor(
     private authSvc: AuthService,
     private router: Router,
@@ -48,9 +49,14 @@ export class LoginPage implements OnInit {
   async onLogin(){
     try{
       const user = await this.authSvc.loginUser(this.user.email, this.user.password);
+      this.errorMessage = this.authSvc.message;
       if (user){
         this.redirectUser(true);
+      }else{
+        this.presentToast(this.errorMessage);
       }
+        
+      
     } catch (error){
       console.log(error.errorMessage);
     }
@@ -82,7 +88,7 @@ export class LoginPage implements OnInit {
     const toast = await this.toastController.create({
       message: msg,
       duration: 4500,
-      color: 'dark'
+      color: 'danger'
     });
     toast.present();
   }

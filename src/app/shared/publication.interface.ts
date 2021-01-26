@@ -2,7 +2,7 @@ export interface PublicationInterface {
     id: string;
     title?: string;
     description: string;
-    image?: string;
+    image?: [];
     file?: string;
     file1?: string;
     video?: string;

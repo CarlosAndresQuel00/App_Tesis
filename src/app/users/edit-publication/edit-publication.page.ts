@@ -7,6 +7,8 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { ActivatedRoute, Params} from '@angular/router';
+import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-publication',
@@ -19,14 +21,20 @@ export class EditPublicationPage implements OnInit {
   idUser = '';
   isOwner = false;
 
+  barStatus = false;
+  errorMessage = '';
+  imageUploads = [];
+
   newFile: '';
   newImage: '';
+  uploadPercent: Observable<number>;
+  downloadURL: Observable<string>;
   categories = [];
   newPublication: PublicationInterface = {
     id: '',
     title: '',
     description: '',
-    image: '',
+    image: [],
     file: '',
     date: new Date(),
     userId: '',
@@ -50,11 +58,6 @@ export class EditPublicationPage implements OnInit {
   async savePublication() { // registrar idea en firestorage y base de datos con id de auth
     this.presentLoading();
     const path = 'Ideas/';
-    const name = this.newPublication.title;
-    if (this.newFile !== undefined){
-      const res = await this.fireStorageService.uploadImage(this.newFile, path, name);
-      this.newPublication.image = res;
-    }
     this.firestoreService.updateDoc(this.newPublication, path, this.newPublication.id).then(res => {
       this.presentToast('Cambios guardados');
       this.redirectUser(true);
@@ -70,16 +73,44 @@ export class EditPublicationPage implements OnInit {
       console.log('categories', res);
      });
   }
-  async newPublicationImage(event: any){
-    if (event.target.files && event.target.files[0]){
-      this.newFile = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = ((image) => {
-        this.newPublication.image = image.target.result as string;
-      });
-      reader.readAsDataURL(event.target.files[0]);
+  //subir imagenes
+  newPublicationImage(event) {
+    this.barStatus = true;
+    this.newImage = event.target.files[0];
+    const path = this.newPublication.id + '/';
+    this.fireStorageService.uploadImages(this.newImage, path).then(
+      (res: any) => {
+        if (res) {
+          // this.imageUploads.unshift(res);
+          this.newPublication.image.unshift(res);
+          console.log('theimgs', res);
+          this.barStatus = false;
+        } 
+      },
+      (error: any) => {
+        this.errorMessage = 'File size exceeded. Maximum file size 1 MB'
+        this.barStatus = false;
+      }
+    );
+  }
+  //subir videos
+  onUploadFile(event: any){
+    this.newFile = event.target.files[0];
+    console.log(this.newFile);
+    const name = this.newPublication.title;
+    const filePath = 'IdeasFile' + '/' + name;
+    const fileRef = this.fireStorageService.refFile(filePath);
+    const task = this.fireStorageService.uploadFile( filePath, this.newFile);
+    this.uploadPercent = task.percentageChanges();
 
-    }
+    task.snapshotChanges().pipe(
+      finalize(() => this.downloadURL = fileRef.getDownloadURL() )
+    ).subscribe();
+    const reader = new FileReader();
+    reader.onload = ((file) => {
+      this.newPublication.file = file.target.result as string;
+    });
+    reader.readAsDataURL(event.target.files[0]);
   }
   async redirectUser(isVerified: boolean){
     if (isVerified){

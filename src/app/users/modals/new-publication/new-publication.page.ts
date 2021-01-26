@@ -22,10 +22,19 @@ export class NewPublicationPage implements OnInit {
   uid = '';
   uName = '';
   uPhoto = '';
+  loading;
   public ocultar1=false;
-  // p para subir archivo
+  // p para subir img
+  barStatus = false;
+  errorMessage = '';
+  imageUploads = [];
+
+
   mensajeArchivo = '';
   nombreArchivo = '';
+
+  //para archivo
+  archivo = false;
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
   categories = [];
@@ -38,21 +47,18 @@ export class NewPublicationPage implements OnInit {
     photo: '',
     password: '',
     emailVerified: false,
-
   };
   newPublication: PublicationInterface = {
     id: this.firestoreService.getId(),
     title: '',
     description: '',
-    image: '',
+    image: [],
     file: '',
     date: new Date(),
     userId: '',
     userName: '',
     userPhoto: '',
     category: '',
-    idSaved: '',
-    idUserSave: '',
     videoURL:'',
   };
 
@@ -88,50 +94,75 @@ export class NewPublicationPage implements OnInit {
     this.newPublication.userId = this.uid;
     this.newPublication.userName = this.uName;
     this.newPublication.userPhoto = this.uPhoto;
-    if (this.newImage !== undefined){
-      this.path = 'IdeasImg';
-      const res = await this.fireStorageService.uploadImage(this.newImage, this.path, name);
-      this.newPublication.image = res;
-      console.log('av', res);
-
-    }
     this.newPublication.videoURL= this.getIdVideo(this.newPublication.videoURL);
     if (this.newFile !== undefined){
       this.path = 'IdeasFile';
       const res = await this.fireStorageService.uploadFi( this.path, this.newFile, name);
       this.newPublication.file = res;
-      console.log('av', res);
-
+      console.log('de files', res);
     }
-
     this.firestoreService.createDoc(this.newPublication, pathP, this.newPublication.id).then(res => {
       this.presentToast('Idea publicada!');
+      console.log(this.newPublication.id);
     }).catch (err => {
       console.log(err);
       this.presentToast(err.message);
     });
   }
 
-  async newPublicationImage(event: any){
+  /*async newPublicationImage(event: any){
     if (event.target.files && event.target.files[0]){
       this.newImage = event.target.files[0];
       const reader = new FileReader();
+      this.uploadPercent = this.fireStorageService.time;
       reader.onload = ((image) => {
         this.newPublication.image = image.target.result as string;
       });
       reader.readAsDataURL(event.target.files[0]);
     }
+  }*/
+
+  // subir imágenes
+  newPublicationImage(event) {
+    this.barStatus = true;
+    this.newImage = event.target.files[0];
+    const path = this.newPublication.id + '/';
+    this.fireStorageService.uploadImages(this.newImage, path).then(
+      (res: any) => {
+        if (res) {
+          // this.imageUploads.unshift(res);
+          this.newPublication.image.unshift(res);
+          console.log('theimgs', res);
+          this.barStatus = false;
+        } 
+      },
+      (error: any) => {
+        this.errorMessage = 'File size exceeded. Maximum file size 1 MB'
+        this.barStatus = false;
+      }
+    );
   }
-  // subir archivo
-  onUploadFile(event: any){
+  /*async newPublicationFile(event: any){
+    if (event.target.files && event.target.files[0]){
+      // this.uploadPercent = this.fireStorageService.percent;
+      this.newFile = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = ((file) => {
+        this.newPublication.file = file.target.result as string;
+      });
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }*/
+  
+  //subir archivo
+  newPublicationFile(event: any){
+    this.archivo = true;
     this.newFile = event.target.files[0];
     console.log(this.newFile);
-    const name = this.newPublication.title;
-    const filePath = 'IdeasFile' + '/' + name;
+    const filePath = 'IdeasFiles' + '/' + this.newPublication.id;
     const fileRef = this.fireStorageService.refFile(filePath);
     const task = this.fireStorageService.uploadFile( filePath, this.newFile);
     this.uploadPercent = task.percentageChanges();
-
     task.snapshotChanges().pipe(
       finalize(() => this.downloadURL = fileRef.getDownloadURL() )
     ).subscribe();
@@ -152,15 +183,19 @@ export class NewPublicationPage implements OnInit {
     this.dismiss();
   }
   async presentLoading() {
-    const loading = await this.loadingController.create({
+    this.loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
       message: 'Publicando...',
       duration: 2000
     });
-    await loading.present();
+    await this.loading.present();
 
-    const { role, data} = await loading.onDidDismiss();
-    console.log('Loading dismissed!');
+    // const { role, data} = await loading.onDidDismiss();
+    
+  }
+  async dismissLoading(){
+     await this.loading.onDidDismiss();
+     console.log('Loading dismissed!');
   }
   getUserInfo(uid: string){ // trae info de la bd
     const path = 'Users';

@@ -45,7 +45,7 @@ public dato:String;
     id: '',
     title: '',
     description: '',
-    image: '',
+    image: [],
     file: '',
     date: new Date(),
     userId: '',
@@ -140,24 +140,24 @@ public dato:String;
 
   }
 
-youtube_parser(url){
-  var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-  var match = url.match(regExp);
-  console.log('la url embebida',(match&&match[7].length==11)? match[7]:false);
-  var videoId=(match&&match[7].length==11)? match[7] : false;
-  var enbed="//www.youtube.com/embed/"+ videoId;
-  //this.yt_iframe_html = this.embedService.embed(enbed);
-  this.yt_iframe_html = this.sanitizer.bypassSecurityTrustResourceUrl(enbed);  
-  console.log('yaaa',this.yt_iframe_html);
-  return enbed;
-}
+  youtube_parser(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var match = url.match(regExp);
+    console.log('la url embebida',(match&&match[7].length==11)? match[7]:false);
+    var videoId=(match&&match[7].length==11)? match[7] : false;
+    var enbed="//www.youtube.com/embed/"+ videoId;
+    //this.yt_iframe_html = this.embedService.embed(enbed);
+    this.yt_iframe_html = this.sanitizer.bypassSecurityTrustResourceUrl(enbed);  
+    console.log('yaaa',this.yt_iframe_html);
+    return enbed;
+  }
 
   getId(url) {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-console.log('este id', (match && match[2].length === 11)
-? match[2]
-: null)
+  console.log('este id', (match && match[2].length === 11)
+  ? match[2]
+  : null)
     return (match && match[2].length === 11)
       ? match[2]
       : null;

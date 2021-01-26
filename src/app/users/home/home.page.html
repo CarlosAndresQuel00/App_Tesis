@@ -92,15 +92,15 @@
         {{publication.description}}
       </p>
     </div>
-      <div>
-        <img [src]="publication.image"/>
-        <a [href]="publication.file">{{publication.file}}</a>
-      </div>
+        <div *ngFor="let image of publication.image">
+          <img loading="lazy" [src]="image" class="preview" />
+        </div>
+      <a *ngIf="publication.file" [href]="publication.file">{{publication.file}}</a>
     <youtube-player 
     [videoId]="publication.videoURL" 
     suggestedQuality="highest"
     [height]="250" 
-    [width]="370" 
+    [width]="390" 
     [startSeconds]="1"
     >
     </youtube-player>

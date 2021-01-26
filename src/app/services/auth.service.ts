@@ -11,6 +11,8 @@ import firebase from 'firebase';
   providedIn: 'root'
 })
 export class AuthService {
+
+  message = '';
   public user: Observable<UserInterface>;
 
   constructor(public fireAuth: AngularFireAuth, private fireStore: AngularFirestore){
@@ -29,9 +31,11 @@ export class AuthService {
   async loginUser(email: string, password: string){
     try{
       const {user} = await this.fireAuth.signInWithEmailAndPassword(email, password);
-      // this.updateUserData(user);
       return user;
     }catch (error){
+      if(error.code == 'auth/invalid-email'){
+        this.message = 'Correo electrónico o contraseña incorrectos';
+      }
       console.log(error);
     }
   }
