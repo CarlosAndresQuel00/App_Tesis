@@ -95,12 +95,6 @@ export class NewPublicationPage implements OnInit {
     this.newPublication.userName = this.uName;
     this.newPublication.userPhoto = this.uPhoto;
     this.newPublication.videoURL= this.getIdVideo(this.newPublication.videoURL);
-    if (this.newFile !== undefined){
-      this.path = 'IdeasFile';
-      const res = await this.fireStorageService.uploadFi( this.path, this.newFile, name);
-      this.newPublication.file = res;
-      console.log('de files', res);
-    }
     this.firestoreService.createDoc(this.newPublication, pathP, this.newPublication.id).then(res => {
       this.presentToast('Idea publicada!');
       console.log(this.newPublication.id);
@@ -190,13 +184,10 @@ export class NewPublicationPage implements OnInit {
     });
     await this.loading.present();
 
-    // const { role, data} = await loading.onDidDismiss();
-    
-  }
-  async dismissLoading(){
-     await this.loading.onDidDismiss();
+     const { role, data} = await this.loading.onDidDismiss();
      console.log('Loading dismissed!');
   }
+
   getUserInfo(uid: string){ // trae info de la bd
     const path = 'Users';
     this.firestoreService.getDoc<UserInterface>(path, uid).subscribe( res => {

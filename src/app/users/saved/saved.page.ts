@@ -50,7 +50,7 @@ export class SavedPage implements OnInit {
    }
 
   ngOnInit() {
-    this.getPublications();
+    this.getPublicationsSaved();
   }
   initUser(){
     this.idCurrentUser = '';
@@ -64,7 +64,7 @@ export class SavedPage implements OnInit {
       emailVerified: false,
     };
   }
-  getPublications(){
+  getPublicationsSaved(){
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
     this.publications = res;
     console.log('guaradados', res);
@@ -90,6 +90,9 @@ export class SavedPage implements OnInit {
     }else{
       this.router.navigate(['/otros']);
     }
+  }
+  gotoUserProfile(id: string ){
+    this.router.navigate(['/user-profile', id]);
   }
   async modalComments(id: string) {
     const modal = await this.modalController.create({

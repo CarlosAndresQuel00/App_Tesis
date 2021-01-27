@@ -83,9 +83,9 @@ export class UserProfilePage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getUserInfo();
-    this.getPublications();
+    await this.getPublications();
     this.getFollowed();
    
   }
@@ -97,14 +97,10 @@ export class UserProfilePage implements OnInit {
     });
   }
   getPublications(){
-    this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
-    res.forEach(e => {
-      if(e.userId === this.idUser){
-        this.publications.push(e);
-      }
+    const saved = this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
+      this.publications = res.filter(word => word.userId === this.idUser);
     });
-    console.log('publis', this.publications);
-    });
+    saved.unsubscribe;
   }
   getFollowed(){
     this.firestoreService.getCollection<UserInterface>(this.path1).subscribe( res => {  // res - respuesta del observador
@@ -147,11 +143,10 @@ export class UserProfilePage implements OnInit {
   }
   savePublication(id: string){
     const path = 'Saved/';
-    const asd = this.firestoreService.getOnePublication(id).subscribe(res => {
+    const asd = this.firestoreService.getDoc<PublicationInterface>(path, id).subscribe(res => {
       this.newPublication = res;
       this.newPublication.idUserSave = this.idCurrentUser;
       this.newPublication.idSaved = this.firestoreService.getId();
-     
       console.log('publication->', this.newPublication.idSaved);
       this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
         this.presentToast('Publicación guardada');
@@ -203,7 +198,7 @@ export class UserProfilePage implements OnInit {
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 2000,
+      duration: 1000,
       color: 'success'
     });
     toast.present();

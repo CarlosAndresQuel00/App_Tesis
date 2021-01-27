@@ -141,8 +141,9 @@ export class EditPublicationPage implements OnInit {
   }
 
   getDetallesPubli(){
+    const path = 'Ideas/'
     this.idPublication = this.route.snapshot.paramMap.get('id');
-    this.firestoreService.getOnePublication(this.idPublication).subscribe(res => {
+    this.firestoreService.getDoc<PublicationInterface>(path,this.idPublication).subscribe(res => {
       this.newPublication = res;
       console.log('publication->', res);
     });

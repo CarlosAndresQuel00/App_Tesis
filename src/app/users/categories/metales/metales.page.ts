@@ -48,8 +48,8 @@ export class MetalesPage implements OnInit {
   }
   getPublications(){
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
-    this.publications = res;
-    console.log('publi', res);
+      this.publications = res.filter(publi => publi.category == 'Metales');
+      console.log('publi', this.publications);
    });
  }
  getUserInfo(uid: string){ // trae info de la bd

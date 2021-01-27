@@ -77,7 +77,7 @@ export class ReportPage implements OnInit {
   savePublicationReported(){
     console.log(this.reason);
     const path = 'Reports/';
-    const asd = this.firestoreService.getOnePublication(this.idPubli).subscribe(res => {
+    const asd = this.firestoreService.getDoc<PublicationInterface>(path, this.idPubli).subscribe(res => {
       this.publicationReported = res;
       this.publicationReported.idUserReported = this.idCurrentUser;
       this.publicationReported.idReport = this.firestoreService.getId();

@@ -10,8 +10,11 @@
 </ion-header>
 
 <ion-content class="sign-in-content"> 
+<ion-item *ngIf="noFollows">
+  <ion-label style="text-align: center;color: orange;">No sigues a otros usuarios</ion-label>
+</ion-item>
   <div *ngFor= "let user of users" class="publications-container">
-    <div *ngIf="idCurrentUser == user.idUserFollower">
+    <div >
       <table style="margin: 10px;" width = 100%>
         <tr>
           <td width="40"><img [src]="user.photo" class="user-photo-profile" /></td>

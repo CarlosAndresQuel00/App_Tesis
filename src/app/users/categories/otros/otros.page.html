@@ -11,7 +11,7 @@
 
 <ion-content>
   <div *ngFor= "let publication of publications" class="publications-container" style="border: none;">
-    <div *ngIf="publication.category == 'Otros'" style="border: none;">
+    <div style="border: none;">
       <div class="publication-info">
         <ion-row>
           <ion-col size="1.5" size-lg >
@@ -46,11 +46,20 @@
           {{publication.description}} 
         </p>
       </div>
-      
-        <div>
-          <img [src]="publication.image"/>
-          <a [href]="publication.file">{{publication.file}}</a>
-        </div>
+      <ion-slides pager="true" >
+        <ion-slide *ngFor="let image of publication.image">
+          <img loading="lazy" [src]="image" class="preview"/>
+        </ion-slide>
+      </ion-slides>
+      <a *ngIf="publication.file" [href]="publication.file">Click para descargar documento</a>
+      <youtube-player 
+    [videoId]="publication.videoURL" 
+    suggestedQuality="highest"
+    [height]="250" 
+    [width]="390" 
+    [startSeconds]="1"
+    >
+    </youtube-player>
         <div class="publication-options">
           <ion-segment class="seg">
             <ion-segment-button class="option-n" (click)="modalComments(publication.id)">

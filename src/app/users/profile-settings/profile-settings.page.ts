@@ -1,4 +1,5 @@
-import { AlertController, NavController } from '@ionic/angular';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { UserInterface } from 'src/app/shared/user.interface';
 
@@ -16,6 +17,7 @@ export class ProfileSettingsPage implements OnInit {
 
   newFile: '';
   newImage: '';
+  statusBar = false;
 
   uid: string;
   user: UserInterface = {
@@ -35,7 +37,8 @@ export class ProfileSettingsPage implements OnInit {
     private router: Router,
     public fireStorageService: FirestorageService,
     public navCtrl: NavController,
-    public alertController: AlertController
+    public alertController: AlertController,
+    public toastController: ToastController,
   ){
     this.authSvc.stateAuth().subscribe(res => {
       if (res != null){
@@ -54,6 +57,7 @@ export class ProfileSettingsPage implements OnInit {
   }
 
   async saveUser() { // registrar usuario en la base de datos con id de auth
+    this.statusBar = true;
     const path = 'Users';
     const name = this.user.name;
     if (this.newFile !== undefined){
@@ -61,7 +65,7 @@ export class ProfileSettingsPage implements OnInit {
       this.user.photo = res;
     }
     this.firestoreService.updateDoc(this.user, path, this.user.uid).then(res => {
-      console.log('Guardado');
+      this.statusBar = false;
       this.redirectUser(true);
     }).catch (err => {
       console.log(err);
@@ -80,12 +84,11 @@ export class ProfileSettingsPage implements OnInit {
         this.user.photo = image.target.result as string;
       });
       reader.readAsDataURL(event.target.files[0]);
-
     }
-
   }
   async redirectUser(isVerified: boolean){
     if (isVerified){
+      this.presentToast('Cambios guardados');
       await this.router.navigate(['profile']);
     }else{
       // await this.router.navigate(['verify-email']);
@@ -124,5 +127,13 @@ export class ProfileSettingsPage implements OnInit {
       ]
     });
     await alert.present();
+  }
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1000,
+      color: 'success'
+    });
+    toast.present();
   }
 }

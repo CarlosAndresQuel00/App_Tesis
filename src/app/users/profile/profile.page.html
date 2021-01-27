@@ -53,7 +53,6 @@
           <ion-button (click)="gotoEditPublication(publication.id)">
             <ion-icon name="create" color="secondary"></ion-icon>
         </ion-button>
-            <ion-icon  slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
         </ion-buttons>
         </ion-col>  
       </ion-row>
@@ -63,28 +62,22 @@
         {{publication.description}} 
       </p>
     </div>
-    
-      <div>
-        <img [src]="publication.image"/>
-        <a [href]="publication.file">{{publication.file}}</a>
-      </div>
-
-
-      
-        <div class="contentVideo"> 
+    <ion-slides pager="true" >
+      <ion-slide *ngFor="let image of publication.image">
+        <img loading="lazy" [src]="image" class="preview"/>
+      </ion-slide>
+    </ion-slides>
+    <a *ngIf="publication.file" [href]="publication.file">{{publication.file}}</a>      
+    <div class="contentVideo"> 
           <youtube-player 
       [videoId]="publication.videoURL" 
-      suggestedQuality="highres"
+      suggestedQuality="highest"
       [height]="250" 
       [width]="370"
       [startSeconds]="1"
       >
       </youtube-player>
-        </div> 
-      
-
-
-      
+    </div> 
       <div class="publication-options">
         <ion-segment class="seg">
           <ion-segment-button class="option-n" (click)="modalComments(publication.id)"> 

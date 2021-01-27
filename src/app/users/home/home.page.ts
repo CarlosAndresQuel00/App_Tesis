@@ -11,11 +11,13 @@ import { MenuController } from '@ionic/angular';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { NewPublicationPage } from './../modals/new-publication/new-publication.page';
 
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
-import { EmbedVideoService } from 'ngx-embed-video';
+
 import { PublicationModalPageModule } from '../modals/publication-modal/publication-modal.module';
 import { PublicationPage } from '../publication/publication.page';
 import { stringify } from '@angular/compiler/src/util';
+
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { EmbedVideoService } from 'ngx-embed-video';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 
 import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
@@ -29,11 +31,13 @@ import { PublicationModalPage } from '../modals/publication-modal/publication-mo
 export class HomePage implements OnInit {
 
   yt_iframe_html: any;
-
   videoURL: string;
+
   userEmail: string;
   idCurrentUser: string;
   private path = 'Ideas/';
+
+  saved = false;
 
 public dato:String;
   //youtubeUrl : any;
@@ -75,7 +79,6 @@ public dato:String;
     public toastController: ToastController,
 
     private sanitizer: DomSanitizer,
-
     private youtube:YoutubeVideoPlayer,
     private embedService: EmbedVideoService,
     
@@ -86,7 +89,6 @@ public dato:String;
       if (res != null){
         this.idCurrentUser = res.uid;
         this.getUserInfo(this.idCurrentUser);
-        
         console.log('id ini', this.idCurrentUser);
       }else{
         this.initUser();
@@ -136,8 +138,6 @@ public dato:String;
     console.log('la url',you);
     console.log('la url embed', this.yt_iframe_html = this.embedService.embed(youtubeUrl));
     this.yt_iframe_html = this.embedService.embed(youtubeUrl);
-
-
   }
 
   youtube_parser(url){
@@ -181,17 +181,8 @@ public dato:String;
     video   = (results === null) ? url : results[1];
  
     return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video);   
-}
-
-
-  dismiss() {
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
-    this.modalController.dismiss({
-    //  'dismissed': true
-    });
-
   }
+
   async modalReport(id: string) {
     const modal = await this.modalController.create({
       component: ReportPage,
@@ -238,21 +229,42 @@ public dato:String;
   gotoUserProfile(id: string ){
     this.router.navigate(['/user-profile', id]);
   }
+
   savePublication(id: string){
+    this.getPublicationsSaved(id);
     const path = 'Saved/';
-    const asd = this.firestoreService.getOnePublication(id).subscribe(res => {
-      this.newPublication = res;
-      this.newPublication.idUserSave = this.idCurrentUser;
-      this.newPublication.idSaved = this.firestoreService.getId();
-      console.log('publication->', this.newPublication.idSaved);
-      this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
-        this.presentToast('Publicación guardada');
+    const publi = this.firestoreService.getDoc<PublicationInterface>('Ideas/', id).subscribe(res => {
+    this.newPublication = res;
+    this.newPublication.idUserSave = this.idCurrentUser;
+    this.newPublication.idSaved = this.firestoreService.getId();
+    console.log('publication->', this.newPublication.idSaved);
+    if(this.saved == true){
+      this.presentWarningToast('Ya existe');
+      this.saved = false;
+    }else{
+       this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
+      this.presentSuccessToast('Publicación guardada');
       }).catch (err => {
-          console.log(err);
-      });
-      asd.unsubscribe();
+    console.log(err);
+    });
+      publi.unsubscribe();
+    }
     });
   }
+  // comprobar si una publicación ya está guardada
+  getPublicationsSaved(id: string){
+    const path = 'Saved/';
+    this.firestoreService.getCollection<PublicationInterface>(path).subscribe( res => {  // res - respuesta del observador
+    res.forEach(save => {
+        if(save.idUserSave == this.idCurrentUser && id == save.id){
+          this.saved = true;
+        }
+    });
+   });
+ 
+
+  }
+
   gotoCategory(category : string){
     if (category == 'Papel y cartón'){
       this.router.navigate(['/papel-carton']);
@@ -269,7 +281,7 @@ public dato:String;
     }
     
   }
-
+  
   async presentAlertConfirm(idea: PublicationInterface) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -294,13 +306,20 @@ public dato:String;
     });
     await alert.present();
   }
-  async presentToast(msg) {
+  async presentSuccessToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 4500,
-      color: 'dark'
+      duration: 1000,
+      color: 'success'
     });
     toast.present();
   }
-
+  async presentWarningToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1000,
+      color: 'warning'
+    });
+    toast.present();
+  }
 }

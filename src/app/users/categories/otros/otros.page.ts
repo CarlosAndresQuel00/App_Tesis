@@ -8,6 +8,7 @@ import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../../modals/comments/comments.page';
 import { ReportPage } from '../../modals/report/report.page';
 
+
 @Component({
   selector: 'app-otros',
   templateUrl: './otros.page.html',
@@ -48,8 +49,8 @@ export class OtrosPage implements OnInit {
   }
   getPublications(){
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
-    this.publications = res;
-    console.log('publi', res);
+      this.publications = res.filter(publi => publi.category == 'Otros');
+      console.log('publi', this.publications);
    });
  }
  getUserInfo(uid: string){ // trae info de la bd
@@ -79,4 +80,5 @@ export class OtrosPage implements OnInit {
     });
     return await modal.present();
   }
+  // VER VIDEOS
 }

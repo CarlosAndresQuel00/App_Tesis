@@ -17,6 +17,7 @@ export class FollowsPage implements OnInit {
   idCurrentUser: string;
   private path = 'Followed/';
   users: UserInterface[] = [];
+  noFollows = true;
 
   constructor(
     private authSvc: AuthService,
@@ -25,7 +26,7 @@ export class FollowsPage implements OnInit {
     public alertController: AlertController
   ) {
     this.authSvc.stateAuth().subscribe(res => {
-      console.log(res);
+      console.log('infor current', res);
       if (res != null){
         this.idCurrentUser = res.uid;
       }
@@ -37,9 +38,13 @@ export class FollowsPage implements OnInit {
   }
   getUsers(){
     this.firestoreService.getCollection<UserInterface>(this.path).subscribe( res => {  // res - respuesta del observador
-    this.users = res;
-    console.log('seguidos', res);
-   });
+      if (res){
+        this.users = res.filter(word => word.idUserFollower === this.idCurrentUser);
+      }
+      if(this.users.length !== 0){
+        this.noFollows = false;
+      }
+    });
   }
   async presentAlertConfirm(user: UserInterface) {
     const alert = await this.alertController.create({
@@ -59,7 +64,7 @@ export class FollowsPage implements OnInit {
           handler: () => {
             this.firestoreService.deleteDoc(this.path, user.idFollow);
             this.firestoreService.deleteDoc('Followers/', user.idFollow);
-            
+            this.noFollows = true;
           }
         }
       ]

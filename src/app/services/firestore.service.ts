@@ -46,25 +46,4 @@ export class FirestoreService {
     return collection.valueChanges();
 
   }
-  getOnePublication(idp: string){
-    this.publicationDoc = this.database.doc<PublicationInterface>(`Ideas/${idp}`);
-    this.publication = this.publicationDoc.snapshotChanges().pipe(map(action => {
-      if (action.payload.exists === false){
-        return null;
-      }else{
-        const data = action.payload.data() as PublicationInterface;
-        data.id = action.payload.id;
-        return data;
-      }
-    }));
-    return this.publication;
-  }
-  createDocSaved(data: any, path: string){ // path: ruta de base de datos id: id de documento
-    const collection = this.database.collection(path);
-    return collection.add(data);
-  }
-  getOnePublicationSaved(){
-    this.publicationDoc = this.database.doc<PublicationInterface>('Saved/');
-    return this.publicationDoc.valueChanges();
-  }
 }

@@ -40,15 +40,14 @@
   <ion-router-outlet id="main" main></ion-router-outlet>
   <div class="user-information-container">
     <ion-row>
-      <ion-col size="2" size-lg>
+      <ion-col size="1.7" size-lg>
         <div>
           <img [src]="user.photo" class="photo-profile">      
         </div>
       </ion-col>
-      <ion-col size="10" size-lg >
+      <ion-col  size-lg >
         <ion-item class="search"> 
-          <ion-input class="input-search" placeholder="Buscar..."></ion-input>
-          <ion-button color="primary"><ion-icon name="search-circle"></ion-icon></ion-button>
+          <ion-searchbar></ion-searchbar>
         </ion-item>     
       </ion-col>  
     </ion-row>
@@ -61,7 +60,8 @@
         </ion-col>
         <ion-col size="7.5" size-lg >
           <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
-          <ion-label class="user" *ngIf="publication.userName">Idea creada por: 
+          <ion-label 
+            class="user" *ngIf="publication.userName">Idea creada por: 
             <a *ngIf="idCurrentUser !== publication.userId" (click)="gotoUserProfile(publication.userId)" >{{publication.userName}}</a>
             <a *ngIf="idCurrentUser === publication.userId" [routerLink]="['/profile']" >{{publication.userName}}</a>
           </ion-label><br>
@@ -92,10 +92,12 @@
         {{publication.description}}
       </p>
     </div>
-        <div *ngFor="let image of publication.image">
-          <img loading="lazy" [src]="image" class="preview" />
-        </div>
-      <a *ngIf="publication.file" [href]="publication.file">{{publication.file}}</a>
+    <ion-slides pager="true" >
+      <ion-slide *ngFor="let image of publication.image">
+        <img loading="lazy" [src]="image" class="preview"/>
+      </ion-slide>
+    </ion-slides>
+    <a *ngIf="publication.file" [href]="publication.file">Click para descargar documento</a>
     <youtube-player 
     [videoId]="publication.videoURL" 
     suggestedQuality="highest"

@@ -49,6 +49,7 @@
             <input accept=".pdf" (change)="newPublicationFile($event)" id="file-upload" type="file" style="display: none;">
           </ion-button>
           <ion-button (click)="accion1()">
+            
             <ion-icon name="videocam"></ion-icon>
             Video
           </ion-button>
@@ -58,7 +59,7 @@
         <ion-textarea [(ngModel)]= "newPublication.videoURL" type="text" name="videoURL" ></ion-textarea>
       </ion-item>
       <ion-progress-bar *ngIf="archivo" color ="success" value={{uploadPercent|async}}></ion-progress-bar>
-      <ion-spinner style="margin-left: 50%;" *ngIf="barStatus" name="dots"></ion-spinner>
+      <ion-spinner style="margin-left: 45%;" *ngIf="barStatus" name="dots"></ion-spinner>
       <div *ngIf="errorMessage" class="error">{{errorMessage}}</div>
       <a [href]="downloadURL | async">{{ downloadURL | async}}</a> 
     </ion-list>

@@ -10,7 +10,7 @@
 <ion-content>
   <div class="dividers">
     <div class="user-info">
-      <div class="div-photo" style="margin-left: 35px;">
+      <div class="div-photo" style="margin-left: auto;">
         <img [src]="user.photo" class="photo-profile">
       </div>
       <ion-item>
@@ -45,16 +45,18 @@
           </ion-buttons>
         </ion-col>  
       </ion-row>
-    </div>
-    <div class="publication-description">
-      <p>          
-        {{publication.description}} 
-      </p>
-    </div>
-      <div *ngFor="let image of publication.image">
-        <img loading="lazy" [src]="image" class="preview" />
+     </div>
+      <div class="publication-description">
+        <p>          
+          {{publication.description}} 
+        </p>
       </div>
-      <a [href]="publication.file">{{publication.file}}</a>
+      <ion-slides pager="true" >
+        <ion-slide *ngFor="let image of publication.image">
+          <img loading="lazy" [src]="image" class="preview"/>
+        </ion-slide>
+      </ion-slides>
+      <a *ngIf="publication.file" [href]="publication.file">{{publication.file}}</a>
       <div class="publication-options">
         <ion-segment class="seg">
           <ion-segment-button class="option-n" (click)="modalComments(publication.id)">

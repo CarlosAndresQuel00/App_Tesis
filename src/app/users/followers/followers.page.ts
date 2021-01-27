@@ -17,6 +17,8 @@ export class FollowersPage implements OnInit {
   private path = 'Followers/';
   existe = false;
   idFollowed = '';
+  noFollowers = true;
+
   user: UserInterface = {
     uid: '',
     name: '',
@@ -60,15 +62,15 @@ export class FollowersPage implements OnInit {
     this.getFollowers();
   }
   getFollowers(){
-    this.firestoreService.getCollection<UserInterface>(this.path).subscribe( res => {  // res - respuesta del observador
-    res.forEach(e => {
-      if(e.idUserFollow === this.idCurrentUser){
-        this.users.push(e);
-        this.existe = true;
+    const followers = this.firestoreService.getCollection<UserInterface>(this.path).subscribe( res => {  // res - respuesta del observador
+      this.users = res.filter(word => this.idCurrentUser == word.idUserFollow);
+      if(this.users.length !== 0){
+        this.noFollowers = false;
+      }else{
+        this.noFollowers = true;
       }
     });
-    console.log('seguidores', res);
-   });
+    followers.unsubscribe;
   }
   getFollowed(id:string){
     this.firestoreService.getCollection<UserInterface>('Followed/').subscribe( res => {  // res - respuesta del observador
@@ -145,7 +147,8 @@ export class FollowersPage implements OnInit {
             this.firestoreService.deleteDoc('Followed/', this.idFollowed);
             this.firestoreService.deleteDoc(this.path, this.idFollowed);
             this.presentToast('Dejaste de seguir a '+this.user.name);
-            this.existe = false;
+            this.noFollowers = false;
+            // this.existe = false;
           }
         }
       ]

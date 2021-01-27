@@ -14,7 +14,9 @@
          </ion-col>
          <ion-col size="7" size-lg>
            <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
-           <ion-label class="user" >Idea creada por: <a>{{publication.userName}}</a></ion-label><br>
+           <ion-label class="user" >Idea creada por: 
+            <a *ngIf="idCurrentUser !== publication.userId" (click)="gotoUserProfile(publication.userId)" >{{publication.userName}}</a>
+            </ion-label><br>
            <ion-label class="date">
             Ctg: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
             • {{publication.date.toDate() | date: shorDate}}
@@ -30,17 +32,18 @@
          </ion-buttons>
          </ion-col>  
        </ion-row>
-     </div>
-     <div class="publication-description">
+      </div>
+      <div class="publication-description">
        <p>          
          {{publication.description}} 
        </p>
-     </div>
-     
-       <div>
-         <img [src]="publication.image"/>
-         <a [href]="publication.file">{{publication.file}}</a>
-       </div>
+      </div>
+      <ion-slides pager="true" >
+        <ion-slide *ngFor="let image of publication.image">
+          <img loading="lazy" [src]="image" class="preview"/>
+        </ion-slide>
+      </ion-slides>
+      <a *ngIf="publication.file" [href]="publication.file">{{publication.file}}</a>
        <div class="publication-options">
          <ion-segment class="seg" (click)="modalComments(publication.id)">
            <ion-segment-button class="option-n">

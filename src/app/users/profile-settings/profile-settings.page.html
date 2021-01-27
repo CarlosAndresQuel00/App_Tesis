@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="sign-in-content">
-  <form >
+  <form>
     <ion-list class="inputs-list" lines="full">
       <ion-item class="input-item">
         <ion-label position="floating" color="primary" class="label-input">Nombre</ion-label>
@@ -18,25 +18,23 @@
         <ion-label position="floating" color="primary" class="label-input">Correo electrónico</ion-label>
         <ion-input [(ngModel)]="user.email" type="email" name="email" disabled></ion-input>
       </ion-item>
- 
       <ion-item class="input-item">
         <ion-label position="floating" color="primary" class="label-input">Contraseña</ion-label>
         <ion-input [(ngModel)]="user.password" type="password" name="password" disabled></ion-input>
       </ion-item>
-      
       <ion-item class="input-item">
         <ion-label position="floating" color="primary" class="label-input">Cambia tu foto de perfil</ion-label>
         <br>
         <ion-button class="plus-button" fill="clear">
         <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
-        <input (change)="newPhotoProfile($event)" id="file-upload" type="file">
+        <input accept=".png,.jpg" (change)="newPhotoProfile($event)" id="file-upload" type="file">
       </ion-button>
       </ion-item>
     </ion-list>
     <div class="div-img-photo">
       <img [src]="user.photo" id="imgphotoProfile">   
     </div>
-
+    <ion-spinner style="margin-left: 45%;" *ngIf="statusBar" name="dots"></ion-spinner>
     <ion-button class="sign-in-btn"  expand="block" (click)="saveUser()">
       Guardar
     </ion-button>
