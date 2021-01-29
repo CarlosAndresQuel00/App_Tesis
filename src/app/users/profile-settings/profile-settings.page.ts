@@ -131,7 +131,7 @@ export class ProfileSettingsPage implements OnInit {
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 1000,
+      duration: 900,
       color: 'success'
     });
     toast.present();

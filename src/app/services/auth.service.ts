@@ -35,6 +35,8 @@ export class AuthService {
     }catch (error){
       if(error.code == 'auth/invalid-email'){
         this.message = 'Correo electrónico o contraseña incorrectos';
+      }else if(error.code == 'auth/user-not-found'){
+        this.message = 'Usuario no encontrado o eliminado';
       }
       console.log(error);
     }

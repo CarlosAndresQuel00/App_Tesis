@@ -17,7 +17,11 @@
     <div >
       <table style="margin: 10px;" width = 100%>
         <tr>
-          <td width="40"><img [src]="user.photo" class="user-photo-profile" /></td>
+
+          <td width="40">
+            <img *ngIf="!user.photo" src="../../../assets/icon/penguin.svg" class="user-photo-profile" />
+            <img *ngIf="user.photo" [src]="user.photo" class="user-photo-profile" />
+          </td>
           <td style="text-align: left;"><ion-label class="title"><strong></strong>{{user.name}}</ion-label></td>
           <td width="90"><ion-buttons>
             <ion-button (click)="presentAlertConfirm(user)">

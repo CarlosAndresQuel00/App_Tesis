@@ -31,7 +31,7 @@
       </ion-item>
       <div style="margin-left: 10px;">
         <ion-label color="primary"  class="label-input">Archivo</ion-label><br>
-        <ion-note color="danger" style="font-size: 12px;">Solo puede cargar uno de los siguientes archivos</ion-note>
+        <!--<ion-note color="danger" style="font-size: 12px;">Solo puede cargar uno de los siguientes archivos</ion-note>-->
       </div>
       <ion-item class="input-item">
           <ion-button>
@@ -49,9 +49,11 @@
             <input accept=".pdf" (change)="newPublicationFile($event)" id="file-upload" type="file" style="display: none;">
           </ion-button>
           <ion-button (click)="accion1()">
+            <ion-label>
+              <ion-icon name="videocam"></ion-icon>
+              Video
+            </ion-label>
             
-            <ion-icon name="videocam"></ion-icon>
-            Video
           </ion-button>
       </ion-item>
       <ion-item class="input-item" *ngIf="ocultar1">

@@ -35,11 +35,7 @@
     .user{
         font-size: 12px;
     }
-    .user-photo-profile{
-        width: 34px;
-        height: 34px;
-        border-radius: 300px;
-    }
+    
     .alert-icon{
         width: 20px;
         height: 20px;
@@ -50,7 +46,11 @@
     margin-right: 10px;
     font-size: 13px;
 }
-
+.user-photo-profile{
+    width: 34px;
+    height: 34px;
+    border-radius: 300px;
+}
 .responsive-iframe {
     position: absolute;
     top: 0;
@@ -76,3 +76,9 @@ a{
     text-decoration:none;
 }
 
+.with-no-photo{
+    background: url(../../../assets/icon/penguin.svg);
+    width: 34px;
+    height: 34px;
+    border-radius: 300px;
+}

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="dark">
     <ion-title>Editar perfil</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -32,7 +32,8 @@
       </ion-item>
     </ion-list>
     <div class="div-img-photo">
-      <img [src]="user.photo" id="imgphotoProfile">   
+      <img *ngIf="!user.photo" src="../../../assets/icon/penguin.svg" class="imgphotoProfile">      
+      <img *ngIf="user.photo" [src]="user.photo" class="imgphotoProfile">   
     </div>
     <ion-spinner style="margin-left: 45%;" *ngIf="statusBar" name="dots"></ion-spinner>
     <ion-button class="sign-in-btn"  expand="block" (click)="saveUser()">

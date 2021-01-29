@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { CommentInterface } from 'src/app/shared/comments.interface';
 import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
 import { CommentsPage } from '../modals/comments/comments.page';
+import { NewPublicationPage } from '../modals/new-publication/new-publication.page';
 
 @Component({
   selector: 'app-profile',
@@ -88,6 +89,12 @@ export class ProfilePage implements OnInit {
 
   gotoEditPublication(id: string){
    this.router.navigate(['/edit-publication', id]);
+  }
+  async modalNewPublication() {
+    const modal = await this.modalController.create({
+      component: NewPublicationPage,
+    });
+    return await modal.present();
   }
   gotoCategory(category : string){
     if (category == 'Papel y cartón'){

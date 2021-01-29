@@ -11,16 +11,9 @@ import { MenuController } from '@ionic/angular';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { NewPublicationPage } from './../modals/new-publication/new-publication.page';
 
-
-import { PublicationModalPageModule } from '../modals/publication-modal/publication-modal.module';
-import { PublicationPage } from '../publication/publication.page';
-import { stringify } from '@angular/compiler/src/util';
-
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { EmbedVideoService } from 'ngx-embed-video';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
-
-import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
 
 
 @Component({
@@ -39,6 +32,8 @@ export class HomePage implements OnInit {
 
   saved = false;
 
+  //para buscar
+  textoBuscar = '';
 public dato:String;
   //youtubeUrl : any;
 
@@ -280,6 +275,10 @@ public dato:String;
       this.router.navigate(['/otros']);
     }
     
+  }
+  async search(event){
+    const texto = event.target.value;
+    this.textoBuscar = texto;
   }
   
   async presentAlertConfirm(idea: PublicationInterface) {

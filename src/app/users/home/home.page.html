@@ -42,21 +42,23 @@
     <ion-row>
       <ion-col size="1.7" size-lg>
         <div>
-          <img [src]="user.photo" class="photo-profile">      
+          <img *ngIf="!user.photo" src="../../../assets/icon/penguin.svg" class="photo-profile">        
+          <img *ngIf="user.photo" [src]="user.photo" class="photo-profile">      
         </div>
       </ion-col>
       <ion-col  size-lg >
         <ion-item class="search"> 
-          <ion-searchbar></ion-searchbar>
+          <ion-searchbar (ionChange)="search($event)" placeholder="Buscar ideas..." no-border></ion-searchbar>
         </ion-item>     
       </ion-col>  
     </ion-row>
   </div>
-  <div *ngFor= "let publication of publications" class="publications-container">
+  <div *ngFor="let publication of publications | busqueda: textoBuscar" class="publications-container">
     <div class="publication-info">
       <ion-row>
         <ion-col size="1.5" size-lg >
-          <img [src]="publication.userPhoto" class="user-photo-profile" />   
+          <img *ngIf="!publication.userPhoto" src="../../../assets/icon/penguin.svg" class="user-photo-profile">        
+          <img *ngIf="publication.userPhoto" [src]="publication.userPhoto" class="user-photo-profile"/>   
         </ion-col>
         <ion-col size="7.5" size-lg >
           <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
