@@ -8,12 +8,14 @@ import { TelasPageRoutingModule } from './telas-routing.module';
 
 import { TelasPage } from './telas.page';
 
+import { YouTubePlayerModule } from "@angular/youtube-player";
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TelasPageRoutingModule
+    TelasPageRoutingModule,
+    YouTubePlayerModule
   ],
   declarations: [TelasPage]
 })

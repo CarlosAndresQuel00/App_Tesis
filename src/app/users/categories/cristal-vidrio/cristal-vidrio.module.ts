@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CristalVidrioPageRoutingModule } from './cristal-vidrio-routing.module';
 
 import { CristalVidrioPage } from './cristal-vidrio.page';
+import { YouTubePlayerModule } from "@angular/youtube-player";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CristalVidrioPageRoutingModule
+    CristalVidrioPageRoutingModule,
+    YouTubePlayerModule
   ],
   declarations: [CristalVidrioPage]
 })

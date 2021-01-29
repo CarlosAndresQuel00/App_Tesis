@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { OtrosPageRoutingModule } from './otros-routing.module';
-// import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
+import { YouTubePlayerModule } from "@angular/youtube-player";
 import { OtrosPage } from './otros.page';
 
 @NgModule({
@@ -14,7 +14,7 @@ import { OtrosPage } from './otros.page';
     FormsModule,
     IonicModule,
     OtrosPageRoutingModule,
-    // YoutubeVideoPlayer
+    YouTubePlayerModule
   ],
   declarations: [OtrosPage]
 })
