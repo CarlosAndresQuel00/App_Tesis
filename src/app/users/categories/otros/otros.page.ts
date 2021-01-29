@@ -8,7 +8,6 @@ import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../../modals/comments/comments.page';
 import { ReportPage } from '../../modals/report/report.page';
 
-
 @Component({
   selector: 'app-otros',
   templateUrl: './otros.page.html',

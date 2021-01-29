@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FirestoreService } from '../../../services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { Router } from '@angular/router';
-import { FirestorageService } from 'src/app/services/firestorage.service';
+import { FirestorageService} from 'src/app/services/firestorage.service';
 import { ModalController, ToastController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { UserInterface } from 'src/app/shared/user.interface';
@@ -151,21 +151,37 @@ export class NewPublicationPage implements OnInit {
   //subir archivo
   newPublicationFile(event: any){
     this.archivo = true;
-    this.newFile = event.target.files[0];
+    this.newFile = event.target.files[0].name;
     console.log(this.newFile);
-    const filePath = 'IdeasFiles' + '/' + this.newPublication.id;
+    const filePath = 'IdeasFiles' + '/' + `${event.target.files[0].name} `;
     const fileRef = this.fireStorageService.refFile(filePath);
-    const task = this.fireStorageService.uploadFile( filePath, this.newFile);
+    const task = this.fireStorageService.uploadFile( filePath, event.target.files[0].file);
     this.uploadPercent = task.percentageChanges();
+
+    /*task.snapshotChanges().pipe(
+      finalize(()=>{
+        fileRef.getDownloadURL().subscribe(this.downloadURL=>{
+          newFile= this.downloadURL;
+          this.save
+        });
+      })
+    ).subscribe();
+*/
+
+
+
     task.snapshotChanges().pipe(
-      finalize(() => this.downloadURL = fileRef.getDownloadURL() )
+      finalize(() => 
+      this.downloadURL = fileRef.getDownloadURL() )
     ).subscribe();
     const reader = new FileReader();
     reader.onload = ((file) => {
       this.newPublication.file = file.target.result as string;
     });
-    reader.readAsDataURL(event.target.files[0]);
+    reader.readAsDataURL(event.target.files[0].name);
   }
+
+  
 
   async presentToast(msg) {
     const toast = await this.toastController.create({

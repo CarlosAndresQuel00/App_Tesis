@@ -112,7 +112,7 @@ public dato:String;
   ngOnInit() {
     this.getPublications();
     const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
+    tag.src = 'http://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
   }
   openFirst() {

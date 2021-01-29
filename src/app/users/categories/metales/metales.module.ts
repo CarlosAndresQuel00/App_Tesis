@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MetalesPageRoutingModule } from './metales-routing.module';
 
 import { MetalesPage } from './metales.page';
+import { YouTubePlayerModule } from "@angular/youtube-player";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MetalesPageRoutingModule
+    MetalesPageRoutingModule,
+    YouTubePlayerModule
   ],
   declarations: [MetalesPage]
 })
