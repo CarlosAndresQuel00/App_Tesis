@@ -15,7 +15,7 @@
       <ion-label [ngClass]="segment1 ? 'withcolor':'nocolor'">Social</ion-label>
     </ion-segment-button>
     <ion-segment-button value="segment2">
-      <ion-label [ngClass]="segment2 ? 'withcolor':'nocolor'">Email</ion-label>
+      <ion-label [ngClass]="segment2 ? 'withcolor':'nocolor'">Correo</ion-label>
     </ion-segment-button>
   </ion-segment>
   <div *ngIf="segment1">
@@ -35,11 +35,11 @@
   </div>
   <form *ngIf="segment2">
       <ion-item class="input-item">
-        <ion-label position="floating" color="primary" class="label-input">Correo electrónico</ion-label>
+        <ion-label position="floating" color="primary" class="label-input" required>Correo electrónico</ion-label>
         <ion-input type="email" [(ngModel)]="user.email" name="email"></ion-input>
       </ion-item>
       <ion-item class="input-item">
-        <ion-label position="floating" color="primary" class="label-input">Contraseña</ion-label>
+        <ion-label position="floating" color="primary" class="label-input" required>Contraseña</ion-label>
         <ion-input type="password" 
           [(ngModel)]="user.password" 
           class="form-control" 
@@ -64,6 +64,9 @@
   <div style="margin-top: 60px;">
     <a [routerLink]="['/slides']"> <ion-icon style="color: blue;" name="eye-outline"></ion-icon> Toma un tour</a>
   </div>
-
- 
 </ion-content>
+<ion-footer>
+  <ion-toolbar class="footer" >
+    <ion-title style="text-align: center;"><a href="../../about" style="text-decoration: none;">Acerca de</a></ion-title>
+  </ion-toolbar>
+</ion-footer>

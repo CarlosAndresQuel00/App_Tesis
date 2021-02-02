@@ -13,7 +13,12 @@
 
 <ion-content>
 <div *ngFor="let comment of comments" class="comments-container">
-    <ion-item *ngIf="comment.idPublication === idPubli" class="comment-div">
+    <ion-item  class="comment-div">
+      <ion-buttons slot="end" *ngIf="comment.idUser === idCurrentUser">
+        <ion-button (click)="presentAlertConfirm(comment.id)">
+          <ion-icon name="trash" color="danger"></ion-icon>
+        </ion-button>
+      </ion-buttons>
       <ion-col size="1.7" size-lg>
          <img [src]="comment.uPhoto" class="photo-profile">
       </ion-col>
