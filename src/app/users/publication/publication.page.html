@@ -1,51 +1,75 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start" >
-      <ion-button [routerLink]="['/saved']">
-         <ion-icon name="arrow-back-outline"></ion-icon>
+    <ion-buttons slot="start">
+      <ion-button (click)="gotoRegister()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
-     
     </ion-buttons>
-    <ion-title>Publicación</ion-title>
-    
+    <ion-title>Idea</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="publication-n">
-    <div class="publication-header">
-      <ion-row>
-        <ion-col size="1.7" size-lg>
-          <div>
-            <img src="assets/icon/penguin.svg"/>   
-          </div>
-        </ion-col>
-        <ion-col size="8.5" size-lg>
-          <div>
-          <ion-label class="title"><strong>Título</strong></ion-label><br> 
-          <ion-label class="date">99/99/9999</ion-label>
-          </div>
-        </ion-col> 
-        <ion-col size="1.2">
-          <img src="assets/icon/signo-de-exclamacion.svg"/>
-        </ion-col> 
-      </ion-row>  
-    </div>
-    <div class="publication-about">          
-      Sed ut perspiciatis unde omnis iste natus 
-      error sit voluptatem accusantium doloremque 
-      laudantium, totam rem aperiam.       
-    </div>
-    <div class="publication-video">
-      <img src="assets/img/839.jpg">
-
-    </div>
+<ion-content class="sign-in-content"> 
+  <div class="publication-info">
+    <ion-row>
+      <ion-col size="1.5" size-lg >
+        <img *ngIf="!publication.userPhoto" src="../../../assets/icon/penguin.svg" class="user-photo-profile">        
+        <img *ngIf="publication.userPhoto" [src]="publication.userPhoto" class="user-photo-profile"/>   
+      </ion-col>
+      <ion-col size="7.5" size-lg >
+        <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
+        <ion-label 
+          class="user" *ngIf="publication.userName">Idea creada por: 
+          <a *ngIf="idCurrentUser !== publication.userId" (click)="gotoUserProfile(publication.userId)" >{{publication.userName}}</a>
+          <a *ngIf="idCurrentUser === publication.userId" [routerLink]="['/profile']" >{{publication.userName}}</a>
+        </ion-label><br>
+        <ion-label class="date">
+          Ctg: <a *ngIf="!publication.category" style="color:black; text-decoration:none;">Sín categoría</a><a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
+          • {{publication.date.toDate() | date: shorDate}}
+        </ion-label>
+      </ion-col> 
+      <ion-col size="3">
+      <ion-buttons *ngIf="idCurrentUser == publication.userId">
+        <ion-button (click)="presentAlertConfirm(publication)">
+          <ion-icon name="trash-bin" color="danger"></ion-icon>
+        </ion-button>
+        <ion-button (click)="gotoEditPublication(publication.id)">
+          <ion-icon name="create" color="secondary"></ion-icon>
+      </ion-button>
+      </ion-buttons>
+      <ion-buttons *ngIf="idCurrentUser !== publication.userId">
+          <ion-button (click)="modalReport(publication.id)">
+            <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+      </ion-col>  
+    </ion-row>
+  </div>
+  <div class="publication-description">
+    <p style="white-space: pre">         
+      {{publication.description}}
+    </p>
+  </div>
+  <ion-slides pager="true" >
+    <ion-slide *ngFor="let image of publication.image">
+      <img loading="lazy" [src]="image" class="preview"/>
+    </ion-slide>
+  </ion-slides>
+  <a *ngIf="publication.file" [href]="publication.file">Click para descargar documento</a>
+  <youtube-player 
+  [videoId]="publication.videoURL" 
+  suggestedQuality="highest"
+  [height]="250" 
+  [width]="390" 
+  [startSeconds]="1"
+  >
+  </youtube-player>
     <div class="publication-options">
-      <ion-segment >
-        <ion-segment-button class="option-n">
+      <ion-segment class="seg">
+        <ion-segment-button class="option-n" (click)="modalComments(publication.id)">
           <img class="icon-comments" src="assets/icon/conversation.svg">
         </ion-segment-button>
-        <ion-segment-button class="option-n">
+        <ion-segment-button class="option-n" (click)="savePublication(publication.id)">
           <img class="icon-save" src="assets/icon/bookmark.svg">
         </ion-segment-button>
         <ion-segment-button class="option-n">
@@ -56,5 +80,4 @@
         </ion-segment-button>
       </ion-segment>
     </div>
-  </div>
 </ion-content>

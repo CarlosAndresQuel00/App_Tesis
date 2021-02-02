@@ -14,7 +14,7 @@
       <ion-label [ngClass]="segment1 ? 'withcolor':'nocolor'">Social</ion-label>
     </ion-segment-button>
     <ion-segment-button value="segment2">
-      <ion-label [ngClass]="segment2 ? 'withcolor':'nocolor'">Email</ion-label>
+      <ion-label [ngClass]="segment2 ? 'withcolor':'nocolor'">Correo</ion-label>
     </ion-segment-button>
   </ion-segment>
   <form *ngIf="segment2">
@@ -62,3 +62,8 @@
   <a [routerLink]="['/slides']"> <ion-icon style="color: blue;" name="eye-outline"></ion-icon> Toma un tour</a>
 </div>
 </ion-content>
+<ion-footer>
+  <ion-toolbar class="footer">
+    <ion-title style="text-align: center;">Acerca de</ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -1,4 +1,4 @@
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController, ToastController } from '@ionic/angular';
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CommentInterface } from 'src/app/shared/comments.interface';
@@ -16,7 +16,7 @@ import { PublicationInterface } from 'src/app/shared/publication.interface';
 export class CommentsPage implements OnInit {
 
   @Input() idPubli: any;
-  uid = '';
+  idCurrentUser = '';
   uName = '';
   uPhoto = '';
   private path = 'Comments/';
@@ -58,13 +58,15 @@ export class CommentsPage implements OnInit {
     public firestoreService: FirestoreService,
     public authSvc: AuthService,
     public fireStorageService: FirestorageService,
+    public alertController: AlertController,
+    public toastController: ToastController
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
       if (res != null){
-        this.uid = res.uid;
-        this.getUserInfo(this.uid);
-        console.log(this.uid);
+        this.idCurrentUser = res.uid;
+        this.getUserInfo(this.idCurrentUser);
+        console.log(this.idCurrentUser);
       }else{
         console.log('user not found');
       }
@@ -90,7 +92,7 @@ export class CommentsPage implements OnInit {
   async saveComment() { // registrar idea en firestorage y base de datos con id de auth
     const path = 'Comments/';
     this.comment.id = this.firestoreService.getId();
-    this.comment.idUser = this.uid;
+    this.comment.idUser = this.idCurrentUser;
     this.comment.uName = this.uName;
     this.comment.uPhoto = this.uPhoto;
     this.comment.idPublication = this.idPubli;
@@ -111,9 +113,42 @@ export class CommentsPage implements OnInit {
   }
   getComments(){
     this.firestoreService.getCollection<CommentInterface>(this.path).subscribe( res => {  // res - respuesta del observador
-    this.comments = res;
-    console.log('publi', res);
+    this.comments = res.filter(comment => comment.idPublication === this.idPubli);
+    console.log('publi', this.comments);
    });
- }
+  }
+
+  async presentAlertConfirm(id: string) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Eliminar idea',
+      message: 'Estás seguro de eliminar tu idea?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Sí',
+          handler: () => {
+            this.firestoreService.deleteDoc(this.path, id);
+            this.presentSuccessToast('Eliminado correctamente');
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+  async presentSuccessToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1000,
+      color: 'success'
+    });
+    toast.present();
+  }
 
 }

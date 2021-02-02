@@ -22,7 +22,7 @@ export class ResetPasswordPage implements OnInit {
   async onResetPassword(email){
     try{
       await this.authSvc.resetPassword(email.value);
-      this.msg = 'Entendido! Revisa tu bandeja de entrada o tu correo spam para generar una nueva contraseña';
+      this.msg = 'Si la dirección de correo existe. Llegará un mensaje para reestablecer tu contraseña. Revisa tu bandeja de entrada o tu correo spam';
       this.presentToast(this.msg);
       await this.router.navigate(['login']);
     }catch (error){
