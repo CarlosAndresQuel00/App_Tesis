@@ -14,7 +14,8 @@ import { NewPublicationPage } from './../modals/new-publication/new-publication.
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { EmbedVideoService } from 'ngx-embed-video';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 @Component({
   selector: 'app-home',
@@ -76,6 +77,8 @@ public dato:String;
     private sanitizer: DomSanitizer,
     private youtube:YoutubeVideoPlayer,
     private embedService: EmbedVideoService,
+    private socialSharing:SocialSharing,
+    private file: File,
     
   ) {
     
@@ -320,5 +323,11 @@ public dato:String;
       color: 'warning'
     });
     toast.present();
+  }
+
+  //social sharing
+
+  shareFacebook(title){
+    this.socialSharing.shareViaFacebook(title);
   }
 }
