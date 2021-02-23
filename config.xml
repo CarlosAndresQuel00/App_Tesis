@@ -4,9 +4,9 @@
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
-    <access origin="*" />
+    <access origin="http://localhost:8100" />
     <access origin="https://youtube.com" />
-    <allow-intent href="http://*/*" />
+    <allow-intent href="http://localhost:8100" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />

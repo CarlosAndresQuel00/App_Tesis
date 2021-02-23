@@ -117,4 +117,6 @@ export class PublicationModalPage implements OnInit {
     console.log('publi', res);
    });
  }
+
+ 
 }

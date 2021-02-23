@@ -10,14 +10,15 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./verify-email.page.scss'],
 })
 export class VerifyEmailPage {
-
-  // user$: Observable<UserInterface> = this.authSvc.fireAuth.user;
+/*
+   user$: Observable<UserInterface> = this.authSvc.fireAuth.user;
 
   constructor(private authSvc: AuthService, private router: Router, private navCtrl: NavController) { }
+  
   regresar(){
     this.navCtrl.back();
   }
-  /*async onSendEmail(): Promise<void> {
+  async onSendEmail(): Promise<void> {
     try{
       await this.authSvc.sendVerificationEmail();
     }catch (error){

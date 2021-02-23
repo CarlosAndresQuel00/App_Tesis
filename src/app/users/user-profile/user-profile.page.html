@@ -34,8 +34,8 @@
           <ion-label class="user" >Idea creada por: <a>{{publication.userName}}</a></ion-label><br>
           <ion-label class="date">
             Ctg: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
-          </ion-label>        
-        </ion-col> 
+            • {{publication.date.toDate() | date: 'dd-MM-yyyy'}}
+          </ion-label>        </ion-col> 
         <ion-col size="3">
           <ion-buttons>
             <ion-button (click)="modalReport(publication.id)">
