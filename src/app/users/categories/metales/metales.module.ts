@@ -15,7 +15,7 @@ import { YouTubePlayerModule } from "@angular/youtube-player";
     FormsModule,
     IonicModule,
     MetalesPageRoutingModule,
-    YouTubePlayerModule
+    YouTubePlayerModule,
   ],
   declarations: [MetalesPage]
 })

@@ -20,6 +20,7 @@ import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import  {  YouTubePlayerModule  }  from  '@angular/youtube-player';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { ServiceWorkerModule } from '@angular/service-worker';
 @NgModule({
 
   declarations: [AppComponent],
@@ -35,6 +36,7 @@ import { File } from '@ionic-native/file/ngx';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.credencialesFirebase),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     StatusBar,

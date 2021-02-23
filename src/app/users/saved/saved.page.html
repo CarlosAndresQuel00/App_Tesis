@@ -20,7 +20,7 @@
             </ion-label><br>
            <ion-label class="date">
             Ctg: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
-            • {{publication.date.toDate() | date: shorDate}}
+            • {{publication.date.toDate() | date: 'dd-MM-yyyy'}}
           </ion-label>         </ion-col> 
          <ion-col size="3">
          <ion-buttons>

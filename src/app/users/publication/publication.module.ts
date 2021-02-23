@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { PublicationPageRoutingModule } from './publication-routing.module';
 
 import { PublicationPage } from './publication.page';
+import { YouTubePlayerModule } from "@angular/youtube-player";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PublicationPageRoutingModule
+    PublicationPageRoutingModule,
+    YouTubePlayerModule
   ],
   declarations: [PublicationPage]
 })
