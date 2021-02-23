@@ -103,14 +103,16 @@ const routes: Routes = [
   {
     path: 'new-publication',
     loadChildren: () => import('./users/modals/new-publication/new-publication.module').then( m => m.NewPublicationPageModule)
-  },  {
+  },
+  {
     path: 'slides',
     loadChildren: () => import('./slides/slides.module').then( m => m.SlidesPageModule)
   },
   {
     path: 'about',
     loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
-  }
+  },
+  
 
 ];
 @NgModule({

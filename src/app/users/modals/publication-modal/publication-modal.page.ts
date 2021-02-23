@@ -26,6 +26,7 @@ export class PublicationModalPage implements OnInit {
     idPublication: '',
     idUser: '',
     text: '',
+    time: new Date(),
     uName: '',
     uPhoto: '',
   };
@@ -77,6 +78,7 @@ export class PublicationModalPage implements OnInit {
       idPublication: '',
       idUser: '',
       text: '',
+      time: null,
       uName: '',
       uPhoto: '',
     };

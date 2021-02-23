@@ -35,6 +35,7 @@ export class ProfilePage implements OnInit {
     id: '',
     idPublication: '',
     idUser: '',
+    time: null,
     text: '',
     uName: '',
     uPhoto: '',
@@ -82,7 +83,9 @@ export class ProfilePage implements OnInit {
   }
   getPublications(){
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
-    this.publications = res;
+      if (res){
+        this.publications = res.filter(e => this.idCurrentUser == e.userId);
+      }
     console.log('publi', res);
    });
  }

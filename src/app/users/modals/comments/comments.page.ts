@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FirestorageService } from 'src/app/services/firestorage.service';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
+import { NotificationInterface } from 'src/app/shared/notification.interface';
 
 @Component({
   selector: 'app-comments',
@@ -16,6 +17,7 @@ import { PublicationInterface } from 'src/app/shared/publication.interface';
 export class CommentsPage implements OnInit {
 
   @Input() idPubli: any;
+  @Input() idTo: any;
   idCurrentUser = '';
   uName = '';
   uPhoto = '';
@@ -26,6 +28,7 @@ export class CommentsPage implements OnInit {
     idPublication: '',
     idUser: '',
     text: '',
+    time: new Date(),
     uName: '',
     uPhoto: '',
   };
@@ -39,6 +42,15 @@ export class CommentsPage implements OnInit {
     emailVerified: false,
 
   };
+  notification: NotificationInterface = {
+    id: '',
+    idPublication: '',
+    idUser: '',
+    text: '',
+    idTo: '',
+    uName: '',
+    uPhoto: '',
+  }
   newPublication: PublicationInterface = {
     id: this.firestoreService.getId(),
     title: '',
@@ -78,6 +90,7 @@ export class CommentsPage implements OnInit {
       id: '',
       idPublication: '',
       idUser: '',
+      time: new Date(),
       text: '',
       uName: '',
       uPhoto: '',
@@ -85,6 +98,7 @@ export class CommentsPage implements OnInit {
   }
   ngOnInit() {
     this.getComments();
+    console.log(this.idTo);
   }
   dismiss() {
     this.modalCtrl.dismiss();
@@ -98,7 +112,25 @@ export class CommentsPage implements OnInit {
     this.comment.idPublication = this.idPubli;
     this.firestoreService.createDoc(this.comment, path, this.comment.id).then(res => {
       console.log('Comentado!');
+      this.saveNotification();
       this.comment.text = '';
+    }).catch (err => {
+      console.log(err);
+    });
+    
+  }
+  saveNotification(){
+    const path = 'Notifications/';
+    this.notification.id = this.firestoreService.getId();
+    this.notification.text = this.uName + ' comentó tu publicación';
+    this.notification.idPublication = this.idPubli;
+    this.notification.uPhoto = this.uPhoto;
+    this.notification.idUser = this.idCurrentUser;
+    this.notification.idTo = this.idTo;
+
+    this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
+      console.log('notificacion guardarda!');
+
     }).catch (err => {
       console.log(err);
     });
@@ -121,8 +153,7 @@ export class CommentsPage implements OnInit {
   async presentAlertConfirm(id: string) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'Eliminar idea',
-      message: 'Estás seguro de eliminar tu idea?',
+      message: 'Eiminar mensaje?',
       buttons: [
         {
           text: 'Cancelar',

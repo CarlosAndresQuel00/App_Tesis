@@ -1,10 +1,10 @@
-export interface CommentInterface{
+export interface NotificationInterface{
     id?: string;
     idUser?: string;
     idPublication?: string;
-    time: Date;
     text: string;
     uName?: string;
     uPhoto?: string;
+    idTo: string;
 
 }

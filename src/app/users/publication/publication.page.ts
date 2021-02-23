@@ -42,4 +42,8 @@ export class PublicationPage implements OnInit {
       console.log('publication->', res);
     });
   }
+
+  gotoRegister(){
+    this.router.navigate(["/register"]);
+  }
 }
