@@ -14,11 +14,10 @@
         <img [src]="user.photo" class="photo-profile">
       </div>
       <ion-item>
-      <ion-label name="user-name" ><strong>{{user.name}}</strong></ion-label>
-      <ion-button *ngIf="!existe"(click)="saveFollowed()" fill="clear"><ion-icon name="add-circle-outline"></ion-icon></ion-button>
-      <ion-button *ngIf="existe" (click)="presentAlertConfirm()"size="small" fill="outline">Dejar de seguir</ion-button>
-    </ion-item>
-
+        <ion-label name="user-name" ><strong>{{user.name}}</strong></ion-label>
+        <ion-button *ngIf="!existe"(click)="saveFollowed()" fill="clear"><ion-icon name="add-circle-outline"></ion-icon></ion-button>
+        <ion-button *ngIf="existe" (click)="presentAlertConfirm()"size="small" fill="outline">Dejar de seguir</ion-button>
+      </ion-item>
     </div>
   </div>
   <hr color="#86C14F" size=1 width="100%">
