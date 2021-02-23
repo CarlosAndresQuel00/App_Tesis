@@ -206,6 +206,8 @@ export class PublicationPage implements OnInit {
       this.router.navigate(['/otros']);
     }
 
+  
+}
   gotoRegister(){
     this.router.navigate(["/register"]);
   }

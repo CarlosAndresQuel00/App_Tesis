@@ -333,8 +333,7 @@ public dato:String;
   shareFacebook(title){
     this.socialSharing.shareViaFacebook(title);
   }
-
- }
+  
  goNotifications(){
    this.router.navigate(["/notifications"]);
  }
