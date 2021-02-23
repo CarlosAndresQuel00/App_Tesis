@@ -7,13 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { SavedPageRoutingModule } from './saved-routing.module';
 
 import { SavedPage } from './saved.page';
-
+import { YouTubePlayerModule } from "@angular/youtube-player";
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SavedPageRoutingModule
+    SavedPageRoutingModule,
+    YouTubePlayerModule
   ],
   declarations: [SavedPage]
 })

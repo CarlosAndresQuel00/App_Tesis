@@ -46,6 +46,14 @@
         </ion-slide>
       </ion-slides>
       <a *ngIf="publication.file" [href]="publication.file">{{publication.file}}</a>
+      <youtube-player 
+      [videoId]="publication.videoURL" 
+      suggestedQuality="highest"
+      [height]="250" 
+      [width]="390" 
+      [startSeconds]="1"
+      >
+      </youtube-player>
        <div class="publication-options">
          <ion-segment class="seg" (click)="modalComments(publication.id)">
            <ion-segment-button class="option-n">
