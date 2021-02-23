@@ -69,6 +69,7 @@
           </ion-label><br>
           <ion-label class="date">
             Ctg: <a *ngIf="!publication.category" style="color:black; text-decoration:none;">Sín categoría</a><a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
+            · {{publication.date.toDate() | date: 'dd-MM-yyyy'}}
           </ion-label>
         </ion-col> 
         <ion-col size="3">
