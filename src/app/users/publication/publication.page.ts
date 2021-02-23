@@ -8,7 +8,7 @@ import { ReportPage } from '../modals/report/report.page';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { timestamp } from 'rxjs/operators';
-import { timeStamp } from 'console';
+
 @Component({
   selector: 'app-publication',
   templateUrl: './publication.page.html',
