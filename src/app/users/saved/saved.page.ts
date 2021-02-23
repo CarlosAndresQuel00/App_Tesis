@@ -67,7 +67,10 @@ export class SavedPage implements OnInit {
   getPublicationsSaved(){
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
     this.publications = res;
-    console.log('guaradados', res);
+    if (res){
+      this.publications = res.filter(word => word.idUserSave === this.idCurrentUser);
+    }
+    console.log('guardados', res);
    });
   }
   getUserInfo(uid: string){ // trae info de la bd

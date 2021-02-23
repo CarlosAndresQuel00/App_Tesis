@@ -82,6 +82,7 @@ export class PublicationPage implements OnInit {
       console.log('publication->', res);
     });
   }
+
   async modalReport(id: string) {
     const modal = await this.modalController.create({
       component: ReportPage,
@@ -204,6 +205,8 @@ export class PublicationPage implements OnInit {
     }else{
       this.router.navigate(['/otros']);
     }
-    
+
+  gotoRegister(){
+    this.router.navigate(["/register"]);
   }
 }

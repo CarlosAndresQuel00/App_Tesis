@@ -17,6 +17,7 @@ import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { File } from '@ionic-native/file/ngx';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -63,6 +64,8 @@ public dato:String;
     emailVerified: false,
   };
   publications: PublicationInterface[] = [];
+  savedPublications: PublicationInterface[] = [];
+  publi: PublicationInterface[] = [];
 
   constructor(
     private authSvc: AuthService,
@@ -109,6 +112,7 @@ public dato:String;
 
   ngOnInit() {
     this.getPublications();
+    this.getPublicationsSaved();
     const tag = document.createElement('script');
     tag.src = 'http://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
@@ -116,11 +120,12 @@ public dato:String;
   openFirst() {
     this.menu.toggle();
   }
-  async modalComments(id: string) {
+  async modalComments(id: string, idUser: string) {
     const modal = await this.modalController.create({
       component: CommentsPage,
       componentProps: {
-        idPubli: id
+        idPubli: id,
+        idTo: idUser
       }
     });
     return await modal.present();
@@ -211,9 +216,9 @@ public dato:String;
   }
 
   getPublications(){
-     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
-     this.publications = res;
-     console.log('publi', res);
+    this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
+    this.publications = res;
+    console.log('publi', res);
     });
   }
 
@@ -229,38 +234,35 @@ public dato:String;
   }
 
   savePublication(id: string){
-    this.getPublicationsSaved(id);
     const path = 'Saved/';
-    const publi = this.firestoreService.getDoc<PublicationInterface>('Ideas/', id).subscribe(res => {
-    this.newPublication = res;
-    this.newPublication.idUserSave = this.idCurrentUser;
-    this.newPublication.idSaved = this.firestoreService.getId();
-    console.log('publication->', this.newPublication.idSaved);
-    if(this.saved == true){
-      this.presentWarningToast('Ya existe');
-      this.saved = false;
+    this.publi = this.savedPublications.filter(i => i.id === id);
+    if(this.publi.length != 0){
+      this.presentWarningToast("Ya existe en tu lista de guardados!");
     }else{
-       this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
-      this.presentSuccessToast('Publicación guardada');
-      }).catch (err => {
-    console.log(err);
-    });
-      publi.unsubscribe();
+      const publi = this.firestoreService.getDoc<PublicationInterface>('Ideas/', id).subscribe(res => {
+        this.newPublication = res;
+        this.newPublication.idUserSave = this.idCurrentUser;
+        this.newPublication.idSaved = this.firestoreService.getId();
+        console.log('publication->', this.newPublication.idSaved);
+        this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
+          this.presentSuccessToast('Publicación guardada!');
+          }).catch (err => {
+        console.log(err);
+        });
+          publi.unsubscribe();
+      });
     }
-    });
   }
   // comprobar si una publicación ya está guardada
-  getPublicationsSaved(id: string){
+  getPublicationsSaved(){
     const path = 'Saved/';
     this.firestoreService.getCollection<PublicationInterface>(path).subscribe( res => {  // res - respuesta del observador
-    res.forEach(save => {
-        if(save.idUserSave == this.idCurrentUser && id == save.id){
-          this.saved = true;
-        }
-    });
+      if (res){
+        this.savedPublications = res.filter(word => word.idUserSave === this.idCurrentUser);
+      }
+      console.log('guardados', res);
    });
  
-
   }
 
   gotoCategory(category : string){
@@ -323,6 +325,7 @@ public dato:String;
       color: 'warning'
     });
     toast.present();
+
   }
 
   //social sharing
@@ -330,4 +333,9 @@ public dato:String;
   shareFacebook(title){
     this.socialSharing.shareViaFacebook(title);
   }
+
+ }
+ goNotifications(){
+   this.router.navigate(["/notifications"]);
+ }
 }

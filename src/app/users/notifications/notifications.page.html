@@ -9,55 +9,16 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="notifications-container">
+  <div class="notifications-container" *ngFor="let notif of notifications">
     <div class="notification">
-      <ion-row>
-        <ion-col size="2" size-lg>
-          <div>
-            <img class="photo-profile" src="assets/icon/penguin.svg"/>   
-          </div>
-        </ion-col>
-        <ion-col size="10" size-lg>
           <ion-item class="search">
-            <div class="publication-about"> 
-              <a>Penguin12 ha compartido una idea</a> <br>         
-              99/99/9999     
+            <div>
+              <img class="user-photo-profile" [src]="notif.uPhoto"/>   
+            </div>
+            <div class="publication-about" style="margin-left: 10px;"> 
+              <ion-label>{{notif.text}}</ion-label> <br>         
             </div>
           </ion-item>     
-        </ion-col>  
-      </ion-row>
-    </div>
-    <div class="notification">
-      <ion-row>
-        <ion-col size="2" size-lg>
-            <img class="photo-profile" src="assets/icon/penguin.svg"/>   
-        </ion-col>
-        <ion-col size="10" size-lg>
-          <ion-item class="search">
-            <div class="publication-about"> 
-              <a>Penguin12 comenzó a seguirte</a> <br>         
-              99/99/9999     
-            </div>
-          </ion-item>     
-        </ion-col>  
-      </ion-row>
-    </div>
-    <div class="notification">
-      <ion-row>
-        <ion-col size="2" size-lg>
-          <div>
-            <img class="photo-profile" src="assets/icon/weasel.svg"/>   
-          </div>
-        </ion-col>
-        <ion-col size="10" size-lg>
-          <ion-item class="search">
-            <div class="publication-about"> 
-              <a>weasel2 ha compartido una idea</a> <br>         
-              99/99/9999     
-            </div>
-          </ion-item>     
-        </ion-col>  
-      </ion-row>
     </div>
   </div>
 </ion-content>

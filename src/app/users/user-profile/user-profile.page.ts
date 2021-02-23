@@ -10,6 +10,7 @@ import { ActivatedRoute, Params} from '@angular/router';
 import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { ReportPage } from '../modals/report/report.page';
+import { NotificationInterface } from 'src/app/shared/notification.interface';
 
 @Component({
   selector: 'app-user-profile',
@@ -60,6 +61,15 @@ export class UserProfilePage implements OnInit {
     idSaved: '',
     idUserSave: '',
   };
+  notification: NotificationInterface = {
+    id: '',
+    idPublication: '',
+    idUser: '',
+    text: '',
+    idTo: '',
+    uName: '',
+    uPhoto: '',
+  }
 
   publications: PublicationInterface[] = [];
   follows: UserInterface[] = [];
@@ -125,6 +135,7 @@ export class UserProfilePage implements OnInit {
       this.firestoreService.createDoc(this.user, path, this.user.idFollow).then(res => {
         this.saveFollower();
         this.presentToast('Comenzaste a seguir a ' + this.user.name);
+        this.saveNotification();
       }).catch (err => {
           console.log(err);
       });
@@ -228,5 +239,20 @@ export class UserProfilePage implements OnInit {
       ]
     });
     await alert.present();
+  }
+  saveNotification(){
+    const path = 'Notifications/';
+    this.notification.id = this.firestoreService.getId();
+    this.notification.text = this.userFollower.name + ' comenzó a seguirte';
+    this.notification.uPhoto = this.userFollower.photo;
+    this.notification.idUser = this.idCurrentUser;
+    this.notification.idTo = this.userFollower.idUserFollow;
+
+    this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
+      console.log('notificacion guardarda!');
+
+    }).catch (err => {
+      console.log(err);
+    });
   }
 }

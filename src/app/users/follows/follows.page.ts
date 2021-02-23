@@ -46,6 +46,9 @@ export class FollowsPage implements OnInit {
       }
     });
   }
+  gotoUserProfile(id: string ){
+    this.router.navigate(['/user-profile', id]);
+  }
   async presentAlertConfirm(user: UserInterface) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { NotificationInterface } from 'src/app/shared/notification.interface';
 
 @Component({
   selector: 'app-notifications',
@@ -7,9 +10,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotificationsPage implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  path = 'Notifications/';
+  idCurrentUser: string;
+  notifications: NotificationInterface[] = [];
+  constructor(
+    private authSvc: AuthService,
+    public firestoreService: FirestoreService) { 
+    this.authSvc.stateAuth().subscribe(res => {
+      console.log(res);
+      if (res != null){
+        this.idCurrentUser = res.uid;
+        console.log('id ini', this.idCurrentUser);
+      }
+    });
   }
 
+  ngOnInit() {
+    this.getNotifications();
+  }
+
+  getNotifications(){
+    this.firestoreService.getCollection<NotificationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
+      if (res){
+        this.notifications = res.filter(e => this.idCurrentUser == e.idTo);
+      }
+      console.log('notiif', res);
+     });
+  }
 }
