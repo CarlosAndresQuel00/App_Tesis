@@ -27,12 +27,18 @@ export class EditPublicationPage implements OnInit {
 
   newFile: '';
   newImage: '';
+  archivo = false;
+  public ocultar1=false;
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
   categories = [];
+  mensajeArchivo = '';
+  nombreArchivo = '';
+  
   newPublication: PublicationInterface = {
     id: '',
     title: '',
+    materials: '',
     description: '',
     image: [],
     file: '',
@@ -93,24 +99,34 @@ export class EditPublicationPage implements OnInit {
       }
     );
   }
-  //subir videos
-  onUploadFile(event: any){
-    this.newFile = event.target.files[0];
+  //subir archivos
+  newPublicationFile(event: any){
+    this.archivo = true;
+    this.newFile = event.target.files[0].name;
     console.log(this.newFile);
-    const name = this.newPublication.title;
-    const filePath = 'IdeasFile' + '/' + name;
+    const filePath = 'IdeasFiles' + '/' + `${event.target.files[0].name} `;
     const fileRef = this.fireStorageService.refFile(filePath);
-    const task = this.fireStorageService.uploadFile( filePath, this.newFile);
+    const task = this.fireStorageService.uploadFile( filePath, event.target.files[0].file);
     this.uploadPercent = task.percentageChanges();
 
+    /*task.snapshotChanges().pipe(
+      finalize(()=>{
+        fileRef.getDownloadURL().subscribe(this.downloadURL=>{
+          newFile= this.downloadURL;
+          this.save
+        });
+      })
+    ).subscribe();
+*/
     task.snapshotChanges().pipe(
-      finalize(() => this.downloadURL = fileRef.getDownloadURL() )
+      finalize(() => 
+      this.downloadURL = fileRef.getDownloadURL() )
     ).subscribe();
     const reader = new FileReader();
     reader.onload = ((file) => {
       this.newPublication.file = file.target.result as string;
     });
-    reader.readAsDataURL(event.target.files[0]);
+    reader.readAsDataURL(event.target.files[0].name);
   }
   async redirectUser(isVerified: boolean){
     if (isVerified){
@@ -148,5 +164,10 @@ export class EditPublicationPage implements OnInit {
       console.log('publication->', res);
     });
   }
-
+  accion1(){
+    this.ocultar1 = !this.ocultar1;
+    if(this.ocultar1==false){
+      this.newPublication.videoURL = "";
+    }
+  } 
 }

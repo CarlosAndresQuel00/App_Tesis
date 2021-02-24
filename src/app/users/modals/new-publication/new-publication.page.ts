@@ -51,6 +51,7 @@ export class NewPublicationPage implements OnInit {
   newPublication: PublicationInterface = {
     id: this.firestoreService.getId(),
     title: '',
+    materials: '',
     description: '',
     image: [],
     file: '',
@@ -90,7 +91,6 @@ export class NewPublicationPage implements OnInit {
   async savePublication() { // registrar idea en firestorage y base de datos con id de auth
     this.presentLoading();
     const pathP = 'Ideas/';
-    const name = this.newPublication.title;
     this.newPublication.userId = this.uid;
     this.newPublication.userName = this.uName;
     this.newPublication.userPhoto = this.uPhoto;
@@ -103,19 +103,7 @@ export class NewPublicationPage implements OnInit {
       this.presentToast(err.message);
     });
   }
-
-  /*async newPublicationImage(event: any){
-    if (event.target.files && event.target.files[0]){
-      this.newImage = event.target.files[0];
-      const reader = new FileReader();
-      this.uploadPercent = this.fireStorageService.time;
-      reader.onload = ((image) => {
-        this.newPublication.image = image.target.result as string;
-      });
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }*/
-
+  
   // subir imágenes
   newPublicationImage(event) {
     this.barStatus = true;
@@ -167,9 +155,6 @@ export class NewPublicationPage implements OnInit {
       })
     ).subscribe();
 */
-
-
-
     task.snapshotChanges().pipe(
       finalize(() => 
       this.downloadURL = fileRef.getDownloadURL() )
@@ -181,7 +166,6 @@ export class NewPublicationPage implements OnInit {
     reader.readAsDataURL(event.target.files[0].name);
   }
 
-  
 
   async presentToast(msg) {
     const toast = await this.toastController.create({

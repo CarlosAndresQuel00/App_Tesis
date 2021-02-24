@@ -11,12 +11,12 @@
 <ion-content>
   <div class="notifications-container" *ngFor="let notif of notifications">
     <div class="notification">
-          <ion-item class="search">
+          <ion-item class="search" *ngIf="notif.idUser != idCurrentUser">
             <div>
               <img class="user-photo-profile" [src]="notif.uPhoto"/>   
             </div>
             <div class="publication-about" style="margin-left: 10px;"> 
-              <ion-label>{{notif.text}}</ion-label> <br>         
+              <ion-label >{{notif.text}}</ion-label> <br>         
             </div>
           </ion-item>     
     </div>

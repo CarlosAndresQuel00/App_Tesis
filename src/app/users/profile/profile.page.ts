@@ -1,6 +1,6 @@
 import { UserInterface } from 'src/app/shared/user.interface';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 
 import { FirestoreService } from '../../services/firestore.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -21,6 +21,7 @@ export class ProfilePage implements OnInit {
   uid: string;
   idCurrentUser: string;
   path = 'Ideas/';
+  noIdeas = true;
   user: UserInterface = {
     uid: '',
     name: '',
@@ -40,14 +41,31 @@ export class ProfilePage implements OnInit {
     uName: '',
     uPhoto: '',
   };
+  newPublication: PublicationInterface = {
+    id: '',
+    title: '',
+    description: '',
+    image: [],
+    file: '',
+    date: new Date(),
+    userId: '',
+    idSaved: '',
+    idUserSave: '',
+    videoURL:'',
+  };
 
   publications: PublicationInterface[] = [];
+  savedPublications: PublicationInterface[] = [];
+  publi: PublicationInterface[] = [];
+
   constructor(
     private authSvc: AuthService,
     public firestoreService: FirestoreService,
     private router: Router,
     public alertController: AlertController,
     public modalController: ModalController,
+    public toastController: ToastController,
+
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -74,6 +92,7 @@ export class ProfilePage implements OnInit {
   }
   ngOnInit() {
     this.getPublications();
+    this.getPublicationsSaved();
   }
   getUserInfo(uid: string){ // trae info de la bd
     const path = 'Users';
@@ -85,6 +104,11 @@ export class ProfilePage implements OnInit {
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
       if (res){
         this.publications = res.filter(e => this.idCurrentUser == e.userId);
+      }
+      if(this.publications.length !== 0){
+        this.noIdeas = false;
+      }else{
+        this.noIdeas = true;
       }
     console.log('publi', res);
    });
@@ -128,6 +152,35 @@ export class ProfilePage implements OnInit {
     return await modal.present();
   }
 
+  savePublication(id: string){
+    const path = 'Saved/';
+    this.publi = this.savedPublications.filter(i => i.id === id);
+    if(this.publi.length != 0){
+      this.presentWarningToast("Ya existe en tu lista de guardados!");
+    }else{
+      const publi = this.firestoreService.getDoc<PublicationInterface>('Ideas/', id).subscribe(res => {
+        this.newPublication = res;
+        this.newPublication.idUserSave = this.idCurrentUser;
+        this.newPublication.idSaved = this.firestoreService.getId();
+        console.log('publication->', this.newPublication.idSaved);
+        this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
+          this.presentSuccessToast('Publicación guardada!');
+          }).catch (err => {
+        console.log(err);
+        });
+          publi.unsubscribe();
+      });
+    }
+  }
+  getPublicationsSaved(){
+    const path = 'Saved/';
+    this.firestoreService.getCollection<PublicationInterface>(path).subscribe( res => {  // res - respuesta del observador
+      if (res){
+        this.savedPublications = res.filter(word => word.idUserSave === this.idCurrentUser);
+      }
+      console.log('guardados', res);
+   });
+  }
   async presentAlertConfirm(idea: PublicationInterface) {
    const alert = await this.alertController.create({
      cssClass: 'my-custom-class',
@@ -145,11 +198,30 @@ export class ProfilePage implements OnInit {
          text: 'Sí',
          handler: () => {
            this.firestoreService.deleteDoc(this.path, idea.id);
+           this.noIdeas = false;
+           this.presentSuccessToast('Publicación eliminada');
            console.log('eliminado');
          }
        }
      ]
    });
    await alert.present();
- }
+  }
+  async presentWarningToast(msg) {
+  const toast = await this.toastController.create({
+    message: msg,
+    duration: 1000,
+    color: 'warning'
+  });
+  toast.present();
+
+  }
+  async presentSuccessToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1000,
+      color: 'success'
+    });
+    toast.present();
+  }
 }

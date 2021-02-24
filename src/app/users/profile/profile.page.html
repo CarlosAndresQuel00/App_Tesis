@@ -28,19 +28,23 @@
               {{user.description}}    
             </div>
             <div *ngIf="!user.description" class="user-about">          
-              Añade una descripción    
+              Añade una descripción en configuración de Perfil    
             </div>
           </div>     
         </ion-col>  
       </ion-row>
   </div>
   <hr color="#86C14F" size=1 width="100%">
+  <ion-item *ngIf="noIdeas">
+    <ion-label style="text-align: center;color: orange;">Aún no haz publicado una idea!</ion-label>
+  </ion-item>
   <div *ngFor= "let publication of publications" class="publications-container" style="border: none;">
    <div style="border: none;">
     <div class="publication-info" style="border: none;">
       <ion-row>
         <ion-col size="1.5" size-lg>
-          <img [src]="publication.userPhoto" class="user-photo-profile" />   
+          <img *ngIf="!publication.userPhoto" src="../../../assets/icon/penguin.svg" class="user-photo-profile">        
+          <img *ngIf="publication.userPhoto" [src]="publication.userPhoto" class="user-photo-profile"/>  
         </ion-col>
         <ion-col size="7" size-lg>
           <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
@@ -57,16 +61,23 @@
           </ion-button>
           <ion-button (click)="gotoEditPublication(publication.id)">
             <ion-icon name="create" color="secondary"></ion-icon>
-        </ion-button>
+          </ion-button>
         </ion-buttons>
         </ion-col>  
       </ion-row>
     </div>
-    <div class="publication-description">
-      <p style="white-space: pre">         
-        {{publication.description}}
-      </p>
-    </div>
+      <div class="publication-description">
+      <strong>Materiales:</strong>
+        <p style="white-space: pre; overflow: hidden;">         
+          {{publication.materials}}
+        </p>
+      </div>
+      <div class="publication-description">
+        <strong>Pasos a seguir:</strong>
+        <div style="white-space: pre-wrap;">         
+          {{publication.description}}
+        </div>
+      </div>
     <ion-slides pager="true" >
       <ion-slide *ngFor="let image of publication.image">
         <img loading="lazy" [src]="image" class="preview"/>
@@ -88,7 +99,7 @@
           <ion-segment-button class="option-n" (click)="modalComments(publication.id)"> 
             <img class="icon-comments" src="assets/icon/conversation.svg">
           </ion-segment-button>
-          <ion-segment-button class="option-n">
+          <ion-segment-button class="option-n" (click)="savePublication(publication.id)">
             <img class="icon-save" src="assets/icon/bookmark.svg">
           </ion-segment-button>
           <ion-segment-button class="option-n">

@@ -1,6 +1,7 @@
 export interface PublicationInterface {
     id: string;
     title?: string;
+    materials?:string;
     description: string;
     image?: string[];
     file?: string;

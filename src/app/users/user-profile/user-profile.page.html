@@ -9,8 +9,9 @@
 
 <ion-content>
   <div class="dividers">
-    <div class="div-photo" style="margin-left: auto;">
-      <img [src]="user.photo" class="photo-profile">
+    <div class="div-foto">
+      <img *ngIf="!user.photo" src="../../../assets/icon/penguin.svg" class="photo-profile">   
+      <img *ngIf="user.photo" [src]="user.photo" class="photo-profile">   
     </div>
     <div class="user-info">
       <ion-item>
@@ -27,7 +28,8 @@
     <div class="publication-info" style="border: none;">
       <ion-row>
         <ion-col size="1.5" size-lg>
-          <img [src]="user.photo" class="user-photo-profile" />   
+          <img *ngIf="!publication.userPhoto" src="../../../assets/icon/penguin.svg" class="user-photo-profile">        
+          <img *ngIf="publication.userPhoto" [src]="publication.userPhoto" class="user-photo-profile"/>   
         </ion-col>
         <ion-col size="7" size-lg>
           <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
@@ -45,10 +47,17 @@
         </ion-col>  
       </ion-row>
      </div>
-      <div class="publication-description">
-        <p style="white-space: pre">         
-          {{publication.description}}
+     <div class="publication-description">
+      <strong>Materiales:</strong>
+        <p style="white-space: pre; overflow: hidden;">         
+          {{publication.materials}}
         </p>
+      </div>
+      <div class="publication-description">
+        <strong>Pasos a seguir:</strong>
+        <div style="white-space: pre-wrap;">         
+          {{publication.description}}
+        </div>
       </div>
       <ion-slides pager="true" >
         <ion-slide *ngFor="let image of publication.image">

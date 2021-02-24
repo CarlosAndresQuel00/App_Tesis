@@ -28,18 +28,22 @@
            <ion-button (click)="presentAlertConfirm(publication)">
              <ion-icon name="trash-bin" color="danger"></ion-icon>
            </ion-button>
-           <!--<ion-button *ngIf="idCurrentUser !== publication.userId">
-             <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
-           </ion-button>-->
          </ion-buttons>
          </ion-col>  
        </ion-row>
       </div>
       <div class="publication-description">
-        <p style="white-space: pre">         
-          {{publication.description}}
-        </p>
-      </div>
+        <strong>Materiales:</strong>
+          <p style="white-space: pre; overflow: hidden;">         
+            {{publication.materials}}
+          </p>
+        </div>
+        <div class="publication-description">
+          <strong>Pasos a seguir:</strong>
+          <div style="white-space: pre-wrap;">         
+            {{publication.description}}
+          </div>
+        </div>
       <ion-slides pager="true" >
         <ion-slide *ngFor="let image of publication.image">
           <img loading="lazy" [src]="image" class="preview"/>
@@ -55,11 +59,11 @@
       >
       </youtube-player>
        <div class="publication-options">
-         <ion-segment class="seg" (click)="modalComments(publication.id)">
-           <ion-segment-button class="option-n">
-             <img class="icon-comments" src="assets/icon/conversation.svg">
+         <ion-segment class="seg">
+           <ion-segment-button class="option-n" (click)="modalComments(publication.id)"> 
+             <img class="icon-comments" src="assets/icon/conversation.svg" >
            </ion-segment-button>
-           <ion-segment-button class="option-n">
+           <ion-segment-button class="option-n" disabled="true">
              <img class="icon-save" src="assets/icon/bookmark.svg">
            </ion-segment-button>
            <ion-segment-button class="option-n">

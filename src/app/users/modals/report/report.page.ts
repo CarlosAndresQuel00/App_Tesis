@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
@@ -16,6 +16,7 @@ export class ReportPage implements OnInit {
   idCurrentUser: string;
   comment: string;
   reason: string;
+  loading;
 
   publicationReported: PublicationInterface = {
     id: '',
@@ -45,13 +46,15 @@ export class ReportPage implements OnInit {
     public firestoreService: FirestoreService,
     private authSvc: AuthService,
     public toastController: ToastController,
+    public loadingController: LoadingController,
+
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
       if (res != null){
         this.idCurrentUser = res.uid;
         this.getUserInfo(this.idCurrentUser);
-        console.log('id ini', this.idCurrentUser);
+        console.log('id de user', this.idCurrentUser);
       }else{
         this.initUser();
       }
@@ -77,14 +80,16 @@ export class ReportPage implements OnInit {
   savePublicationReported(){
     console.log(this.reason);
     const path = 'Reports/';
-    const asd = this.firestoreService.getDoc<PublicationInterface>(path, this.idPubli).subscribe(res => {
+    const asd = this.firestoreService.getDoc<PublicationInterface>('Ideas/', this.idPubli).subscribe(res => {
       this.publicationReported = res;
-      this.publicationReported.idUserReported = this.idCurrentUser;
+      console.log(this.idCurrentUser);
       this.publicationReported.idReport = this.firestoreService.getId();
       this.publicationReported.commentReport = this.comment;
       this.publicationReported.reasonReport = this.reason;
+      this.publicationReported.idUserReported = this.idCurrentUser;
       this.publicationReported.state = 'Sin solucionar';
       this.firestoreService.createDoc(this.publicationReported, path, this.publicationReported.idReport).then(res => {
+        this.presentLoading();
         this.presentToast('Reporte enviado, gracias por ayudarnos :)');
       }).catch (err => {
           console.log(err);
@@ -106,5 +111,16 @@ export class ReportPage implements OnInit {
     });
     toast.present();
     this.dismiss();
+  }
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Publicando...',
+      duration: 1000
+    });
+    await this.loading.present();
+
+     const { role, data} = await this.loading.onDidDismiss();
+     console.log('Loading dismissed!');
   }
 }

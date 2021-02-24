@@ -36,7 +36,7 @@ export class HomePage implements OnInit {
 
   //para buscar
   textoBuscar = '';
-public dato:String;
+  public dato:String;
   //youtubeUrl : any;
 
 
@@ -225,10 +225,6 @@ public dato:String;
   gotoEditPublication(id: string){
     this.router.navigate(['/edit-publication', id]);
   }
-  async deletePublication(idea: PublicationInterface){
-    // await this.firestoreService.deleteDoc(this.path, idea.id);
-    console.log('eliminado');
-  }
   gotoUserProfile(id: string ){
     this.router.navigate(['/user-profile', id]);
   }
@@ -262,7 +258,6 @@ public dato:String;
       }
       console.log('guardados', res);
    });
- 
   }
 
   gotoCategory(category : string){
@@ -303,6 +298,7 @@ public dato:String;
           text: 'Sí',
           handler: () => {
             this.firestoreService.deleteDoc(this.path, idea.id);
+            this.presentSuccessToast('Publicación eliminada');
             console.log('eliminado');
           }
         }

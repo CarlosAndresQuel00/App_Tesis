@@ -26,15 +26,24 @@
     </ion-toolbar>
   </ion-header>
   <ion-content>
-    <ion-list>
-      <ion-item><a [routerLink]="['/papel-carton']" >Papel y cartón</a></ion-item>
-      <ion-item><a [routerLink]="['/cristal-vidrio']">Cristal y vidrio</a></ion-item>
-      <ion-item><a [routerLink]="['/metales']">Metales</a></ion-item>
-      <ion-item><a [routerLink]="['/plastico']">Plástico</a></ion-item>
-      <ion-item><a [routerLink]="['/telas']">Telas</a></ion-item>
-      <ion-item><a [routerLink]="['/otros']">Otros</a></ion-item>
+    <ion-list class="cat-list">
+      <ion-item><a [routerLink]="['/papel-carton']" class="category">Papel y cartón</a></ion-item>
+      <ion-item><a [routerLink]="['/cristal-vidrio']" class="category">Cristal y vidrio</a></ion-item>
+      <ion-item><a [routerLink]="['/metales']" class="category">Metales</a></ion-item>
+      <ion-item><a [routerLink]="['/plastico']" class="category"> Plástico</a></ion-item>
+      <ion-item><a [routerLink]="['/telas']" class="category">Telas</a></ion-item>
+      <ion-item><a [routerLink]="['/otros']" class="category">Otros</a></ion-item>
     </ion-list>
+    
   </ion-content>
+  <ion-footer>
+    <ion-item button (click)="testClick()">
+      <ion-label>
+        <a>¿Cómo usar R-Utiliza?</a>
+      </ion-label>
+      <ion-icon name="information-circle-outline"></ion-icon>
+    </ion-item>
+  </ion-footer>
 </ion-menu>
 <ion-content>
   <ion-router-outlet id="main" main></ion-router-outlet>
@@ -89,11 +98,18 @@
         </ion-col>  
       </ion-row>
     </div>
-    <div class="publication-description">
-      <p style="white-space: pre">         
-        {{publication.description}}
-      </p>
-    </div>
+      <div class="publication-description">
+      <strong>Materiales:</strong>
+        <p style="white-space: pre; overflow: hidden;">         
+          {{publication.materials}}
+        </p>
+      </div>
+      <div class="publication-description">
+        <strong>Pasos a seguir:</strong>
+        <div style="white-space: pre-wrap;">         
+          {{publication.description}}
+        </div>
+      </div>
     <ion-slides pager="true" >
       <ion-slide *ngFor="let image of publication.image">
         <img loading="lazy" [src]="image" class="preview"/>

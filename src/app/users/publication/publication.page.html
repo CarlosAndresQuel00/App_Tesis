@@ -47,10 +47,17 @@
     </ion-row>
   </div>
   <div class="publication-description">
-    <p style="white-space: pre">         
-      {{publication.description}}
-    </p>
-  </div>
+    <strong>Materiales:</strong>
+      <p style="white-space: pre; overflow: hidden;">         
+        {{publication.materials}}
+      </p>
+    </div>
+    <div class="publication-description">
+      <strong>Pasos a seguir:</strong>
+      <div style="white-space: pre-wrap;">         
+        {{publication.description}}
+      </div>
+    </div>
   <ion-slides pager="true" >
     <ion-slide *ngFor="let image of publication.image">
       <img loading="lazy" [src]="image" class="preview"/>

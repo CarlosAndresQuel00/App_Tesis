@@ -26,12 +26,16 @@
         </ion-select>
       </ion-item>
       <ion-item class="input-item">
-        <ion-label position="stacked" color="primary" >Descripción</ion-label>
-        <ion-textarea [(ngModel)]= "newPublication.description" type="text" name="description"></ion-textarea>
+        <ion-label position="stacked" color="primary" >Materiales</ion-label>
+        <ion-textarea [(ngModel)]= "newPublication.materials" type="text" name="materials" rows="7" placeholder="{{'1.\n2.\n3.\n.\n.'}}"></ion-textarea>
+      </ion-item>
+      <ion-item class="input-item">
+        <ion-label position="stacked" color="primary" >Pasos a seguir</ion-label>
+        <ion-textarea [(ngModel)]= "newPublication.description" type="text" name="description" rows="7"></ion-textarea>
       </ion-item>
       <div style="margin-left: 10px;">
         <ion-label color="primary"  class="label-input">Archivo</ion-label><br>
-        <!--<ion-note color="danger" style="font-size: 12px;">Solo puede cargar uno de los siguientes archivos</ion-note>-->
+        <ion-note>Si vas a añadir imágenes, comienza por la última imagen hasta la primera</ion-note>
       </div>
       <ion-item class="input-item">
           <ion-button>
@@ -51,9 +55,8 @@
           <ion-button (click)="accion1()">
             <ion-label>
               <ion-icon name="videocam"></ion-icon>
-              Video
-            </ion-label>
-            
+                URL Video
+            </ion-label>   
           </ion-button>
       </ion-item>
       <ion-item class="input-item" *ngIf="ocultar1">
