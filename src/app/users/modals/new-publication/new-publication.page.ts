@@ -5,7 +5,7 @@ import { FirestoreService } from '../../../services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { Router } from '@angular/router';
 import { FirestorageService} from 'src/app/services/firestorage.service';
-import { ModalController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { Observable } from 'rxjs';
@@ -17,28 +17,35 @@ import { Observable } from 'rxjs';
 })
 export class NewPublicationPage implements OnInit {
 
-  newFile: '';
-  newImage: '';
+
+
   uid = '';
   uName = '';
   uPhoto = '';
   loading;
-  public ocultar1=false;
+  ocultar1=false;
+  path = 'Ideas/';
+  
   // p para subir img
+  newImage: '';
   barStatus = false;
   errorMessage = '';
   imageUploads = [];
+  pathImages = '';
 
-
-  mensajeArchivo = '';
-  nombreArchivo = '';
-
-  //para archivo
+/*archivos*/
   archivo = false;
-  uploadPercent: Observable<number>;
-  downloadURL: Observable<string>;
+  mensajeArchivo = '';
+  datosFormulario = new FormData();
+  URLPublica = '';
+  porcentaje = 0;
+  finalizado = false;
+  pathFiles = '';
+  disabledBtn = false;
+  show = true;
+
   categories = [];
-  public path = '';
+  
   user: UserInterface = {
     uid: '',
     name: '',
@@ -66,11 +73,11 @@ export class NewPublicationPage implements OnInit {
   constructor(
     public firestoreService: FirestoreService,
     public authSvc: AuthService,
-    private router: Router,
     public fireStorageService: FirestorageService,
     public toastController: ToastController,
     public loadingController: LoadingController,
     public modalCtrl: ModalController,
+    public alertController: AlertController,
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -90,14 +97,14 @@ export class NewPublicationPage implements OnInit {
 
   async savePublication() { // registrar idea en firestorage y base de datos con id de auth
     this.presentLoading();
-    const pathP = 'Ideas/';
     this.newPublication.userId = this.uid;
     this.newPublication.userName = this.uName;
     this.newPublication.userPhoto = this.uPhoto;
     this.newPublication.videoURL= this.getIdVideo(this.newPublication.videoURL);
-    this.firestoreService.createDoc(this.newPublication, pathP, this.newPublication.id).then(res => {
+    this.firestoreService.createDoc(this.newPublication, this.path, this.newPublication.id).then(res => {
       this.presentToast('Idea publicada!');
       console.log(this.newPublication.id);
+      this.dismiss();
     }).catch (err => {
       console.log(err);
       this.presentToast(err.message);
@@ -108,11 +115,10 @@ export class NewPublicationPage implements OnInit {
   newPublicationImage(event) {
     this.barStatus = true;
     this.newImage = event.target.files[0];
-    const path = this.newPublication.id + '/';
-    this.fireStorageService.uploadImages(this.newImage, path).then(
+    this.pathImages =  'IdeasImages/' + this.uName + '/' + this.newPublication.id + '/';
+    this.fireStorageService.uploadImages(this.newImage, this.pathImages).then(
       (res: any) => {
         if (res) {
-          // this.imageUploads.unshift(res);
           this.newPublication.image.unshift(res);
           console.log('theimgs', res);
           this.barStatus = false;
@@ -124,48 +130,10 @@ export class NewPublicationPage implements OnInit {
       }
     );
   }
-  /*async newPublicationFile(event: any){
-    if (event.target.files && event.target.files[0]){
-      // this.uploadPercent = this.fireStorageService.percent;
-      this.newFile = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = ((file) => {
-        this.newPublication.file = file.target.result as string;
-      });
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }*/
-  
-  //subir archivo
-  newPublicationFile(event: any){
-    this.archivo = true;
-    this.newFile = event.target.files[0].name;
-    console.log(this.newFile);
-    const filePath = 'IdeasFiles' + '/' + `${event.target.files[0].name} `;
-    const fileRef = this.fireStorageService.refFile(filePath);
-    const task = this.fireStorageService.uploadFile( filePath, event.target.files[0].file);
-    this.uploadPercent = task.percentageChanges();
-
-    /*task.snapshotChanges().pipe(
-      finalize(()=>{
-        fileRef.getDownloadURL().subscribe(this.downloadURL=>{
-          newFile= this.downloadURL;
-          this.save
-        });
-      })
-    ).subscribe();
-*/
-    task.snapshotChanges().pipe(
-      finalize(() => 
-      this.downloadURL = fileRef.getDownloadURL() )
-    ).subscribe();
-    const reader = new FileReader();
-    reader.onload = ((file) => {
-      this.newPublication.file = file.target.result as string;
-    });
-    reader.readAsDataURL(event.target.files[0].name);
+  removeImage(img){
+    let index = this.newPublication.image.indexOf(img);
+    this.newPublication.image.splice(index, 1);
   }
-
 
   async presentToast(msg) {
     const toast = await this.toastController.create({
@@ -174,7 +142,6 @@ export class NewPublicationPage implements OnInit {
       color: 'success'
     });
     toast.present();
-    this.dismiss();
   }
   async presentLoading() {
     this.loading = await this.loadingController.create({
@@ -206,6 +173,7 @@ export class NewPublicationPage implements OnInit {
   dismiss() {
     this.modalCtrl.dismiss();
   }
+  /* VIDEOS*/
 //Obtiene el ID de las URL de los videos de Youtube
   getIdVideo(url) {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -224,4 +192,83 @@ export class NewPublicationPage implements OnInit {
       this.newPublication.videoURL = "";
     }
   } 
+  
+  
+  /*archivo*/
+  public cambioArchivo(event) {
+    this.archivo = true;
+    this.disabledBtn = true;
+    if (event.target.files.length > 0) {
+      for (let i = 0; i < event.target.files.length; i++) {
+        this.mensajeArchivo = `Archivo preparado: ${event.target.files[i].name}`;
+        this.pathFiles = 'IdeasFiles/' + this.uName + '/' + this.newPublication.id + '/' + event.target.files[i].name;
+        this.newPublication.fileName = event.target.files[i].name;
+        this.datosFormulario.delete('archivo');
+        this.datosFormulario.append('archivo', event.target.files[i], event.target.files[i].name)
+      }
+    } else {
+      this.mensajeArchivo = 'No hay un archivo seleccionado';
+    }
+  }
+
+  //Sube el archivo a Cloud Storage
+  public subirArchivo() {
+    this.barStatus = true;
+    let archivo = this.datosFormulario.get('archivo');
+    let tarea = this.fireStorageService.tareaCloudStorage(this.pathFiles, archivo);
+    
+    //Cambia el porcentaje
+    tarea.percentageChanges().subscribe((porcentaje) => {  
+      this.porcentaje = Math.round(porcentaje);
+      if (this.porcentaje == 100) {
+        this.finalizado = true;
+        this.barStatus = false;
+        this.show = false;
+        this.buscar(this.pathFiles);
+      }
+    });
+  }
+  buscar(name: string){
+    let referencia = this.fireStorageService.referenciaCloudStorage(name);
+    if(referencia){
+      referencia.getDownloadURL().subscribe((URL) => {
+            this.URLPublica = URL;
+            this.newPublication.file = this.URLPublica;
+            console.log('url',this.URLPublica);
+      });
+    }
+  }
+  removeFile(){
+    this.disabledBtn = false;
+    this.newPublication.file = '';
+    this.newPublication.fileName = '';
+    this.archivo = false;
+  }
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Eliminar idea',
+      message: 'Estás seguro de eliminar este archivo?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Sí',
+          handler: () => {
+            this.removeFile();
+            this.presentToast('Archivo borrado');
+            this.finalizado = false;
+            this.show = true;
+            console.log('eliminado');
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
 }

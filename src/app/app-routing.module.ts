@@ -45,7 +45,7 @@ const routes: Routes = [
     loadChildren: () => import('./users/followers/followers.module').then( m => m.FollowersPageModule)
   },
   {
-    path: 'publication',
+    path: 'publication/:id',
     loadChildren: () => import('./users/publication/publication.module').then( m => m.PublicationPageModule)
   },
   {
@@ -59,10 +59,6 @@ const routes: Routes = [
   {
     path: 'reset-password',
     loadChildren: () => import('./users/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
-  },
-  {
-    path: 'publication-modal',
-    loadChildren: () => import('./users/modals/publication-modal/publication-modal.module').then( m => m.PublicationModalPageModule)
   },
   {
     path: 'edit-publication/:id',
@@ -111,7 +107,8 @@ const routes: Routes = [
   {
     path: 'about',
     loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
-  },  {
+  },
+  {
     path: 'help',
     loadChildren: () => import('./help/help.module').then( m => m.HelpPageModule)
   },

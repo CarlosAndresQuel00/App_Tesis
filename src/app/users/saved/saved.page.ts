@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../modals/comments/comments.page';
-import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
 
 @Component({
   selector: 'app-saved',

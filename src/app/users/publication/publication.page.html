@@ -2,90 +2,88 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button >
-        
+        <ion-button (click)="goBack()"routerLinkActive="router-link-active" ><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
       </ion-button>
     </ion-buttons>
-    <ion-title>Idea</ion-title>
+    <ion-title>Mi idea</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="sign-in-content"> 
-  <div class="publication-info">
-    <ion-row>
-      <ion-col size="1.5" size-lg >
-        <img *ngIf="!publication.userPhoto" src="../../../assets/icon/penguin.svg" class="user-photo-profile">        
-        <img *ngIf="publication.userPhoto" [src]="publication.userPhoto" class="user-photo-profile"/>   
-      </ion-col>
-      <ion-col size="7.5" size-lg >
-        <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
-        <ion-label 
-          class="user" *ngIf="publication.userName">Idea creada por: 
-          <a *ngIf="idCurrentUser !== publication.userId" (click)="gotoUserProfile(publication.userId)" >{{publication.userName}}</a>
-          <a *ngIf="idCurrentUser === publication.userId" [routerLink]="['/profile']" >{{publication.userName}}</a>
-        </ion-label><br>
-        <ion-label class="date">
-          Ctg: <a *ngIf="!publication.category" style="color:black; text-decoration:none;">Sín categoría</a><a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
-          • {{publication.date.toDate() | date: 'dd-MM-yyyy'}}
-
-        </ion-label>
-      </ion-col> 
-      <ion-col size="3">
-      <ion-buttons *ngIf="idCurrentUser == publication.userId">
-        <ion-button (click)="presentAlertConfirm(publication)">
-          <ion-icon name="trash-bin" color="danger"></ion-icon>
-        </ion-button>
-        <ion-button (click)="gotoEditPublication(publication.id)">
-          <ion-icon name="create" color="secondary"></ion-icon>
-      </ion-button>
-      </ion-buttons>
-      <ion-buttons *ngIf="idCurrentUser !== publication.userId">
-          <ion-button (click)="modalReport(publication.id)">
-            <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+  <div style="border: none;">
+    <div class="publication-info" style="border: none;">
+      <ion-row>
+        <ion-col size="1.5" size-lg>
+          <img *ngIf="!publication.userPhoto" src="../../../assets/icon/penguin.svg" class="user-photo-profile">        
+          <img *ngIf="publication.userPhoto" [src]="publication.userPhoto" class="user-photo-profile"/>  
+        </ion-col>
+        <ion-col size="7" size-lg>
+          <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
+          <ion-label class="user" >Idea creada por: <a>{{publication.userName}}</a></ion-label><br>
+          <ion-label class="date">
+            Ctg: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
+          </ion-label>        </ion-col> 
+        <ion-col size="3">
+        <ion-buttons>
+          <ion-button (click)="presentAlertConfirm(publication)">
+            <ion-icon name="trash-bin" color="danger"></ion-icon>
           </ion-button>
-      </ion-buttons>
-      </ion-col>  
-    </ion-row>
-  </div>
-  <div class="publication-description">
-    <strong>Materiales:</strong>
-      <p style="white-space: pre; overflow: hidden;">         
-        {{publication.materials}}
-      </p>
+          <ion-button (click)="gotoEditPublication(publication.id)">
+            <ion-icon name="create" color="secondary"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        </ion-col>  
+      </ion-row>
     </div>
-    <div class="publication-description">
-      <strong>Pasos a seguir:</strong>
-      <div style="white-space: pre-wrap;">         
-        {{publication.description}}
+        <div class="publication-description" *ngIf="publication.materials">
+        <strong>Materiales:</strong>
+          <p style="white-space: pre; overflow: hidden;">         
+            {{publication.materials}}
+          </p>
+        </div>
+        <div class="publication-description">
+          <strong>Pasos a seguir / Descripción:</strong>
+          <div style="white-space: pre-wrap;">         
+            {{publication.description}}
+          </div>
+        </div>
+        <div class="publication-description" *ngIf="publication.file">
+          <strong>Documento guía: </strong> 
+          <div>  
+            <ion-button style="font-size: 10px;" size="small" fill="clear">
+              <ion-icon name="document-text"></ion-icon>
+              <a href="{{publication.file}}" target="_blank" style="text-decoration:none;">
+              {{publication.fileName}}</a>
+            </ion-button>
+          </div>
+        </div>
+    <ion-slides pager="true" >
+      <ion-slide *ngFor="let image of publication.image">
+        <img loading="lazy" [src]="image" class="preview"/>
+      </ion-slide>
+    </ion-slides>
+    <div class="contentVideo"> 
+          <youtube-player 
+      [videoId]="publication.videoURL" 
+      suggestedQuality="highest"
+      [height]="250" 
+      [width]="370"
+      [startSeconds]="1"
+      >
+      </youtube-player>
+    </div> 
+      <div class="publication-options">
+        <ion-segment class="seg">
+          <ion-segment-button class="option-n" (click)="modalComments(publication.id)"> 
+            <img class="icon-comments" src="assets/icon/conversation.svg">
+          </ion-segment-button>
+          <ion-segment-button class="option-n" (click)="savePublication(publication.id)">
+            <img class="icon-save" src="assets/icon/bookmark.svg">
+          </ion-segment-button>
+          <ion-segment-button class="option-n">
+            <img class="icon-share" src="assets/icon/share.svg">
+          </ion-segment-button>
+        </ion-segment>
       </div>
-    </div>
-  <ion-slides pager="true" >
-    <ion-slide *ngFor="let image of publication.image">
-      <img loading="lazy" [src]="image" class="preview"/>
-    </ion-slide>
-  </ion-slides>
-  <a *ngIf="publication.file" [href]="publication.file">Click para descargar documento</a>
-  <youtube-player 
-  [videoId]="publication.videoURL" 
-  suggestedQuality="highest"
-  [height]="250" 
-  [width]="390" 
-  [startSeconds]="1"
-  >
-  </youtube-player>
-    <div class="publication-options">
-      <ion-segment class="seg">
-        <ion-segment-button class="option-n" (click)="modalComments(publication.id)">
-          <img class="icon-comments" src="assets/icon/conversation.svg">
-        </ion-segment-button>
-        <ion-segment-button class="option-n" (click)="savePublication(publication.id)">
-          <img class="icon-save" src="assets/icon/bookmark.svg">
-        </ion-segment-button>
-        <ion-segment-button class="option-n">
-          <img class="icon-download" src="assets/icon/direct-download.svg">
-        </ion-segment-button>
-        <ion-segment-button class="option-n">
-          <img class="icon-share" src="assets/icon/share.svg">
-        </ion-segment-button>
-      </ion-segment>
     </div>
 </ion-content>

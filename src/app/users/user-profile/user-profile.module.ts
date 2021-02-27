@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { UserProfilePageRoutingModule } from './user-profile-routing.module';
 
 import { UserProfilePage } from './user-profile.page';
+import { YouTubePlayerModule } from "@angular/youtube-player";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    YouTubePlayerModule,
     UserProfilePageRoutingModule
   ],
   declarations: [UserProfilePage]

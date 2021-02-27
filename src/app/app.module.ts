@@ -17,10 +17,12 @@ import { environment } from '../environments/environment';
 import { EmbedVideo } from 'ngx-embed-video';
 import { HttpClientModule } from '@angular/common/http';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
-import  {  YouTubePlayerModule  }  from  '@angular/youtube-player';
+import { YouTubePlayerModule  }  from  '@angular/youtube-player';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { ServiceWorkerModule } from '@angular/service-worker';
+
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 @NgModule({
 
   declarations: [AppComponent],
@@ -45,6 +47,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     SocialSharing,
     File,
+    InAppBrowser
   ],
   bootstrap: [AppComponent]
 })

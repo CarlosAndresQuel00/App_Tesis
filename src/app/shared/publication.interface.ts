@@ -5,7 +5,7 @@ export interface PublicationInterface {
     description: string;
     image?: string[];
     file?: string;
-    file1?: string;
+    fileName?: string;
     video?: string;
     date: Date;
     userId: string;

@@ -2,3 +2,17 @@ ion-toolbar{
     --background: #000000;
     color:white;
 }
+.image-container{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+.icon-up{
+    position: absolute;
+    top: 10px;
+    left: 100%;
+}
+.icon{
+    width: 27px;
+    height: 27px;
+}

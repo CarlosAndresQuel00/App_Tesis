@@ -1,21 +1,42 @@
-.publication-n{
-    .publication-header{
-        .title{
-            font-size: 20px;
-        }
-        .date{
-            font-size: 15px;
-        }
-    }
-    .publication-options{
-        .option-n{
+.publication-options{
+    .option-n{
+        border: 1px solid #EAE6E6; 
+        .icon-save, .icon-comments, .icon-share{
             width: 20px;
-            height: 20px;
-            padding: 0px;
-            .icon-save, .icon-comments, .icon-share, .icon-download{
-                width: 20px;
-                height: 20px; 
-            }
+            height: 20px; 
         }
     }
+}
+.publication-info{
+    margin-left: 5px;
+    .date{
+        font-size: 11px;
+    }
+    .title{
+        font-size: 13px;
+    }
+    .user{
+        font-size: 12px;
+    }
+    .alert-icon{
+        width: 20px;
+        height: 20px;
+    }
+}
+.publication-description{
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 13px;
+}
+.user-photo-f{
+    margin-left: 8px;
+}
+
+ion-toolbar{
+    --background: #86C14F;
+}
+.user-photo-profile{
+    width: 35px;
+    height: 35px;
+    border-radius: 250px;
 }

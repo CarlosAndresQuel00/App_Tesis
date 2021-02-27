@@ -35,7 +35,7 @@
       </ion-item>
       <div style="margin-left: 10px;">
         <ion-label color="primary"  class="label-input">Archivo</ion-label><br>
-        <ion-note>Si vas a añadir imágenes, comienza por la última imagen hasta la primera</ion-note>
+        <ion-note>Si vas a añadir varias imágenes, comienza por la última imagen hasta la primera</ion-note>
       </div>
       <ion-item class="input-item">
           <ion-button>
@@ -45,12 +45,12 @@
             </label>
             <input accept=".png,.jpg" (change)="newPublicationImage($event)" id="img-upload" type="file" style="display: none;">
           </ion-button>
-          <ion-button>
+          <ion-button disabled="{{disabledBtn}}">
             <label for="file-upload">
               <ion-icon name="document"></ion-icon>
                Documento
             </label>
-            <input accept=".pdf" (change)="newPublicationFile($event)" id="file-upload" type="file" style="display: none;">
+            <input accept=".pdf" (change)="cambioArchivo($event)" id="file-upload" type="file" style="display: none;">
           </ion-button>
           <ion-button (click)="accion1()">
             <ion-label>
@@ -63,13 +63,31 @@
         <ion-label position="stacked" color="primary" class="label-input">URL</ion-label>
         <ion-textarea [(ngModel)]= "newPublication.videoURL" type="text" name="videoURL" ></ion-textarea>
       </ion-item>
-      <ion-progress-bar *ngIf="archivo" color ="success" value={{uploadPercent|async}}></ion-progress-bar>
+      <div style="margin-left: 10px;align-items: center;" *ngIf="newPublication.file || archivo">
+        <div>  
+          <ion-button style="font-size: 10px;" size="small" fill="clear">
+            <ion-icon name="document-text"></ion-icon>
+            <a  href="{{ URLPublica }}" target="_blank">
+            {{newPublication.fileName}}</a>
+          </ion-button>
+          <ion-button (click)="presentAlertConfirm()" color="danger" slot="icon-only">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+          <ion-button (click)="subirArchivo()" color="success" slot="icon-only" *ngIf="show">
+            <ion-icon name="checkmark-sharp"></ion-icon>   
+          </ion-button>
+        </div>
+      </div>
+      <p style="margin-left: 10px;align-items: center;" *ngIf="finalizado && show == false">Archivo listo <ion-icon name="checkmark-sharp" color="success"></ion-icon></p>
       <ion-spinner style="margin-left: 45%;" *ngIf="barStatus" name="dots"></ion-spinner>
-      <div *ngIf="errorMessage" class="error">{{errorMessage}}</div>
-      <a [href]="downloadURL | async">{{ downloadURL | async}}</a> 
-    </ion-list>
+      </ion-list>
     <div *ngFor="let image of newPublication.image">
-      <img loading="lazy" [src]="image" class="preview" />
+      <div class="image-container">
+        <a slot="icon-only" fill="clear" (click)="removeImage(image)" class="icon-up">
+          <ion-icon name="close-circle-sharp" color="danger" class="icon"></ion-icon>
+        </a>
+        <img loading="lazy" [src]="image" class="preview" />
+      </div>
     </div>
     <ion-button class="new-idea-btn"  expand="block" (click)="savePublication()">
       Publicar idea
