@@ -32,16 +32,26 @@
          </ion-col>  
        </ion-row>
       </div>
-      <div class="publication-description">
+      <div class="publication-description" *ngIf="publication.materials">
         <strong>Materiales:</strong>
           <p style="white-space: pre; overflow: hidden;">         
             {{publication.materials}}
           </p>
         </div>
         <div class="publication-description">
-          <strong>Pasos a seguir:</strong>
+          <strong>Pasos a seguir / Descripción:</strong>
           <div style="white-space: pre-wrap;">         
             {{publication.description}}
+          </div>
+        </div>
+        <div class="publication-description" *ngIf="publication.file">
+          <strong>Documento guía: </strong> 
+          <div>  
+            <ion-button style="font-size: 10px;" size="small" fill="clear">
+              <ion-icon name="document-text"></ion-icon>
+              <a href="{{publication.file}}" target="_blank" style="text-decoration:none;">
+              {{publication.fileName}}</a>
+            </ion-button>
           </div>
         </div>
       <ion-slides pager="true" >
@@ -65,9 +75,6 @@
            </ion-segment-button>
            <ion-segment-button class="option-n" disabled="true">
              <img class="icon-save" src="assets/icon/bookmark.svg">
-           </ion-segment-button>
-           <ion-segment-button class="option-n">
-             <img class="icon-download" src="assets/icon/direct-download.svg">
            </ion-segment-button>
            <ion-segment-button class="option-n">
              <img class="icon-share" src="assets/icon/share.svg">

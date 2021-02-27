@@ -10,6 +10,8 @@ export class FirestorageService {
   percent: Observable<number>;
   downloadUrl= '';
 
+
+
   constructor(public storage: AngularFireStorage) { }
 
 
@@ -78,5 +80,14 @@ export class FirestorageService {
   imageName() {
     const newTime = Math.floor(Date.now() / 1000);
     return Math.floor(Math.random() * 20) + newTime;
+  }
+  public tareaCloudStorage(path: string, datos: any) {
+    return this.storage.upload(path, datos);
+    
+  }
+
+  //Referencia del archivo
+  public referenciaCloudStorage(nombreArchivo: string) {
+    return this.storage.ref(nombreArchivo);
   }
 }

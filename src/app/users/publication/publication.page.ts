@@ -7,7 +7,7 @@ import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { ReportPage } from '../modals/report/report.page';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../modals/comments/comments.page';
-import { timestamp } from 'rxjs/operators';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-publication',
@@ -33,6 +33,9 @@ export class PublicationPage implements OnInit {
   idUser = '';
   isOwner = false;
   private path = 'Ideas/';
+  // Para verificar guardados
+  savedPublications: PublicationInterface[] = [];
+  publi: PublicationInterface[] = [];
   publication: PublicationInterface = {
     id: '',
     title: '',
@@ -60,23 +63,18 @@ export class PublicationPage implements OnInit {
     public modalController: ModalController,
     public alertController: AlertController,
     public toastController: ToastController,
+    private iab: InAppBrowser
   ) {
-    this.authSvc.stateAuth().subscribe(res => {
-      console.log(res);
-      if (res != null){
-        this.idCurrentUser = res.uid;
-        this.getUserInfo(this.idCurrentUser);
-        console.log('id ini', this.idCurrentUser);
-      }
-    });
+   
    }
 
   ngOnInit() {
-    
+    this.getDetallesPubli();
+    this.getPublicationsSaved();
   }
   getDetallesPubli(){
-    const path = 'Ideas/'
     this.idPublication = this.route.snapshot.paramMap.get('id');
+    const path = 'Ideas/'
     this.firestoreService.getDoc<PublicationInterface>(path,this.idPublication).subscribe(res => {
       this.publication = res;
       console.log('publication->', res);
@@ -129,40 +127,39 @@ export class PublicationPage implements OnInit {
       this.user = res;
     });
   }
+  openDocument(fileName) {
+    let url = encodeURIComponent(fileName);
+    this.iab.create('https://docs.google.com/viewer?url=' + url);
+  }
 
   savePublication(id: string){
-    this.getPublicationsSaved(id);
     const path = 'Saved/';
-    const publi = this.firestoreService.getDoc<PublicationInterface>('Ideas/', id).subscribe(res => {
-    this.newPublication = res;
-    this.newPublication.idUserSave = this.idCurrentUser;
-    this.newPublication.idSaved = this.firestoreService.getId();
-    console.log('publication->', this.newPublication.idSaved);
-    if(this.saved == true){
-      this.presentWarningToast('Ya existe');
-      this.saved = false;
+    this.publi = this.savedPublications.filter(i => i.id === id);
+    if(this.publi.length != 0){
+      this.presentWarningToast("Ya existe en tu lista de guardados!");
     }else{
-       this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
-      this.presentSuccessToast('Publicación guardada');
-      }).catch (err => {
-    console.log(err);
-    });
-      publi.unsubscribe();
+      const publi = this.firestoreService.getDoc<PublicationInterface>('Ideas/', id).subscribe(res => {
+        this.newPublication = res;
+        this.newPublication.idUserSave = this.idCurrentUser;
+        this.newPublication.idSaved = this.firestoreService.getId();
+        console.log('publication->', this.newPublication.idSaved);
+        this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
+          this.presentSuccessToast('Publicación guardada!');
+          }).catch (err => {
+        console.log(err);
+        });
+          publi.unsubscribe();
+      });
     }
-    });
   }
-  // comprobar si una publicación ya está guardada
-  getPublicationsSaved(id: string){
+  getPublicationsSaved(){
     const path = 'Saved/';
     this.firestoreService.getCollection<PublicationInterface>(path).subscribe( res => {  // res - respuesta del observador
-    res.forEach(save => {
-        if(save.idUserSave == this.idCurrentUser && id == save.id){
-          this.saved = true;
-        }
-    });
+      if (res){
+        this.savedPublications = res.filter(word => word.idUserSave === this.idCurrentUser);
+      }
+      console.log('guardados', res);
    });
- 
-
   }
   async presentWarningToast(msg) {
     const toast = await this.toastController.create({
@@ -208,7 +205,15 @@ export class PublicationPage implements OnInit {
 
   
 }
-  gotoRegister(){
-    this.router.navigate(["/register"]);
+  goBack(){
+    this.authSvc.stateAuth().subscribe(res => {
+      console.log(res);
+      if (res != null){
+        this.router.navigate(["/notifications"]);
+      }else{
+        this.router.navigate(["/register"]);
+      }
+    });
   }
+
 }

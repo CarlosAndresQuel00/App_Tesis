@@ -84,7 +84,6 @@ export class HomePage implements OnInit {
     private file: File,
     
   ) {
-    
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
       if (res != null){
@@ -93,9 +92,9 @@ export class HomePage implements OnInit {
         console.log('id ini', this.idCurrentUser);
       }else{
         this.initUser();
+        this.router.navigate(["/login"]);
       }
     });
-   
   }
   initUser(){
     this.idCurrentUser = '';

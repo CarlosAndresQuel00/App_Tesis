@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -15,7 +16,9 @@ export class NotificationsPage implements OnInit {
   notifications: NotificationInterface[] = [];
   constructor(
     private authSvc: AuthService,
-    public firestoreService: FirestoreService) { 
+    public firestoreService: FirestoreService,
+    private router: Router
+  ) { 
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
       if (res != null){
@@ -36,5 +39,11 @@ export class NotificationsPage implements OnInit {
       }
       console.log('notiif', res);
      });
+  }
+  goPublication(idPublication){
+    this.router.navigate(['/publication', idPublication]);
+  }
+  goProfile(idUser){
+    this.router.navigate(['/user-profile', idUser]);
   }
 }

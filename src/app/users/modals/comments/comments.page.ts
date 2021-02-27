@@ -46,7 +46,7 @@ export class CommentsPage implements OnInit {
     id: '',
     idPublication: '',
     idUser: '',
-    text: '',
+    comment: '',
     idTo: '',
     uName: '',
     uPhoto: '',
@@ -122,12 +122,11 @@ export class CommentsPage implements OnInit {
   saveNotification(){
     const path = 'Notifications/';
     this.notification.id = this.firestoreService.getId();
-    this.notification.text = this.uName + ' comentó tu publicación';
+    this.notification.comment = this.uName + ' comentó tu publicación';
     this.notification.idPublication = this.idPubli;
     this.notification.uPhoto = this.uPhoto;
     this.notification.idUser = this.idCurrentUser;
     this.notification.idTo = this.idTo;
-
     this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
       console.log('notificacion guardarda!');
 

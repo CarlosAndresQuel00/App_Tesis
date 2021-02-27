@@ -14,28 +14,14 @@
   <ion-label style="text-align: center;color: orange;">No sigues a otros usuarios</ion-label>
 </ion-item>
   <div *ngFor= "let user of users" class="publications-container">
-    <div >
-      <table style="margin: 10px;" width = 100%>
-        <tr>
-
-          <td width="40">
-            <img *ngIf="!user.photo" src="../../../assets/icon/penguin.svg" class="user-photo-profile" />
-            <img *ngIf="user.photo" [src]="user.photo" class="user-photo-profile" />
-          </td>
-          <td style="text-align: left;">
-            <ion-label class="title">
-            <a (click)="gotoUserProfile(user.uid)">
-            {{user.name}}</a>
-           </ion-label>
-          </td>
-          <td width="90"><ion-buttons>
-            <ion-button (click)="presentAlertConfirm(user)">
-              <ion-icon name="trash-bin" color="danger"></ion-icon>
-            </ion-button>
-          </ion-buttons></td>
-        </tr>
-      </table>
-     </div>
+    <ion-item>
+      <div>
+        <img *ngIf="!user.photo" src="../../../assets/icon/penguin.svg" class="user-photo-profile" />
+        <img *ngIf="user.photo" [src]="user.photo" class="user-photo-profile" />
+      </div>
+      <a (click)="gotoUserProfile(user.uid)" style="font-weight:bold;color:#000;margin-left: 5px;">
+        {{user.name}}
+      </a>
+    </ion-item>  
   </div>
-  
 </ion-content>

@@ -8,6 +8,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
 import { YouTubePlayerModule } from "@angular/youtube-player";
+
 @NgModule({
   imports: [
     CommonModule,

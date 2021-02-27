@@ -23,7 +23,9 @@
     "@angular/service-worker": "^11.0.9",
     "@angular/youtube-player": "^11.1.2",
     "@ionic-native/core": "^5.31.1",
+    "@ionic-native/document-viewer": "^5.31.1",
     "@ionic-native/file": "^5.31.1",
+    "@ionic-native/in-app-browser": "^5.31.1",
     "@ionic-native/social-sharing": "^5.31.1",
     "@ionic-native/splash-screen": "^5.31.1",
     "@ionic-native/status-bar": "^5.31.1",
@@ -56,6 +58,8 @@
     "cordova-plugin-androidx": "^3.0.0",
     "cordova-plugin-androidx-adapter": "^1.1.3",
     "cordova-plugin-device": "2.0.2",
+    "cordova-plugin-document-viewer": "^1.0.0",
+    "cordova-plugin-inappbrowser": "^5.0.0",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^4.2.1",
     "cordova-plugin-splashscreen": "5.0.2",
@@ -88,7 +92,9 @@
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-ionic-keyboard": {}
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-document-viewer": {}
     },
     "platforms": []
   }

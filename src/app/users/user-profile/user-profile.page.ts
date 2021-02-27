@@ -7,7 +7,6 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { ActivatedRoute, Params} from '@angular/router';
-import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { ReportPage } from '../modals/report/report.page';
 import { NotificationInterface } from 'src/app/shared/notification.interface';
@@ -65,7 +64,7 @@ export class UserProfilePage implements OnInit {
     id: '',
     idPublication: '',
     idUser: '',
-    text: '',
+    follow: '',
     idTo: '',
     uName: '',
     uPhoto: '',
@@ -167,6 +166,19 @@ export class UserProfilePage implements OnInit {
       asd.unsubscribe();
     });
   }
+  saveNotification(){
+    const path = 'Notifications/';
+    this.notification.id = this.firestoreService.getId();
+    this.notification.follow = this.userFollower.name + ' comenzó a seguirte';
+    this.notification.uPhoto = this.userFollower.photo;
+    this.notification.idUser = this.idCurrentUser;
+    this.notification.idTo = this.userFollower.idUserFollow;
+    this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
+      console.log('notificacion guardarda!');
+    }).catch (err => {
+      console.log(err);
+    });
+  }
   getCurrentUserInfo(uid: string){ // trae info de la bd
     const path = 'Users';
     this.firestoreService.getDoc<UserInterface>(path, uid).subscribe( res => {
@@ -240,19 +252,5 @@ export class UserProfilePage implements OnInit {
     });
     await alert.present();
   }
-  saveNotification(){
-    const path = 'Notifications/';
-    this.notification.id = this.firestoreService.getId();
-    this.notification.text = this.userFollower.name + ' comenzó a seguirte';
-    this.notification.uPhoto = this.userFollower.photo;
-    this.notification.idUser = this.idCurrentUser;
-    this.notification.idTo = this.userFollower.idUserFollow;
-
-    this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
-      console.log('notificacion guardarda!');
-
-    }).catch (err => {
-      console.log(err);
-    });
-  }
+  
 }

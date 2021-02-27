@@ -7,10 +7,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { PublicationInterface } from '../../shared/publication.interface';
 import { Router } from '@angular/router';
 import { CommentInterface } from 'src/app/shared/comments.interface';
-import { PublicationModalPage } from '../modals/publication-modal/publication-modal.page';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { NewPublicationPage } from '../modals/new-publication/new-publication.page';
 
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -57,7 +57,6 @@ export class ProfilePage implements OnInit {
   publications: PublicationInterface[] = [];
   savedPublications: PublicationInterface[] = [];
   publi: PublicationInterface[] = [];
-
   constructor(
     private authSvc: AuthService,
     public firestoreService: FirestoreService,
@@ -65,7 +64,7 @@ export class ProfilePage implements OnInit {
     public alertController: AlertController,
     public modalController: ModalController,
     public toastController: ToastController,
-
+    private iab: InAppBrowser
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -78,6 +77,8 @@ export class ProfilePage implements OnInit {
       }
     });
   }
+  
+  
   initUser(){
     this.idCurrentUser = '';
     this.user = {
@@ -90,9 +91,14 @@ export class ProfilePage implements OnInit {
       emailVerified: false,
     };
   }
+  
   ngOnInit() {
     this.getPublications();
     this.getPublicationsSaved();
+  }
+  openDocument(fileName) {
+    let url = encodeURIComponent(fileName);
+    this.iab.create('https://docs.google.com/viewer?url=' + url);
   }
   getUserInfo(uid: string){ // trae info de la bd
     const path = 'Users';
@@ -224,4 +230,5 @@ export class ProfilePage implements OnInit {
     });
     toast.present();
   }
+  
 }
