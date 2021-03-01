@@ -114,7 +114,7 @@ export class HomePage implements OnInit {
     this.getPublications();
     this.getPublicationsSaved();
     const tag = document.createElement('script');
-    tag.src = 'http://www.youtube.com/iframe_api';
+    tag.src = '//www.youtube.com/iframe_api';
     document.body.appendChild(tag);
   }
   openFirst() {
