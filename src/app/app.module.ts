@@ -22,7 +22,6 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 @NgModule({
 
   declarations: [AppComponent],
@@ -47,7 +46,6 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     SocialSharing,
     File,
-    InAppBrowser
   ],
   bootstrap: [AppComponent]
 })

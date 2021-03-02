@@ -7,7 +7,6 @@ import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { ReportPage } from '../modals/report/report.page';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../modals/comments/comments.page';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-publication',
@@ -63,7 +62,6 @@ export class PublicationPage implements OnInit {
     public modalController: ModalController,
     public alertController: AlertController,
     public toastController: ToastController,
-    private iab: InAppBrowser
   ) {
    
    }
@@ -126,10 +124,6 @@ export class PublicationPage implements OnInit {
     this.firestoreService.getDoc<UserInterface>(path, uid).subscribe( res => {
       this.user = res;
     });
-  }
-  openDocument(fileName) {
-    let url = encodeURIComponent(fileName);
-    this.iab.create('https://docs.google.com/viewer?url=' + url);
   }
 
   savePublication(id: string){

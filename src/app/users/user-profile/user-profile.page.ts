@@ -252,5 +252,7 @@ export class UserProfilePage implements OnInit {
     });
     await alert.present();
   }
-  
+  gotoEditPublication(id: string){
+    this.router.navigate(['/edit-publication', id]);
+  }
 }

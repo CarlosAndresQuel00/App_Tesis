@@ -10,7 +10,7 @@ import { CommentInterface } from 'src/app/shared/comments.interface';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { NewPublicationPage } from '../modals/new-publication/new-publication.page';
 
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -64,7 +64,7 @@ export class ProfilePage implements OnInit {
     public alertController: AlertController,
     public modalController: ModalController,
     public toastController: ToastController,
-    private iab: InAppBrowser
+    //private iab: InAppBrowser
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -96,10 +96,7 @@ export class ProfilePage implements OnInit {
     this.getPublications();
     this.getPublicationsSaved();
   }
-  openDocument(fileName) {
-    let url = encodeURIComponent(fileName);
-    this.iab.create('https://docs.google.com/viewer?url=' + url);
-  }
+
   getUserInfo(uid: string){ // trae info de la bd
     const path = 'Users';
     this.firestoreService.getDoc<UserInterface>(path, uid).subscribe( res => {
