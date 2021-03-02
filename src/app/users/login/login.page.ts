@@ -37,13 +37,33 @@ export class LoginPage implements OnInit {
     public fireAuth: AngularFireAuth,
     public toastController: ToastController,
     public firestoreService: FirestoreService,
-  ) {}
+  ) {
+    this.authSvc.stateAuth().subscribe(res => {
+      console.log(res);
+      if (res == null){
+        this.initUser();
+      }else{
+        this.router.navigate(['home']);
+      }
+    });
+  }
 
   async ngOnInit() {
     this.segment1 = true;
     console.log(this.user);
     const id = await this.authSvc.getUid();
     console.log(id);
+  }
+  initUser(){
+    this.user = {
+      uid: '',
+      name: '',
+      description: '',
+      email: '',
+      photo: '',
+      password: '',
+      emailVerified: false,
+    };
   }
 
   async onLogin(){
@@ -55,8 +75,6 @@ export class LoginPage implements OnInit {
       }else{
         this.presentToast(this.errorMessage);
       }
-        
-      
     } catch (error){
       console.log(error.errorMessage);
     }

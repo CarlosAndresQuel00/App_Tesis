@@ -85,20 +85,10 @@ export class HomePage implements OnInit {
     private youtube:YoutubeVideoPlayer,
     private embedService: EmbedVideoService,
     private socialSharing:SocialSharing,
-    private file: File,
-    
+
   ) {
-    this.authSvc.stateAuth().subscribe(res => {
-      console.log(res);
-      if (res != null){
-        this.idCurrentUser = res.uid;
-        this.getUserInfo(this.idCurrentUser);
-        console.log('id ini', this.idCurrentUser);
-      }else{
-        this.initUser();
-        this.router.navigate(["/login"]);
-      }
-    });
+    
+    
   }
   initUser(){
     this.idCurrentUser = '';
@@ -120,6 +110,17 @@ export class HomePage implements OnInit {
     const tag = document.createElement('script');
     tag.src = '//www.youtube.com/iframe_api';
     document.body.appendChild(tag);
+    this.authSvc.stateAuth().subscribe(res => {
+      console.log(res);
+      if (res != null){
+        this.idCurrentUser = res.uid;
+        this.getUserInfo(this.idCurrentUser);
+        console.log('id ini', this.idCurrentUser);
+      }else{
+        this.initUser();
+        this.router.navigate(["/login"]);
+      }
+    });
   }
   openFirst() {
     this.menu.toggle();
