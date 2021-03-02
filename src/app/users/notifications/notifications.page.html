@@ -9,18 +9,21 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <ion-item *ngIf="!notif">
+    <ion-label style="text-align: center;color: orange;">No tienes notificaciones</ion-label>
+  </ion-item>
   <div class="notifications-container" *ngFor="let notif of notifications">
-    <div class="notification">
-          <ion-item class="search" *ngIf="notif.idUser != idCurrentUser">
+    <div class="notification" >
+          <ion-item class="search" *ngIf="notif.idUser != idCurrentUser" [ngClass]="!open ? 'withcolor':'nocolor'">
             <div>
               <img *ngIf="notif.userPhoto" class="user-photo-profile" [src]="notif.uPhoto"/> 
               <img *ngIf="!notif.userPhoto" src="../../../assets/icon/penguin.svg" class="user-photo-profile" />
             </div>
             <div class="publication-about" style="margin-left: 10px;" *ngIf="notif.comment"> 
-              <ion-button (click)="goPublication(notif.idPublication)" fill="clear" style="text-transform: none;color:#000;">{{notif.comment}}</ion-button> <br>         
+              <ion-button (click)="goPublication(notif.idPublication, notif.id)" fill="clear" style="text-transform: none;color:#000;">{{notif.comment}}</ion-button> <br>         
             </div>
             <div class="publication-about" style="margin-left: 10px;" *ngIf="notif.follow"> 
-              <ion-button (click)="goProfile(notif.idUser)" fill="clear" style="text-transform: none;color:#000;">{{notif.follow}}</ion-button> <br>         
+              <ion-button (click)="goProfile(notif.idUser, notif.id)" fill="clear" style="text-transform: none;color:#000;">{{notif.follow}}</ion-button> <br>         
             </div>
           </ion-item>     
     </div>

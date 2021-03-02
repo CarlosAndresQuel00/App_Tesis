@@ -59,7 +59,6 @@
           <img loading="lazy" [src]="image" class="preview"/>
         </ion-slide>
       </ion-slides>
-      <a *ngIf="publication.file" [href]="publication.file">{{publication.file}}</a>
       <youtube-player 
       [videoId]="publication.videoURL" 
       suggestedQuality="highest"

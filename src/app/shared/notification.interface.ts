@@ -4,8 +4,8 @@ export interface NotificationInterface{
     idPublication?: string;
     follow?: string;
     comment?: string;
-    uName?: string;
     uPhoto?: string;
-    idTo: string;
+    idTo?: string;
+    status: string;
 
 }

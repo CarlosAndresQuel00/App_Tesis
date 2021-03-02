@@ -4,11 +4,11 @@
       <ion-button (click)="openFirst()">
         <ion-icon name="menu-outline"></ion-icon>
       </ion-button>
-
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="goNotifications()">
-        <img class="icon-notification" src="assets/icon/activo.svg"/>
+      <ion-button (click)="goNotifications()" class="c">
+        <img class="icon-notification" src="assets/icon/campana.svg"/>
+        <div class="counter" *ngIf="notif">{{countNotif}}</div>
       </ion-button>
       <ion-button (click)="logout()" >
         <img class="icon-logout" src="assets/icon/logout.svg"/>
@@ -27,14 +27,13 @@
   </ion-header>
   <ion-content>
     <ion-list class="cat-list">
-      <ion-item><a [routerLink]="['/papel-carton']" class="category">Papel y cartón</a></ion-item>
-      <ion-item><a [routerLink]="['/cristal-vidrio']" class="category">Cristal y vidrio</a></ion-item>
-      <ion-item><a [routerLink]="['/metales']" class="category">Metales</a></ion-item>
-      <ion-item><a [routerLink]="['/plastico']" class="category"> Plástico</a></ion-item>
-      <ion-item><a [routerLink]="['/telas']" class="category">Telas</a></ion-item>
-      <ion-item><a [routerLink]="['/otros']" class="category">Otros</a></ion-item>
+      <ion-item (click)="go('/papel-carton')">Papel y cartón</ion-item>
+      <ion-item (click)="go('/cristal-vidrio')">Cristal y vidrio</ion-item>
+      <ion-item (click)="go('/metales')">Metales</ion-item>
+      <ion-item (click)="go('/plastico')"> Plástico</ion-item>
+      <ion-item (click)="go('/telas')">Telas</ion-item>
+      <ion-item (click)="go('/otros')">Otros</ion-item>
     </ion-list>
-    
   </ion-content>
   <ion-footer>
     <ion-item button (click)="testClick()">

@@ -16,6 +16,7 @@ import { EmbedVideoService } from 'ngx-embed-video';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { NotificationInterface } from 'src/app/shared/notification.interface';
 
 
 @Component({
@@ -41,6 +42,8 @@ export class HomePage implements OnInit {
 
 
   userName: string;
+  countNotif = 0;
+  notif = false;
 
   newPublication: PublicationInterface = {
     id: '',
@@ -66,6 +69,7 @@ export class HomePage implements OnInit {
   publications: PublicationInterface[] = [];
   savedPublications: PublicationInterface[] = [];
   publi: PublicationInterface[] = [];
+  notifications: NotificationInterface[] = [];
 
   constructor(
     private authSvc: AuthService,
@@ -112,6 +116,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.getPublications();
     this.getPublicationsSaved();
+    this.getNotifications();
     const tag = document.createElement('script');
     tag.src = '//www.youtube.com/iframe_api';
     document.body.appendChild(tag);
@@ -201,10 +206,30 @@ export class HomePage implements OnInit {
     return await modal.present();
   }
 
-  logout() {
-    this.authSvc.logout();
-    console.log('saliendo');
-    this.router.navigate(['login']);
+  async logout() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Cerrar Sesión',
+      message: 'Estás seguro de cerrar sesión?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Sí',
+          handler: () => {
+            this.authSvc.logout();
+            console.log('saliendo');
+            this.router.navigate(['login']);
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   getUserInfo(uid: string){ // trae info de la bd
@@ -320,7 +345,6 @@ export class HomePage implements OnInit {
       color: 'warning'
     });
     toast.present();
-
   }
 
   //social sharing
@@ -329,7 +353,23 @@ export class HomePage implements OnInit {
     this.socialSharing.shareViaFacebook(title);
   }
   
- goNotifications(){
+  goNotifications(){
    this.router.navigate(["/notifications"]);
  }
+
+ //count notificacion
+ getNotifications(){
+  this.firestoreService.getCollection<NotificationInterface>('Notifications/').subscribe( res => {  // res - respuesta del observador
+    if (res){
+      this.notifications = res.filter(e => this.idCurrentUser == e.idTo && e.status == 'sin_abrir');
+      this.countNotif = this.notifications.length;
+    }
+    if(this.countNotif > 0){
+      this.notif = true;
+    }
+   });
+  }
+  go(page){
+    this.router.navigate([page]);
+  }
 }

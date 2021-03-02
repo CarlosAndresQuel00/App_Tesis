@@ -48,8 +48,8 @@ export class CommentsPage implements OnInit {
     idUser: '',
     comment: '',
     idTo: '',
-    uName: '',
     uPhoto: '',
+    status: ''
   }
   newPublication: PublicationInterface = {
     id: this.firestoreService.getId(),
@@ -127,9 +127,9 @@ export class CommentsPage implements OnInit {
     this.notification.uPhoto = this.uPhoto;
     this.notification.idUser = this.idCurrentUser;
     this.notification.idTo = this.idTo;
+    this.notification.status = 'sin_abrir';
     this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
       console.log('notificacion guardarda!');
-
     }).catch (err => {
       console.log(err);
     });
@@ -152,7 +152,7 @@ export class CommentsPage implements OnInit {
   async presentAlertConfirm(id: string) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      message: 'Eiminar mensaje?',
+      message: 'Eiminar comentario?',
       buttons: [
         {
           text: 'Cancelar',

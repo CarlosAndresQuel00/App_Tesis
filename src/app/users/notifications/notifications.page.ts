@@ -13,7 +13,13 @@ export class NotificationsPage implements OnInit {
 
   path = 'Notifications/';
   idCurrentUser: string;
+  num = 0;
+  notif = false;
   notifications: NotificationInterface[] = [];
+  open = true;
+  notification: NotificationInterface = {
+    status: ''
+  }
   constructor(
     private authSvc: AuthService,
     public firestoreService: FirestoreService,
@@ -36,14 +42,38 @@ export class NotificationsPage implements OnInit {
     this.firestoreService.getCollection<NotificationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
       if (res){
         this.notifications = res.filter(e => this.idCurrentUser == e.idTo);
+        this.notifications.forEach(e => {
+          if(e.status == 'sin_abrir'){
+            this.open = false;
+          }
+        });
       }
-      console.log('notiif', res);
+      if(this.notifications.length != 0){
+        this.notif = true;
+      }
+      console.log('notiif', this.notifications);
      });
   }
-  goPublication(idPublication){
+  goPublication(idPublication, id){
+    this.getOneNotification(id);
+    console.log(id);
     this.router.navigate(['/publication', idPublication]);
+    
   }
-  goProfile(idUser){
+  goProfile(idUser, id){
+    this.getOneNotification(id);
+    console.log(id);
     this.router.navigate(['/user-profile', idUser]);
+  }
+  getOneNotification(id){
+    this.firestoreService.getDoc<NotificationInterface>('Notifications/', id).subscribe(res => {
+      this.notification = res;
+    });
+    this.notification.status = 'abierto';
+    this.firestoreService.updateDoc(this.notification, 'Notifications/', id).then(res => {
+      console.log('notificacon abierta!');
+      }).catch (err => {
+    console.log(err);
+    });
   }
 }

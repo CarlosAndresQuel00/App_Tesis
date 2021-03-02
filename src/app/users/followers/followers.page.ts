@@ -18,6 +18,7 @@ export class FollowersPage implements OnInit {
   existe = false;
   idFollowed = '';
   noFollowers = true;
+  count = 0;
 
   user: UserInterface = {
     uid: '',
@@ -64,6 +65,7 @@ export class FollowersPage implements OnInit {
   getFollowers(){
     const followers = this.firestoreService.getCollection<UserInterface>(this.path).subscribe( res => {  // res - respuesta del observador
       this.users = res.filter(word => this.idCurrentUser == word.idUserFollow);
+      this.count = this.users.length;
       if(this.users.length !== 0){
         this.noFollowers = false;
       }else{
@@ -80,7 +82,6 @@ export class FollowersPage implements OnInit {
           this.idFollowed = e.idFollow;
         }
       });
-      
     });
   }
   gotoUserProfile(id: string ){

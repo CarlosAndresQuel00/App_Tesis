@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FirestorageService } from '../../services/firestorage.service';
 import { FirestoreService } from '../../services/firestore.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, AlertController } from '@ionic/angular';
 import firebase from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 @Component({
@@ -37,7 +37,8 @@ export class RegisterPage implements OnInit {
     private router: Router,
     public fireStorageService: FirestorageService,
     public toastController: ToastController,
-    public fireAuth: AngularFireAuth
+    public fireAuth: AngularFireAuth,
+    private alertController: AlertController
   ){}
 
   async ngOnInit(){
@@ -94,7 +95,6 @@ export class RegisterPage implements OnInit {
     if (isVerified){
       await this.router.navigate(['profile']);
     }else{
-      // await this.router.navigate(['verify-email']);
       console.log('no');
     }
   }
@@ -139,6 +139,5 @@ export class RegisterPage implements OnInit {
       this.segment1 = false;
       this.segment2 = true;
     }
-
   }
 }

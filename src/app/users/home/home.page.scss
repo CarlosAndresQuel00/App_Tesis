@@ -11,10 +11,29 @@
 .input-search{
     width: 80%;
 }
-.icon-notification, .icon-logout{
-    width: 20px;
+.c{
+    border-radius: 12px;
+    background-color: #63b314;
+    width: 50px;
+}
+.icon-notification{
+    width: 30px;
     height: 20px;
 }
+.counter{
+    background-color: red;
+    border-radius: 12px;
+    font-size: 12px;
+    padding: 2px;
+    
+}
+
+.icon-logout{
+    width: 20px;
+    height: 20px;
+    
+}
+
 .publication-options{
     .option-n{
         border: 1px solid #EAE6E6; 

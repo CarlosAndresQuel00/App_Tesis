@@ -66,12 +66,14 @@ export class UserProfilePage implements OnInit {
     idUser: '',
     follow: '',
     idTo: '',
-    uName: '',
     uPhoto: '',
+    status: ''
   }
 
   publications: PublicationInterface[] = [];
-  follows: UserInterface[] = [];
+  savedPublications: PublicationInterface[] = [];
+  publi: PublicationInterface[] = [];
+
   constructor(
     public firestoreService: FirestoreService,
     public authSvc: AuthService,
@@ -153,19 +155,35 @@ export class UserProfilePage implements OnInit {
   }
   savePublication(id: string){
     const path = 'Saved/';
-    const asd = this.firestoreService.getDoc<PublicationInterface>(path, id).subscribe(res => {
-      this.newPublication = res;
-      this.newPublication.idUserSave = this.idCurrentUser;
-      this.newPublication.idSaved = this.firestoreService.getId();
-      console.log('publication->', this.newPublication.idSaved);
-      this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
-        this.presentToast('Publicación guardada');
-      }).catch (err => {
-          console.log(err);
+    this.publi = this.savedPublications.filter(i => i.id === id);
+    if(this.publi.length != 0){
+      this.presentWarningToast("Ya existe en tu lista de guardados!");
+    }else{
+      const publi = this.firestoreService.getDoc<PublicationInterface>('Ideas/', id).subscribe(res => {
+        this.newPublication = res;
+        this.newPublication.idUserSave = this.idCurrentUser;
+        this.newPublication.idSaved = this.firestoreService.getId();
+        console.log('publication->', this.newPublication.idSaved);
+        this.firestoreService.createDoc(this.newPublication, path, this.newPublication.idSaved).then(res => {
+          this.presentToast('Publicación guardada!');
+          }).catch (err => {
+        console.log(err);
+        });
+          publi.unsubscribe();
       });
-      asd.unsubscribe();
-    });
+    }
   }
+  // comprobar si una publicación ya está guardada
+  getPublicationsSaved(){
+    const path = 'Saved/';
+    this.firestoreService.getCollection<PublicationInterface>(path).subscribe( res => {  // res - respuesta del observador
+      if (res){
+        this.savedPublications = res.filter(word => word.idUserSave === this.idCurrentUser);
+      }
+      console.log('guardados', res);
+   });
+  }
+
   saveNotification(){
     const path = 'Notifications/';
     this.notification.id = this.firestoreService.getId();
@@ -173,6 +191,7 @@ export class UserProfilePage implements OnInit {
     this.notification.uPhoto = this.userFollower.photo;
     this.notification.idUser = this.idCurrentUser;
     this.notification.idTo = this.userFollower.idUserFollow;
+    this.notification.status = 'sin_abrir';
     this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
       console.log('notificacion guardarda!');
     }).catch (err => {
@@ -254,5 +273,13 @@ export class UserProfilePage implements OnInit {
   }
   gotoEditPublication(id: string){
     this.router.navigate(['/edit-publication', id]);
+  }
+  async presentWarningToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 1000,
+      color: 'warning'
+    });
+    toast.present();
   }
 }
