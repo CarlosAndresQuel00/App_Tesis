@@ -1,6 +1,7 @@
 
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuardService } from './services/auth-guard.service';
 
 
 const routes: Routes = [
@@ -18,19 +19,23 @@ const routes: Routes = [
   },
   {
     path: 'profile-settings',
-    loadChildren: () => import('./users/profile-settings/profile-settings.module').then( m => m.ProfileSettingsPageModule)
+    loadChildren: () => import('./users/profile-settings/profile-settings.module').then( m => m.ProfileSettingsPageModule),
+    canActivate: [AuthGuardService]
   },
   {
     path: 'profile',
-    loadChildren: () => import('./users/profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./users/profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate: [AuthGuardService]
   },
   {
     path: 'home',
-    loadChildren: () => import('./users/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./users/home/home.module').then( m => m.HomePageModule),
+    canActivate: [AuthGuardService]
   },
   {
     path: 'notifications',
-    loadChildren: () => import('./users/notifications/notifications.module').then( m => m.NotificationsPageModule)
+    loadChildren: () => import('./users/notifications/notifications.module').then( m => m.NotificationsPageModule),
+    canActivate: [AuthGuardService]
   },
   {
     path: 'user-profile/:id',

@@ -39,7 +39,16 @@ export class RegisterPage implements OnInit {
     public toastController: ToastController,
     public fireAuth: AngularFireAuth,
     private alertController: AlertController
-  ){}
+  ){
+    this.authSvc.stateAuth().subscribe(res => {
+      console.log(res);
+      if (res == null){
+        this.initUser();
+      }else{
+        this.router.navigate(['home']);
+      }
+    });
+  }
 
   async ngOnInit(){
  // retorna identificador de user
@@ -48,7 +57,17 @@ export class RegisterPage implements OnInit {
     const id = await this.authSvc.getUid();
     console.log(id);
   }
-
+  initUser(){
+    this.user = {
+      uid: '',
+      name: '',
+      description: '',
+      email: '',
+      photo: '',
+      password: '',
+      emailVerified: false,
+    };
+  }
   async onRegister(){
     const credentials = {
       email: this.user.email,
@@ -93,7 +112,7 @@ export class RegisterPage implements OnInit {
   }
   async redirectUser(isVerified: boolean){
     if (isVerified){
-      await this.router.navigate(['profile']);
+      await this.router.navigate(['/home']);
     }else{
       console.log('no');
     }

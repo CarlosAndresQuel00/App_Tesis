@@ -14,9 +14,11 @@ export class AuthService {
 
   message = '';
   public user: Observable<UserInterface>;
+  public userData$: Observable<firebase.User>;
 
   constructor(public fireAuth: AngularFireAuth, private fireStore: AngularFirestore){
     this.getUid();
+    this.userData$ = fireAuth.authState;
   }
 
   async register(email: string, password: string){
