@@ -63,8 +63,7 @@ export class HomePage implements OnInit {
     description: '',
     email: '',
     photo: '',
-    password: '',
-    emailVerified: false,
+    password: ''
   };
   publications: PublicationInterface[] = [];
   savedPublications: PublicationInterface[] = [];
@@ -87,8 +86,14 @@ export class HomePage implements OnInit {
     private socialSharing:SocialSharing,
 
   ) {
-    
-    
+    this.authSvc.stateAuth().subscribe(res => {
+      console.log(res);
+      if (res != null){
+        this.idCurrentUser = res.uid;
+        this.getUserInfo(this.idCurrentUser);
+        console.log('id ini', this.idCurrentUser);
+      }
+    });
   }
   initUser(){
     this.idCurrentUser = '';
@@ -98,8 +103,7 @@ export class HomePage implements OnInit {
       description: '',
       email: '',
       photo: '',
-      password: '',
-      emailVerified: false,
+      password: ''
     };
   }
 
@@ -110,17 +114,6 @@ export class HomePage implements OnInit {
     const tag = document.createElement('script');
     tag.src = '//www.youtube.com/iframe_api';
     document.body.appendChild(tag);
-    this.authSvc.stateAuth().subscribe(res => {
-      console.log(res);
-      if (res != null){
-        this.idCurrentUser = res.uid;
-        this.getUserInfo(this.idCurrentUser);
-        console.log('id ini', this.idCurrentUser);
-      }else{
-        this.initUser();
-        this.router.navigate(["/login"]);
-      }
-    });
   }
   openFirst() {
     this.menu.toggle();
@@ -372,5 +365,8 @@ export class HomePage implements OnInit {
   }
   go(page){
     this.router.navigate([page]);
+  }
+  testClick(){
+    this.router.navigate(["guide"]);
   }
 }

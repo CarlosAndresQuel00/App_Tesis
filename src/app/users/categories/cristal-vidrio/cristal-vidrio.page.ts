@@ -35,8 +35,7 @@ export class CristalVidrioPage implements OnInit {
     description: '',
     email: '',
     photo: '',
-    password: '',
-    emailVerified: false,
+    password: ''
   };
   publications: PublicationInterface[] = [];
   constructor(

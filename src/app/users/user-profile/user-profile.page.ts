@@ -31,7 +31,6 @@ export class UserProfilePage implements OnInit {
     email: '',
     photo: '',
     password: '',
-    emailVerified: false,
     idFollow: '',
     idUserFollower: '',
     countFollowers: 0
@@ -44,7 +43,6 @@ export class UserProfilePage implements OnInit {
     email: '',
     photo: '',
     password: '',
-    emailVerified: false,
     idFollow: '',
     idUserFollower: ''
 

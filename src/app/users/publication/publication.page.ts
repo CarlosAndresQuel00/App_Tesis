@@ -51,8 +51,7 @@ export class PublicationPage implements OnInit {
     description: '',
     email: '',
     photo: '',
-    password: '',
-    emailVerified: false,
+    password: ''
   };
   constructor(
     public firestoreService: FirestoreService,

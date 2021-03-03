@@ -17,16 +17,15 @@ export class AuthService {
   public userData$: Observable<firebase.User>;
 
   constructor(public fireAuth: AngularFireAuth, private fireStore: AngularFirestore){
-    this.getUid();
     this.userData$ = fireAuth.authState;
   }
 
-  async register(email: string, password: string){
+  async register(email: string, password: string): Promise<UserInterface>{
     try{
-      await this.fireAuth.createUserWithEmailAndPassword(email, password);
-      await this.sendVerificationEmail();
+      const {user} = await this.fireAuth.createUserWithEmailAndPassword(email, password);
+      return user;
     }catch (error){
-      console.log(error);
+      console.log('at', error);
     }
   }
 
@@ -39,6 +38,8 @@ export class AuthService {
         this.message = 'Correo electrónico o contraseña incorrectos';
       }else if(error.code == 'auth/user-not-found'){
         this.message = 'Usuario no encontrado o eliminado';
+      }else if(error.code == 'auth/invalid-email'){
+        this.message = 'Formato incorrecto del correo';
       }
       console.log(error);
     }
@@ -60,92 +61,19 @@ export class AuthService {
     }
   }
 
-  isEmailVerified(user: UserInterface){
-    return user.emailVerified === true ? true : false;
-  }
-
-  async sendVerificationEmail(): Promise<void>{
-    try{
-      return (await this.fireAuth.currentUser).sendEmailVerification();
-    }catch (error){
-      console.log('Error', error);
-    }
-  }
   userDetails() {
     return this.fireAuth.user;
   }
   logout(){
-    this.fireAuth.signOut();
+    this.fireAuth.signOut()
   }
- stateAuth(){ // estado de autenticacion
-  return this.fireAuth.authState;
+  stateAuth(){ // estado de autenticacion
+    return this.fireAuth.authState;
   }
- getAuth(){
-  return this.fireAuth.authState.pipe(map(auth => auth));
-  }
-
-/*
-  async logout(): Promise<void>{
-    try{
-      await this.fireAuth.signOut();
-    }catch (error){
-      console.log('Error->', error);
-    }
+  getAuth(){
+    return this.fireAuth.authState.pipe(map(auth => auth));
   }
 
-  private updateUserData(user: UserInterface){
-    const userRef: AngularFirestoreDocument<UserInterface> = this.fireStore.doc(`users/${user.uid}`);
-    // buscar dentro del conjunto
-    // users toma el id del suaurio actual
-    const data: UserInterface = {
-      uid: user.uid,
-      email: user.email,
-      emailVerified: user.emailVerified,
-      displayName: user.displayName
-    };
-
-    return userRef.set(data, {merge: true});
-  }*/
-
-  /*constructor(private fireAuth: AngularFireAuth) { }
-
-  registerUser(value) {
-    return new Promise<any>((resolve, reject) => {
-
-      this.fireAuth.createUserWithEmailAndPassword(value.email, value.password)
-        .then(
-          res => resolve(res),
-          err => reject(err))
-    })
-
-  }
-
-  loginUser(value) {
-    return new Promise<any>((resolve, reject) => {
-      this.fireAuth.signInWithEmailAndPassword(value.email, value.password)
-        .then(
-          res => resolve(res),
-          err => reject(err))
-    })
-  }
-
-  logoutUser() {
-    return new Promise((resolve, reject) => {
-      if (this.fireAuth.currentUser) {
-        this.fireAuth.signOut()
-          .then(() => {
-            console.log("LOG Out");
-            //resolve();
-          }).catch((error) => {
-            reject();
-          });
-      }
-    })
-  }
-
-  userDetails() {
-    return this.fireAuth.user
-  }*/
 
 }
 

@@ -23,8 +23,7 @@ export class SavedPage implements OnInit {
     description: '',
     email: '',
     photo: '',
-    password: '',
-    emailVerified: false,
+    password: ''
 
   };
   publications: PublicationInterface[] = [];
@@ -59,8 +58,7 @@ export class SavedPage implements OnInit {
       description: '',
       email: '',
       photo: '',
-      password: '',
-      emailVerified: false,
+      password: ''
     };
   }
   getPublicationsSaved(){

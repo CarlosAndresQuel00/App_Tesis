@@ -36,7 +36,6 @@ export class PlasticoPage implements OnInit {
     email: '',
     photo: '',
     password: '',
-    emailVerified: false,
   };
   publications: PublicationInterface[] = [];
   constructor(

@@ -36,7 +36,6 @@ export class OtrosPage implements OnInit {
     email: '',
     photo: '',
     password: '',
-    emailVerified: false,
   };
   publications: PublicationInterface[] = [];
   constructor(

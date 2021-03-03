@@ -28,7 +28,6 @@ export class LoginPage implements OnInit {
     email: '',
     photo: '',
     password: '',
-    emailVerified: false,
   };
 
   constructor(
@@ -40,19 +39,15 @@ export class LoginPage implements OnInit {
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
-      if (res == null){
+      if (!res){
         this.initUser();
-      }else{
-        this.router.navigate(['home']);
       }
     });
   }
 
   async ngOnInit() {
     this.segment1 = true;
-    console.log(this.user);
-    const id = await this.authSvc.getUid();
-    console.log(id);
+    this.initUser();
   }
   initUser(){
     this.user = {
@@ -61,8 +56,7 @@ export class LoginPage implements OnInit {
       description: '',
       email: '',
       photo: '',
-      password: '',
-      emailVerified: false,
+      password: ''
     };
   }
 
@@ -86,7 +80,6 @@ export class LoginPage implements OnInit {
       const res = await this.fireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
       const user = res.user;
       if (user){
-       // const isVerified = this.authSvc.isEmailVerified(user);
         this.user.name = user.displayName;
         this.user.photo = user.photoURL;
         this.user.email = user.email;

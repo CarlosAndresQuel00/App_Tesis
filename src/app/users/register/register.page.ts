@@ -27,7 +27,6 @@ export class RegisterPage implements OnInit {
     email: '',
     photo: '',
     password: '',
-    emailVerified: false,
     displayName: ''
   };
 
@@ -38,17 +37,7 @@ export class RegisterPage implements OnInit {
     public fireStorageService: FirestorageService,
     public toastController: ToastController,
     public fireAuth: AngularFireAuth,
-    private alertController: AlertController
-  ){
-    this.authSvc.stateAuth().subscribe(res => {
-      console.log(res);
-      if (res == null){
-        this.initUser();
-      }else{
-        this.router.navigate(['home']);
-      }
-    });
-  }
+  ){}
 
   async ngOnInit(){
  // retorna identificador de user
@@ -64,59 +53,38 @@ export class RegisterPage implements OnInit {
       description: '',
       email: '',
       photo: '',
-      password: '',
-      emailVerified: false,
+      password: ''
     };
   }
   async onRegister(){
-    const credentials = {
-      email: this.user.email,
-      password: this.user.password
-    };
-    const res = await this.authSvc.register(credentials.email, credentials.password).catch(err => {
-    });
-    // const isVerified = this.authSvc.isEmailVerified(this.user);
+    const user = await this.authSvc.register(this.user.email, this.user.password);
+    if(user){
+      this.redirectUser(true);
+    }
     const id = await this.authSvc.getUid();
     this.user.uid = id;
     this.saveUser();
-    this.presentToast('Registro exitoso!');
     console.log(id);
   }
 
   async saveUser() { // registrar usuario en la base de datos con id de auth
     const path = 'Users';
     const name = this.user.name;
-    if (this.newFile !== undefined){
-      const res = await this.fireStorageService.uploadImage(this.newFile, path, name);
-      this.user.photo = res;
-    }
     this.firestoreService.createDoc(this.user, path, this.user.uid).then(res => {
-      this.redirectUser(true);
+      this.presentToast('Registro existoso');
     }).catch (err => {
       console.log(err);
       this.presentToast(err.message);
     });
   }
-
-  async newPhotoProfile(event: any){
-    if (event.target.files && event.target.files[0]){
-      this.newFile = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = ((image) => {
-        this.user.photo = image.target.result as string;
-      });
-      reader.readAsDataURL(event.target.files[0]);
-
-    }
-
-  }
   async redirectUser(isVerified: boolean){
     if (isVerified){
-      await this.router.navigate(['/home']);
+      await this.router.navigate(['home']);
     }else{
       console.log('no');
     }
   }
+
 
   async presentToast(msg) {
     const toast = await this.toastController.create({
@@ -132,7 +100,6 @@ export class RegisterPage implements OnInit {
       const res = await this.fireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
       const user = res.user;
       if (user){
-       // const isVerified = this.authSvc.isEmailVerified(user);
         this.user.name = user.displayName;
         this.user.photo = user.photoURL;
         this.user.email = user.email;

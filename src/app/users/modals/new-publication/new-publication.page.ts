@@ -52,8 +52,7 @@ export class NewPublicationPage implements OnInit {
     description: '',
     email: '',
     photo: '',
-    password: '',
-    emailVerified: false,
+    password: ''
   };
   newPublication: PublicationInterface = {
     id: this.firestoreService.getId(),
