@@ -1,3 +1,4 @@
+import { AuthGuardService } from './../services/auth-guard.service';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
@@ -9,19 +10,23 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('../users/home/home.module').then(m => m.HomePageModule)
+        loadChildren: () => import('../users/home/home.module').then(m => m.HomePageModule),
+        canActivate: [AuthGuardService]
       },
       {
         path: 'saved',
-        loadChildren: () => import('../users/saved/saved.module').then(m => m.SavedPageModule)
+        loadChildren: () => import('../users/saved/saved.module').then(m => m.SavedPageModule),
+        canActivate: [AuthGuardService]
       },
       {
         path: 'followers',
-        loadChildren: () => import('../users/followers/followers.module').then(m => m.FollowersPageModule)
+        loadChildren: () => import('../users/followers/followers.module').then(m => m.FollowersPageModule),
+        canActivate: [AuthGuardService]
       },
       {
         path: 'profile',
-        loadChildren: () => import('../users/profile/profile.module').then(m => m.ProfilePageModule)
+        loadChildren: () => import('../users/profile/profile.module').then(m => m.ProfilePageModule),
+        canActivate: [AuthGuardService]
       },
       {
         path: '',

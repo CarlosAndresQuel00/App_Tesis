@@ -36,7 +36,6 @@ export class TelasPage implements OnInit {
     email: '',
     photo: '',
     password: '',
-    emailVerified: false,
   };
   publications: PublicationInterface[] = [];
   constructor(

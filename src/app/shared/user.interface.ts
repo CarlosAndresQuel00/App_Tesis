@@ -4,8 +4,7 @@ export interface UserInterface{
     name?: string;
     description?: string;
     photo?: string;
-    password: string;
-    emailVerified: boolean;
+    password?: string;
     displayName?: string;
     idFollow?: string;
     idUserFollower?: string;

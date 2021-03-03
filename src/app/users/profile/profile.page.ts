@@ -28,8 +28,7 @@ export class ProfilePage implements OnInit {
     description: '',
     email: '',
     photo: '',
-    password: '',
-    emailVerified: false,
+    password: ''
 
   };
   comment: CommentInterface = {
@@ -87,8 +86,7 @@ export class ProfilePage implements OnInit {
       description: '',
       email: '',
       photo: '',
-      password: '',
-      emailVerified: false,
+      password: ''
     };
   }
   

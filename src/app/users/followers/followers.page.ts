@@ -27,8 +27,6 @@ export class FollowersPage implements OnInit {
     email: '',
     photo: '',
     password: '',
-    emailVerified: false,
-
   };
   userFollower: UserInterface = {
     uid: '',
@@ -37,7 +35,6 @@ export class FollowersPage implements OnInit {
     email: '',
     photo: '',
     password: '',
-    emailVerified: false,
     idFollow: '',
     idUserFollower: ''
 

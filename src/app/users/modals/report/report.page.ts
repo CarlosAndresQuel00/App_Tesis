@@ -38,8 +38,7 @@ export class ReportPage implements OnInit {
     description: '',
     email: '',
     photo: '',
-    password: '',
-    emailVerified: false,
+    password: ''
   };
   constructor(
     public modalCtrl: ModalController,
@@ -68,8 +67,7 @@ export class ReportPage implements OnInit {
       description: '',
       email: '',
       photo: '',
-      password: '',
-      emailVerified: false,
+      password: ''
     };
   }
   ngOnInit() {

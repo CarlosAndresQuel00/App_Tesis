@@ -8,7 +8,7 @@
     <ion-buttons slot="end">
       <ion-button (click)="goNotifications()" class="c">
         <img class="icon-notification" src="assets/icon/campana.svg"/>
-        <div class="counter" *ngIf="notif">{{countNotif}}</div>
+        <ion-badge  *ngIf="notif" color="warning">{{countNotif}}</ion-badge>
       </ion-button>
       <ion-button (click)="logout()" >
         <img class="icon-logout" src="assets/icon/logout.svg"/>
@@ -46,6 +46,7 @@
 </ion-menu>
 <ion-content>
   <ion-router-outlet id="main" main></ion-router-outlet>
+
   <div class="user-information-container">
     <ion-row>
       <ion-col size="1.7" size-lg>

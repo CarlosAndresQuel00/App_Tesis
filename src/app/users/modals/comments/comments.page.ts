@@ -38,9 +38,7 @@ export class CommentsPage implements OnInit {
     description: '',
     email: '',
     photo: '',
-    password: '',
-    emailVerified: false,
-
+    password: ''
   };
   notification: NotificationInterface = {
     id: '',
