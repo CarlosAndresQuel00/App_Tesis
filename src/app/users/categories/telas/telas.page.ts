@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController,AlertController,ToastController } from '@ionic/angular';
+import { ModalController,AlertController,ToastController, ActionSheetController} from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../../modals/comments/comments.page';
 import { ReportPage } from '../../modals/report/report.page';
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 @Component({
   selector: 'app-telas',
   templateUrl: './telas.page.html',
@@ -45,6 +45,8 @@ export class TelasPage implements OnInit {
     private router: Router,
     public alertController: AlertController,
     public toastController: ToastController,
+    private socialSharing:SocialSharing,
+    public actionSheetController: ActionSheetController,
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -169,5 +171,54 @@ export class TelasPage implements OnInit {
   gotoUserProfile(id: string ){
     this.router.navigate(['/user-profile', id]);
   }
+  //social sharing
 
+  shareFacebook(ide, titlePublication){
+    this.socialSharing.shareViaFacebook(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+  }
+
+  shareTwitter(ide, titlePublication){
+    this.socialSharing.shareViaTwitter(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+  }
+
+  shareWhatsapp(ide, titlePublication){
+    this.socialSharing.shareViaWhatsApp(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+    console.log("https://r-utiliza.web.app/publication/"+ide);
+  }
+  
+  async presentActionSheet(ide, titlePublication) {
+    const actionSheet = await this.actionSheetController.create ({
+      header: 'Compartír vía:',
+      cssClass: 'my-custom-class',
+      buttons: [{
+        text: 'Facebook',
+        role: 'destructive',
+        icon: 'logo-facebook',
+        handler: () => {
+          this.shareFacebook(ide, titlePublication);
+        }
+      }, {
+        text: 'Twitter',
+        icon: 'logo-twitter',
+        handler: () => {
+          this.shareTwitter(ide, titlePublication);
+        }
+      }, {
+        text: 'Whatsapp',
+        icon: 'logo-whatsapp',
+        handler: () => {
+          this.shareWhatsapp(ide, titlePublication);
+          console.log(ide, titlePublication);
+        }
+      }, {
+        text: 'Cancelar',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
 }

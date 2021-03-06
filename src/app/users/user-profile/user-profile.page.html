@@ -95,7 +95,7 @@
            <ion-segment-button class="option-n" (click)="savePublication(publication.id)">
              <img class="icon-save" src="assets/icon/bookmark.svg">
            </ion-segment-button>
-           <ion-segment-button class="option-n">
+           <ion-segment-button class="option-n" (click)="presentActionSheet(publication.id, publication.title)">
              <img class="icon-share" src="assets/icon/share.svg">
            </ion-segment-button>
          </ion-segment>

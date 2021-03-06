@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, ToastController, ActionSheetController} from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestorageService } from 'src/app/services/firestorage.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -10,7 +10,7 @@ import { ActivatedRoute, Params} from '@angular/router';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { ReportPage } from '../modals/report/report.page';
 import { NotificationInterface } from 'src/app/shared/notification.interface';
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.page.html',
@@ -81,7 +81,9 @@ export class UserProfilePage implements OnInit {
     public toastController: ToastController,
     public loadingController: LoadingController,
     private route: ActivatedRoute,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private socialSharing:SocialSharing,
+    public actionSheetController: ActionSheetController,
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       if (res != null){
@@ -279,5 +281,55 @@ export class UserProfilePage implements OnInit {
       color: 'warning'
     });
     toast.present();
+  }
+  //social sharing
+
+  shareFacebook(ide, titlePublication){
+    this.socialSharing.shareViaFacebook(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+  }
+
+  shareTwitter(ide, titlePublication){
+    this.socialSharing.shareViaTwitter(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+  }
+
+  shareWhatsapp(ide, titlePublication){
+    this.socialSharing.shareViaWhatsApp(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+    console.log("https://r-utiliza.web.app/publication/"+ide);
+  }
+  
+  async presentActionSheet(ide, titlePublication) {
+    const actionSheet = await this.actionSheetController.create ({
+      header: 'Compartír vía:',
+      cssClass: 'my-custom-class',
+      buttons: [{
+        text: 'Facebook',
+        role: 'destructive',
+        icon: 'logo-facebook',
+        handler: () => {
+          this.shareFacebook(ide, titlePublication);
+        }
+      }, {
+        text: 'Twitter',
+        icon: 'logo-twitter',
+        handler: () => {
+          this.shareTwitter(ide, titlePublication);
+        }
+      }, {
+        text: 'Whatsapp',
+        icon: 'logo-whatsapp',
+        handler: () => {
+          this.shareWhatsapp(ide, titlePublication);
+          console.log(ide, titlePublication);
+        }
+      }, {
+        text: 'Cancelar',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 }

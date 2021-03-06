@@ -246,5 +246,3 @@ export class EditPublicationPage implements OnInit {
     await alert.present();
   }
 }
-
-       

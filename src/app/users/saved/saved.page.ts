@@ -6,7 +6,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../modals/comments/comments.page';
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 @Component({
   selector: 'app-saved',
   templateUrl: './saved.page.html',
@@ -33,6 +33,7 @@ export class SavedPage implements OnInit {
     private router: Router,
     public alertController: AlertController,
     public modalController: ModalController,
+    private socialSharing:SocialSharing,
 
   ) {
     this.authSvc.stateAuth().subscribe(res => {
@@ -128,5 +129,17 @@ export class SavedPage implements OnInit {
     });
     await alert.present();
   }
+  //social sharing
 
+  shareFacebook(ide){
+    this.socialSharing.shareViaFacebook("https://r-utiliza.web.app/publication/"+ide);
+  }
+
+  shareTwitter(ide){
+    this.socialSharing.shareViaFacebook("https://r-utiliza.web.app/publication/"+ide);
+  }
+
+  shareWhatsapp(ide){
+    this.socialSharing.shareViaWhatsApp("https://r-utiliza.web.app/publication/"+ide);
+  }
 }
