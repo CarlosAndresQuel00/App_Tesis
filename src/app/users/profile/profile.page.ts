@@ -1,6 +1,6 @@
 import { UserInterface } from 'src/app/shared/user.interface';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController, ActionSheetController } from '@ionic/angular';
 
 import { FirestoreService } from '../../services/firestore.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { CommentInterface } from 'src/app/shared/comments.interface';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { NewPublicationPage } from '../modals/new-publication/new-publication.page';
-
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -63,6 +63,8 @@ export class ProfilePage implements OnInit {
     public alertController: AlertController,
     public modalController: ModalController,
     public toastController: ToastController,
+    private socialSharing:SocialSharing,
+    public actionSheetController: ActionSheetController,
     //private iab: InAppBrowser
   ) {
     this.authSvc.stateAuth().subscribe(res => {
@@ -226,5 +228,54 @@ export class ProfilePage implements OnInit {
     toast.present();
   }
   
+    //social sharing
+
+    shareFacebook(ide, titlePublication){
+      this.socialSharing.shareViaFacebook(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+    }
   
+    shareTwitter(ide, titlePublication){
+      this.socialSharing.shareViaTwitter(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+    }
+  
+    shareWhatsapp(ide, titlePublication){
+      this.socialSharing.shareViaWhatsApp(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+      console.log("https://r-utiliza.web.app/publication/"+ide);
+    }
+    
+    async presentActionSheet(ide, titlePublication) {
+      const actionSheet = await this.actionSheetController.create ({
+        header: 'Compartír vía:',
+        cssClass: 'my-custom-class',
+        buttons: [{
+          text: 'Facebook',
+          role: 'destructive',
+          icon: 'logo-facebook',
+          handler: () => {
+            this.shareFacebook(ide, titlePublication);
+          }
+        }, {
+          text: 'Twitter',
+          icon: 'logo-twitter',
+          handler: () => {
+            this.shareTwitter(ide, titlePublication);
+          }
+        }, {
+          text: 'Whatsapp',
+          icon: 'logo-whatsapp',
+          handler: () => {
+            this.shareWhatsapp(ide, titlePublication);
+            console.log(ide, titlePublication);
+          }
+        }, {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }]
+      });
+      await actionSheet.present();
+    }
 }

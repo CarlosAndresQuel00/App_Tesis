@@ -2,7 +2,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserInterface } from './../../shared/user.interface';
 import { FirestoreService } from '../../services/firestore.service';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, NavController, ToastController, ActionSheetController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { PublicationInterface } from '../../shared/publication.interface';
@@ -84,7 +84,7 @@ export class HomePage implements OnInit {
     private youtube:YoutubeVideoPlayer,
     private embedService: EmbedVideoService,
     private socialSharing:SocialSharing,
-
+    public actionSheetController: ActionSheetController,
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -128,61 +128,7 @@ export class HomePage implements OnInit {
     });
     return await modal.present();
 
-  }
-
-  url (url1:string){
-    console.log('urls',url1);
-    return this.videoURL = this.embedService.embed(url1);
-  }
-  url1 (youtubeUrl){
-    const you=youtubeUrl;
-    console.log('la url',you);
-    console.log('la url embed', this.yt_iframe_html = this.embedService.embed(youtubeUrl));
-    this.yt_iframe_html = this.embedService.embed(youtubeUrl);
-  }
-
-  youtube_parser(url){
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    var match = url.match(regExp);
-    console.log('la url embebida',(match&&match[7].length==11)? match[7]:false);
-    var videoId=(match&&match[7].length==11)? match[7] : false;
-    var enbed="//www.youtube.com/embed/"+ videoId;
-    //this.yt_iframe_html = this.embedService.embed(enbed);
-    this.yt_iframe_html = this.sanitizer.bypassSecurityTrustResourceUrl(enbed);  
-    console.log('yaaa',this.yt_iframe_html);
-    return enbed;
-  }
-
-  getId(url) {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-  console.log('este id', (match && match[2].length === 11)
-  ? match[2]
-  : null)
-    return (match && match[2].length === 11)
-      ? match[2]
-      : null;
-  }
-
-  openMyVideo(url){
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    var match = url.match(regExp);
-    var videoId=(match&&match[7].length==11)? match[7] : false;
-    console.log('iddddd',videoId);
-    this.youtube.openVideo(videoId);
-  }
-
-  getVideoIframe(url) {
-    var video, results;
- 
-    if (url === null) {
-        return '';
-    }
-    results = url.match('[\\?&]v=([^&#]*)');
-    video   = (results === null) ? url : results[1];
- 
-    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video);   
-  }
+  }  
 
   async modalReport(id: string) {
     const modal = await this.modalController.create({
@@ -343,10 +289,55 @@ export class HomePage implements OnInit {
 
   //social sharing
 
-  shareFacebook(title){
-    this.socialSharing.shareViaFacebook(title);
+  shareFacebook(ide, titlePublication){
+    this.socialSharing.shareViaFacebook(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+  }
+
+  shareTwitter(ide, titlePublication){
+    this.socialSharing.shareViaTwitter(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+  }
+
+  shareWhatsapp(ide, titlePublication){
+    this.socialSharing.shareViaWhatsApp(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+    console.log("https://r-utiliza.web.app/publication/"+ide);
   }
   
+  async presentActionSheet(ide, titlePublication) {
+    const actionSheet = await this.actionSheetController.create ({
+      header: 'Compartír vía:',
+      cssClass: 'my-custom-class',
+      buttons: [{
+        text: 'Facebook',
+        role: 'destructive',
+        icon: 'logo-facebook',
+        handler: () => {
+          this.shareFacebook(ide, titlePublication);
+        }
+      }, {
+        text: 'Twitter',
+        icon: 'logo-twitter',
+        handler: () => {
+          this.shareTwitter(ide, titlePublication);
+        }
+      }, {
+        text: 'Whatsapp',
+        icon: 'logo-whatsapp',
+        handler: () => {
+          this.shareWhatsapp(ide, titlePublication);
+          console.log(ide, titlePublication);
+        }
+      }, {
+        text: 'Cancelar',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
+
   goNotifications(){
    this.router.navigate(["/notifications"]);
  }
