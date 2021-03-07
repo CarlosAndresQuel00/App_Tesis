@@ -20,14 +20,14 @@ export class NoLoginGuard implements CanActivate {
    
       return this.AFauth.authState.pipe(map(auth => {
 
-        if(auth == null || auth ==undefined){
+        if(auth == null || auth == undefined){
           return true;
         }else{
          this.router.navigate(['/home']);
           return false;
         }
  
-       }))
+      }))
 
   }
 }

@@ -15,7 +15,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { EmbedVideoService } from 'ngx-embed-video';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { File } from '@ionic-native/file/ngx';
 import { NotificationInterface } from 'src/app/shared/notification.interface';
 
 
@@ -217,8 +216,9 @@ export class HomePage implements OnInit {
           text: 'Sí',
           handler: () => {
             this.authSvc.logout();
+            this.initUser();
             console.log('saliendo');
-            this.router.navigate(['login']);
+            
           }
         }
       ]

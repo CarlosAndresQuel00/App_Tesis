@@ -119,18 +119,20 @@ export class CommentsPage implements OnInit {
   }
   saveNotification(){
     const path = 'Notifications/';
-    this.notification.id = this.firestoreService.getId();
-    this.notification.comment = this.uName + ' comentó tu publicación';
-    this.notification.idPublication = this.idPubli;
-    this.notification.uPhoto = this.uPhoto;
-    this.notification.idUser = this.idCurrentUser;
-    this.notification.idTo = this.idTo;
-    this.notification.status = 'sin_abrir';
-    this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
-      console.log('notificacion guardarda!');
-    }).catch (err => {
-      console.log(err);
-    });
+    if(this.idCurrentUser != this.idTo){
+      this.notification.id = this.firestoreService.getId();
+      this.notification.comment = this.uName + ' comentó tu publicación';
+      this.notification.idPublication = this.idPubli;
+      this.notification.uPhoto = this.uPhoto;
+      this.notification.idUser = this.idCurrentUser;
+      this.notification.idTo = this.idTo;
+      this.notification.status = 'sin_abrir';
+      this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
+        console.log('notificacion guardarda!');
+      }).catch (err => {
+        console.log(err);
+      });
+    }
   }
   getUserInfo(uid: string){ // trae info de la bd
     const path = 'Users';

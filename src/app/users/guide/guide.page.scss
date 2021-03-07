@@ -1,8 +1,18 @@
 .step{
     margin-left: 10px;
     white-space: pre-wrap;
+
 }
 ion-toolbar{
     --background: #000;
     color: #fff;
+}
+.img-container{
+    display: flex;
+    align-content: center;
+    align-items: center;
+    .img{
+        display: block;
+        margin: auto;
+    }
 }
