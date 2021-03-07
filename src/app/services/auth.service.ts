@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { UserInterface } from '../shared/user.interface';
@@ -16,7 +17,7 @@ export class AuthService {
   public user: Observable<UserInterface>;
   public userData$: Observable<firebase.User>;
 
-  constructor(public fireAuth: AngularFireAuth, private fireStore: AngularFirestore){
+  constructor(public fireAuth: AngularFireAuth, private fireStore: AngularFirestore, private router: Router){
     this.userData$ = fireAuth.authState;
   }
 
@@ -66,6 +67,7 @@ export class AuthService {
   }
   logout(){
     this.fireAuth.signOut()
+    this.router.navigate(['login']);
   }
   stateAuth(){ // estado de autenticacion
     return this.fireAuth.authState;
