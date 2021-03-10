@@ -25,6 +25,7 @@
     "@ionic-native/core": "^5.31.1",
     "@ionic-native/document-viewer": "^5.31.1",
     "@ionic-native/file": "^5.31.1",
+    "@ionic-native/google-plus": "^5.31.1",
     "@ionic-native/in-app-browser": "^5.31.1",
     "@ionic-native/social-sharing": "^5.31.1",
     "@ionic-native/splash-screen": "^5.31.1",
@@ -59,6 +60,7 @@
     "cordova-plugin-androidx-adapter": "^1.1.3",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-document-viewer": "^1.0.0",
+    "cordova-plugin-googleplus": "^8.5.2",
     "cordova-plugin-inappbrowser": "^5.0.0",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^4.2.1",
@@ -99,7 +101,10 @@
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-document-viewer": {},
       "cordova-plugin-androidx": {},
-      "cordova-plugin-androidx-adapter": {}
+      "cordova-plugin-androidx-adapter": {},
+      "cordova-plugin-googleplus": {
+        "PLAY_SERVICES_VERSION": "15.0.1"
+      }
     },
     "platforms": [
       "android"
