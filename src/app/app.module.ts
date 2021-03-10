@@ -13,7 +13,6 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
-import { EmbedVideo } from 'ngx-embed-video';
 import { HttpClientModule } from '@angular/common/http';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import { YouTubePlayerModule  }  from  '@angular/youtube-player';
@@ -28,7 +27,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
-    EmbedVideo,
     HttpClientModule,
     AppRoutingModule,
     AngularFireAuthModule,

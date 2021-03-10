@@ -12,7 +12,6 @@ import { CommentsPage } from '../modals/comments/comments.page';
 import { NewPublicationPage } from './../modals/new-publication/new-publication.page';
 
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
-import { EmbedVideoService } from 'ngx-embed-video';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { NotificationInterface } from 'src/app/shared/notification.interface';
