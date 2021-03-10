@@ -8,9 +8,11 @@
     <ion-title>Mi idea</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content class="sign-in-content"> 
-  <div style="border: none;">
+  <ion-item *ngIf="publication == undefined">
+    <ion-label style="text-align: center;color: orange;">Ups! La idea que estás buscando ha sido borrada</ion-label>
+  </ion-item>
+  <div style="border: none;" *ngIf="publication != undefined">
     <div class="publication-info" style="border: none;">
       <ion-row>
         <ion-col size="1.5" size-lg>

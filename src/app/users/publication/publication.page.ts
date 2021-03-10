@@ -29,6 +29,7 @@ export class PublicationPage implements OnInit {
   };
   idCurrentUser: string;
   idPublication: string;
+  errorMessage = '';
   idUser = '';
   isOwner = false;
   private path = 'Ideas/';
