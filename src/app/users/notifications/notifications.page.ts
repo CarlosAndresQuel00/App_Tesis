@@ -45,6 +45,8 @@ export class NotificationsPage implements OnInit {
         this.notifications.forEach(e => {
           if(e.status == 'sin_abrir'){
             this.open = false;
+          }else{
+            this.open = true;
           }
         });
       }

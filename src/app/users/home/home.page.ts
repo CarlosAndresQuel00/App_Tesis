@@ -44,6 +44,7 @@ export class HomePage implements OnInit {
   countNotif = 0;
   notif = false;
 
+  presentLoad = true;
   newPublication: PublicationInterface = {
     id: '',
     title: '',
@@ -78,10 +79,6 @@ export class HomePage implements OnInit {
     public alertController: AlertController,
     private menu: MenuController,
     public toastController: ToastController,
-
-    private sanitizer: DomSanitizer,
-    private youtube:YoutubeVideoPlayer,
-    private embedService: EmbedVideoService,
     private socialSharing:SocialSharing,
     public actionSheetController: ActionSheetController,
   ) {

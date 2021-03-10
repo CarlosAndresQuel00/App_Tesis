@@ -27,7 +27,7 @@
         <br>
         <ion-button class="plus-button" fill="clear">
         <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
-        <input accept=".png,.jpg" (change)="newPhotoProfile($event)" id="file-upload" type="file">
+        <input (change)="newPhotoProfile($event)" id="file-upload" type="file">
       </ion-button>
       </ion-item>
     </ion-list>

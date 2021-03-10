@@ -70,14 +70,18 @@ export class EditPublicationPage implements OnInit {
   }
 
   async savePublication() { // registrar idea en firestorage y base de datos con id de auth
-    this.presentLoading();
-    this.firestoreService.updateDoc(this.newPublication, this.path, this.newPublication.id).then(res => {
-      this.presentToast('Cambios guardados');
-      this.redirectUser(true);
-    }).catch (err => {
-      console.log(err);
-      this.presentToast(err.message);
-    });
+    if(this.newPublication.title != '' && this.newPublication.description != ''){
+      this.presentLoading();
+      this.firestoreService.updateDoc(this.newPublication, this.path, this.newPublication.id).then(res => {
+        this.presentToast('Cambios guardados');
+        this.redirectUser(true);
+      }).catch (err => {
+        console.log(err);
+        this.presentToast(err.message);
+      });
+    }else{
+      this.presentWarningToast('Los campos con * son obligatorios');
+    }
   }
   getCategories(){
     const path = 'Categories/';
@@ -184,6 +188,14 @@ export class EditPublicationPage implements OnInit {
       message: msg,
       duration: 3000,
       color: 'success'
+    });
+    toast.present();
+  }
+  async presentWarningToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 3000,
+      color: 'danger'
     });
     toast.present();
   }

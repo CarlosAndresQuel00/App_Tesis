@@ -95,19 +95,24 @@ export class NewPublicationPage implements OnInit {
   }
 
   async savePublication() { // registrar idea en firestorage y base de datos con id de auth
-    this.presentLoading();
-    this.newPublication.userId = this.uid;
-    this.newPublication.userName = this.uName;
-    this.newPublication.userPhoto = this.uPhoto;
-    this.newPublication.videoURL= this.getIdVideo(this.newPublication.videoURL);
-    this.firestoreService.createDoc(this.newPublication, this.path, this.newPublication.id).then(res => {
-      this.presentToast('Idea publicada!');
-      console.log(this.newPublication.id);
-      this.dismiss();
-    }).catch (err => {
-      console.log(err);
-      this.presentToast(err.message);
-    });
+    if(this.newPublication.title != '' && this.newPublication.description != ''){
+      this.presentLoading();
+      this.newPublication.userId = this.uid;
+      this.newPublication.userName = this.uName;
+      this.newPublication.userPhoto = this.uPhoto;
+      this.newPublication.videoURL= this.getIdVideo(this.newPublication.videoURL);
+      this.firestoreService.createDoc(this.newPublication, this.path, this.newPublication.id).then(res => {
+        this.presentToast('Idea publicada!');
+        console.log(this.newPublication.id);
+        this.dismiss();
+      }).catch (err => {
+        console.log(err);
+        this.presentToast(err.message);
+      });
+    }else{
+      this.presentWarningToast('Los campos con * son obligatorios');
+    }
+
   }
   
   // subir imágenes
@@ -139,6 +144,14 @@ export class NewPublicationPage implements OnInit {
       message: msg,
       duration: 3000,
       color: 'success'
+    });
+    toast.present();
+  }
+  async presentWarningToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 3000,
+      color: 'danger'
     });
     toast.present();
   }

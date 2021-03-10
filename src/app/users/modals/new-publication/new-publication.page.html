@@ -16,8 +16,8 @@
   <form >
     <ion-list class="inputs-list" lines="full">
       <ion-item class="input-item">
-        <ion-label position="stacked" color="primary">Título</ion-label>
-        <ion-input [(ngModel)]= "newPublication.title" type="text" name="title"></ion-input>
+        <ion-label position="stacked" color="primary">Título <span style="color: red;">*</span></ion-label>
+        <ion-input [(ngModel)]= "newPublication.title" type="text" name="title" required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label color="primary">Categoría</ion-label>
@@ -30,8 +30,8 @@
         <ion-textarea [(ngModel)]= "newPublication.materials" type="text" name="materials" rows="7" placeholder="{{'1.\n2.\n3.\n.\n.'}}"></ion-textarea>
       </ion-item>
       <ion-item class="input-item">
-        <ion-label position="stacked" color="primary" >Pasos a seguir</ion-label>
-        <ion-textarea [(ngModel)]= "newPublication.description" type="text" name="description" rows="7"></ion-textarea>
+        <ion-label position="stacked" color="primary" >Pasos a seguir/Descripción <span style="color: red;">*</span></ion-label>
+        <ion-textarea [(ngModel)]= "newPublication.description" type="text" name="description" rows="7" required></ion-textarea>
       </ion-item>
       <div style="margin-left: 10px;">
         <ion-label color="primary"  class="label-input">Archivo</ion-label><br>
@@ -43,14 +43,14 @@
               <ion-icon name="images"></ion-icon>
               Imágenes
             </label>
-            <input accept=".png,.jpg" (change)="newPublicationImage($event)" id="img-upload" type="file" style="display: none;">
+            <input (change)="newPublicationImage($event)" id="img-upload" type="file" style="display: none;">
           </ion-button>
           <ion-button disabled="{{disabledBtn}}">
             <label for="file-upload">
               <ion-icon name="document"></ion-icon>
                Documento
             </label>
-            <input accept=".pdf" (change)="cambioArchivo($event)" id="file-upload" type="file" style="display: none;">
+            <input (change)="cambioArchivo($event)" id="file-upload" type="file" style="display: none;">
           </ion-button>
           <ion-button (click)="accion1()">
             <ion-label>
@@ -61,7 +61,7 @@
       </ion-item>
       <ion-item class="input-item" *ngIf="ocultar1">
         <ion-label position="stacked" color="primary" class="label-input">URL</ion-label>
-        <ion-textarea [(ngModel)]= "newPublication.videoURL" type="text" name="videoURL" ></ion-textarea>
+        <ion-textarea [(ngModel)]= "newPublication.videoURL" type="text" name="videoURL" placeholder="Ingresa la URL del video"></ion-textarea>
       </ion-item>
       <div style="margin-left: 10px;align-items: center;" *ngIf="newPublication.file || archivo">
         <div>  
