@@ -9,6 +9,8 @@ import { UserInterface } from 'src/app/shared/user.interface';
 import firebase from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -36,6 +38,8 @@ export class LoginPage implements OnInit {
     public fireAuth: AngularFireAuth,
     public toastController: ToastController,
     public firestoreService: FirestoreService,
+    private googlePlus: GooglePlus,
+    private platform: Platform,
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -60,6 +64,58 @@ export class LoginPage implements OnInit {
     };
   }
 
+  onlog(){
+    if (this.platform.is('android')) {
+      this.loginGoogleAndroid();
+    } else {
+      this.loginGoogleWeb();
+    }
+  }
+  async loginGoogleAndroid() {
+    const path = 'Users';
+    const res = await this.googlePlus.login({
+      'webClientId': '938752442008-ebs8beln911m7kqm4gb5f7ldopj1ohi6.apps.googleusercontent.com',
+      'offline': true
+    });
+    const resConfirmed = await this.fireAuth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken));
+    const user = resConfirmed.user;
+    if (user){
+      this.user.name = user.displayName;
+      this.user.photo = user.photoURL;
+      this.user.email = user.email;
+      this.user.uid = user.uid;
+      this.firestoreService.updateDoc(this.user, path, user.uid).then(res => {
+      this.redirectUser(true);
+    }).catch (err => {
+      console.log(err);
+      this.presentToast(err.message);
+    });
+    }
+  }
+
+  async loginGoogleWeb() {
+    const path = 'Users';
+    try{
+      const res = await this.fireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      const user = res.user;
+      if (user){
+        this.user.name = user.displayName;
+        this.user.photo = user.photoURL;
+        this.user.email = user.email;
+        this.user.uid = user.uid;
+        this.firestoreService.updateDoc(this.user, path, user.uid).then(res => {
+        this.redirectUser(true);
+      }).catch (err => {
+        console.log(err);
+        this.presentToast(err.message);
+      });
+      }
+    } catch (error){
+      console.log(error);
+    }
+  }
+
+
   async onLogin(){
     try{
       const user = await this.authSvc.loginUser(this.user.email, this.user.password);
@@ -74,27 +130,6 @@ export class LoginPage implements OnInit {
     }
   }
 
-  async onLoginGoogle(){
-    const path = 'Users';
-    try{
-      const res = await this.fireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-      const user = res.user;
-      if (user){
-        this.user.name = user.displayName;
-        this.user.photo = user.photoURL;
-        this.user.email = user.email;
-        this.user.uid = user.uid;
-        this.firestoreService.createDoc(this.user, path, user.uid).then(res => {
-        this.redirectUser(true);
-      }).catch (err => {
-        console.log(err);
-        this.presentToast(err.message);
-      });
-      }
-    } catch (error){
-      console.log(error);
-    }
-  }
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
