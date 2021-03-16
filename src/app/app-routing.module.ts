@@ -133,14 +133,12 @@ const routes: Routes = [
   {
     path: 'guide',
     loadChildren: () => import('./users/guide/guide.module').then( m => m.GuidePageModule)
-  },  {
+  },
+ /* {
     path: 'splash',
     loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
-  },
+  },*/
 
-
-
-  
 
 ];
 @NgModule({
