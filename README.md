@@ -15,7 +15,8 @@ Dentro del desarroLlo de la Aplicación Móvil se pudo recabar varios requerimei
 ### Iniciar sesión y registro de usuarios
 El usuario puede iniciar sesión o registrase dentro de la aplicación usando un correo y una contraseña generada por el mismo usuario al momento de ingresar al formulario de registro, para esto fue necesario activar este método de autenticación en Firebase Authentication habilitando Email/Password.
 Por otro lado el susuario tambein puded acceder mediante sus credenciales de Google.<br/>
-<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210309-003450_MyApp.jpg" width="250"/>
+<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210309-003450_MyApp.jpg" width="300">
+<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210309-003454_MyApp.jpg" width="300">
 ### Visualización de la ventana principal
 El susuariio podra ver todas las publicaciones de todos usuarios regsitrado en la ventana principal.
 
