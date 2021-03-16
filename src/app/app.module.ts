@@ -20,6 +20,7 @@ import { YouTubePlayerModule  }  from  '@angular/youtube-player';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 @NgModule({
 
@@ -39,6 +40,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
   ],
   providers: [
     StatusBar,
+    GooglePlus,
     YoutubeVideoPlayer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     SocialSharing,
