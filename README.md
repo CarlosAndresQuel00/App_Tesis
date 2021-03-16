@@ -64,7 +64,28 @@ Los usuarios podrán compartir las publicaciones creadas por ellos mismos o por 
 ## 4. Versiones de Desarrollo
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/ionic-info.jpg" width="800"/>
 
-## 5. Anexos
+## 5. Instalación
+
+###  1. Clonar el Repositorio
+```bash
+git clone
+cd App_tesis
+```
+
+###  2. Instalar dependencias
+
+```bash
+npm install
+```
+
+###  3. Levatar el servidor local
+
+```bash
+ionic serve
+```
+
+
+## 6. Anexos
 <br/><b>Informe Técnico:</b>
 <br/><b>Manual Técnico:</b> 
 <br/><b>Manual de Instalación:</b> 
