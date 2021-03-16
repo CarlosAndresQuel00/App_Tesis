@@ -1,7 +1,7 @@
 import { RouterModule } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { NavController, ToastController } from '@ionic/angular';
+import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { UserInterface } from 'src/app/shared/user.interface';
@@ -20,6 +20,7 @@ export class LoginPage implements OnInit {
 
   segment1: boolean;
   segment2: boolean;
+  loading;
   errorMessage = '';
   error = false;
   user: UserInterface = {
@@ -39,6 +40,7 @@ export class LoginPage implements OnInit {
     public firestoreService: FirestoreService,
     private googlePlus: GooglePlus,
     private platform: Platform,
+    public loadingController: LoadingController,
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -82,6 +84,7 @@ export class LoginPage implements OnInit {
           firebase.auth().signInWithCredential(googleCredential).then( response => {
             const user = response.user;
             if (user){
+              this.presentLoading();
               this.user.name = user.displayName;
               this.user.photo = user.photoURL;
               this.user.email = user.email;
@@ -164,6 +167,17 @@ export class LoginPage implements OnInit {
       this.segment1 = false;
       this.segment2 = true;
     }
+  }
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: '',
+      duration: 2000
+    });
+    await this.loading.present();
+
+     const { role, data} = await this.loading.onDidDismiss();
+     console.log('Loading dismissed!');
   }
 }
 

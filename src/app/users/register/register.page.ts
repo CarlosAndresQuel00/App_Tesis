@@ -5,7 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FirestorageService } from '../../services/firestorage.service';
 import { FirestoreService } from '../../services/firestore.service';
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, LoadingController } from '@ionic/angular';
 import firebase from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
@@ -20,6 +20,7 @@ export class RegisterPage implements OnInit {
 
   newFile: '';
   newImage: '';
+  loading;
   segment1: boolean;
   segment2: boolean;
   user: UserInterface = {
@@ -41,6 +42,7 @@ export class RegisterPage implements OnInit {
     public fireAuth: AngularFireAuth,
     private googlePlus: GooglePlus,
     private platform: Platform,
+    public loadingController: LoadingController,
   ){}
 
   async ngOnInit(){
@@ -88,11 +90,12 @@ export class RegisterPage implements OnInit {
           firebase.auth().signInWithCredential(googleCredential).then( response => {
             const user = response.user;
             if (user){
+              this.presentLoading();
               this.user.name = user.displayName;
               this.user.photo = user.photoURL;
               this.user.email = user.email;
               this.user.uid = user.uid;
-              this.firestoreService.updateDoc(this.user, path, user.uid).then(res => {
+              this.firestoreService.updateDoc(this.user, path, user.uid).then(res => { 
               this.redirectUser(true);
               resolve(response)
               }).catch (err => {
@@ -168,5 +171,16 @@ export class RegisterPage implements OnInit {
       this.segment1 = false;
       this.segment2 = true;
     }
+  }
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: '',
+      duration: 2000
+    });
+    await this.loading.present();
+
+     const { role, data} = await this.loading.onDidDismiss();
+     console.log('Loading dismissed!');
   }
 }
