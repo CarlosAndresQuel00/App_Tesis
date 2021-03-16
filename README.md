@@ -51,7 +51,8 @@ Los usuarios podrán comentra cualquier publicacion publicada.<br/>
 Los usuarios podrán compartir las publicaciones creadas por ellos mismos o por otros usuarios.<br/>
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210316-002438_R-Utiliza.jpg" width="300">
 ## 3. Versiones de Desarrollo
-<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/ionic-info.jpg" width="300"/>
+<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/ionic-info.jpg" width="800"/>
+
 ## 4. Anexos
 <br/><b>Informe Técnico:</b>
 <br/><b>Manual Técnico:</b> 
