@@ -81,7 +81,7 @@ export class RegisterPage implements OnInit {
   async regGoogleAndroid() {
     const path = 'Users';
     const res = await this.googlePlus.login({
-      'webClientId': '938752442008-ebs8beln911m7kqm4gb5f7ldopj1ohi6.apps.googleusercontent.com',
+      'webClientId': '938752442008-t9o7uftvd7rgdrcle6hqurekbusisn38.apps.googleusercontent.com',
       'offline': true
     });
     const resConfirmed = await this.fireAuth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken));
