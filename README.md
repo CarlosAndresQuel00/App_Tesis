@@ -11,17 +11,17 @@ La aplicación móvil será híbrida por lo que Ionic es una buen framework para
 ### FIREBASE
 Firebase es una plataforma cuya función es desarrollar y facilitar la creación de apps de elevada calidad de una forma rápida ya que contiene diversas funciones que se pueden adaptar a las herramientas o plataformas que se usará para el desarrollo. Además de que es muy intuitiva al ofrecer APIs integradas, por otro lado, tambien se utlizó Firebase para el para el hosting y alamcenamiento de datos, imagenes y documentos.
 
-## 2. Estructura y aqruitectura
+## 2. Estructura y arquitectura
 ### ° Arquitectura
 La Arquitectura de la Aplicación móvil se meustra en la siguiente imagen.<br/> 
-<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/arquitectura.png" width="300">
+<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/arquitectura.png" width="800">
 
 ### ° Estructura
 Los datos almacenados en Firebase muestran las siguiente estructura.<br/>
-<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/estructura.png" width="300">
+<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/estructura.png" width="800">
 
 ## 3. Funcionalidades principales
-Dentro del desarroLlo de la Aplicación Móvil se pudo recabar varios requerimeinto y funcionalidades para la aplicacion, algunas de las más importantes son las siguientes:
+Dentro del desarroLlo de la Aplicación Móvil se pudo recabar varios requerimientos y funcionalidades para la Aplicación Móvil, algunas de las más importantes son las siguientes:
 ### ° Iniciar sesión y registro de usuarios
 El usuario puede iniciar sesión o registrase dentro de la aplicación usando un correo y una contraseña generada por el mismo usuario al momento de ingresar al formulario de registro, para esto fue necesario activar este método de autenticación en Firebase Authentication habilitando Email/Password.
 Por otro lado el susuario tambein puded acceder mediante sus credenciales de Google.<br/>
