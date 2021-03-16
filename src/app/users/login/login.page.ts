@@ -65,33 +65,42 @@ export class LoginPage implements OnInit {
 
   onlog(){
     if (this.platform.is('android')) {
-      this.loginGoogleAndroid();
+      this.googleLogin();
     } else {
       this.loginGoogleWeb();
     }
   }
-  async loginGoogleAndroid() {
-    const path = 'Users';
-    const res = await this.googlePlus.login({
-      'webClientId': '938752442008-t9o7uftvd7rgdrcle6hqurekbusisn38.apps.googleusercontent.com',
-      'offline': true
-    });
-    const resConfirmed = await this.fireAuth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken));
-    const user = resConfirmed.user;
-    if (user){
-      this.user.name = user.displayName;
-      this.user.photo = user.photoURL;
-      this.user.email = user.email;
-      this.user.uid = user.uid;
-      this.firestoreService.updateDoc(this.user, path, user.uid).then(res => {
-      this.redirectUser(true);
-    }).catch (err => {
-      console.log(err);
-      this.presentToast(err.message);
-    });
-    }
-  }
 
+  googleLogin(): Promise<any> {
+    const path = 'Users';
+    return new Promise((resolve, reject) => { 
+        this.googlePlus.login({
+          'webClientId': '938752442008-t9o7uftvd7rgdrcle6hqurekbusisn38.apps.googleusercontent.com',
+          'offline': true
+        }).then( res => {
+          const googleCredential = firebase.auth.GoogleAuthProvider.credential(res.idToken);
+          firebase.auth().signInWithCredential(googleCredential).then( response => {
+            const user = response.user;
+            if (user){
+              this.user.name = user.displayName;
+              this.user.photo = user.photoURL;
+              this.user.email = user.email;
+              this.user.uid = user.uid;
+              this.firestoreService.updateDoc(this.user, path, user.uid).then(res => {
+              this.redirectUser(true);
+              resolve(response)
+              }).catch (err => {
+                console.log(err);
+                  this.presentToast(err.message);
+              });
+            }
+          });
+        }, err => {
+            this.presentToast("Error: "+ err);
+            reject(err);
+        });
+      });
+    }
   async loginGoogleWeb() {
     const path = 'Users';
     try{
@@ -141,7 +150,7 @@ export class LoginPage implements OnInit {
     if (isVerified){
       this.router.navigate(['home']);
     }else{
-      this.router.navigate(['verify-email']);
+     console.log('No redirect');
     }
   }
 

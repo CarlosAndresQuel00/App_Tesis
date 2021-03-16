@@ -7,6 +7,7 @@ import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import firebase from 'firebase';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthService {
   public user: Observable<UserInterface>;
   public userData$: Observable<firebase.User>;
 
-  constructor(public fireAuth: AngularFireAuth, private fireStore: AngularFirestore, private router: Router){
+  constructor(public fireAuth: AngularFireAuth, private googlePlus: GooglePlus, private fireStore: AngularFirestore, private router: Router){
     this.userData$ = fireAuth.authState;
   }
 
@@ -75,7 +76,11 @@ export class AuthService {
   getAuth(){
     return this.fireAuth.authState.pipe(map(auth => auth));
   }
-
-
+/*  loginGoogleAndroid() {
+    return this.googlePlus.login({}).then(res => {
+      const user_data = res;
+      return this.fireAuth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(null, user_data.accessToken));
+    })
+  }*/
 }
 
