@@ -68,7 +68,7 @@ Los usuarios podrán compartir las publicaciones creadas por ellos mismos o por 
 
 ###  1. Clonar el Repositorio
 ```bash
-git clone
+git clone https://github.com/Migueltorresp/App_Tesis.git
 cd App_tesis
 ```
 
