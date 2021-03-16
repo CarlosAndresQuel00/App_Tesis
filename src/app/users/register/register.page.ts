@@ -1,6 +1,5 @@
 import { UserInterface } from 'src/app/shared/user.interface';
 import { Observable } from 'rxjs';
-// register.page.ts
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
