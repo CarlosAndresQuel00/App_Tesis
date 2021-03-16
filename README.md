@@ -19,13 +19,13 @@ Por otro lado el susuario tambein puded acceder mediante sus credenciales de Goo
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210309-003454_MyApp.jpg" width="300" text-align=center>
 
 ### ° Visualización de la ventana principal
-El usuario podrá ver todas las publicaciones de todos usuarios regsitrado en la ventana principal.
+El usuario podrá ver todas las publicaciones de todos usuarios regsitrado en la ventana principal.<br/>
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210316-000159_R-Utiliza.jpg" width="300">
 ### ° Guardar publicaciones de otros usuarios
-El usuario podrá guardar las publicaciones que le parecieron más interesantes de otros usuarios y así poder acceder a esta información de manera más fácil, en esta lista se encontraran todos los datos de la publicación, así como los datos de la persona que lo publicó. 
+El usuario podrá guardar las publicaciones que le parecieron más interesantes de otros usuarios y así poder acceder a esta información de manera más fácil, en esta lista se encontraran todos los datos de la publicación, así como los datos de la persona que lo publicó.<br/> 
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210309-003140_MyApp.jpg" width="300">
 ### ° Seguir entre usuarios
-Los usuarios tendrán la posibilidad de seguir a otros usuarios y así poder acceder a todas las publicaciones de los mismos.
+Los usuarios tendrán la posibilidad de seguir a otros usuarios y así poder acceder a todas las publicaciones de los mismos.<br/>
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210316-001415_R-Utiliza.jpg" width="300">
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210316-001419_R-Utiliza.jpg" width="300">
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210316-001436_R-Utiliza.jpg" width="300">
@@ -40,7 +40,7 @@ Muestra las categorías de las publicaciones dentro del aplicación móvil.<br/>
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210316-002453_R-Utiliza.jpg" width="300">
 
 ### ° Reportar publicaciones
-Realizar un reporte de alguna publicación que vulnere la temática principal de la aplicación que es reutilizar.
+Realizar un reporte de alguna publicación que vulnere la temática principal de la aplicación que es reutilizar.<br/>
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210316-004047_R-Utiliza.jpg" width="300">
 
 ### ° Comentar publicaciones
@@ -51,7 +51,7 @@ Los usuarios podrán comentra cualquier publicacion publicada.<br/>
 Los usuarios podrán compartir las publicaciones creadas por ellos mismos o por otros usuarios.<br/>
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210316-002438_R-Utiliza.jpg" width="300">
 ## 3. Versiones de Desarrollo
-<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/ionic-info.jpg" width="300">
+<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/ionic-info.jpg" width="300"/>
 ## 4. Anexos
 <br/><b>Informe Técnico:</b>
 <br/><b>Manual Técnico:</b> 
