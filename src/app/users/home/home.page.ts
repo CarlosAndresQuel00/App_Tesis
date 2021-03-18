@@ -15,6 +15,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { NotificationInterface } from 'src/app/shared/notification.interface';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 
 @Component({
@@ -22,8 +23,8 @@ import { NotificationInterface } from 'src/app/shared/notification.interface';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
-
+export class HomePage implements OnInit{
+  
   yt_iframe_html: any;
   videoURL: string;
 
@@ -80,6 +81,7 @@ export class HomePage implements OnInit {
     public toastController: ToastController,
     private socialSharing:SocialSharing,
     public actionSheetController: ActionSheetController,
+    public fireAuth: AngularFireAuth
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -157,8 +159,8 @@ export class HomePage implements OnInit {
         }, {
           text: 'Sí',
           handler: () => {
-            this.authSvc.logout();
-            this.initUser();
+            this.fireAuth.signOut();
+            this.navCtrl.navigateForward('/login');
             console.log('saliendo');
             
           }
@@ -179,7 +181,7 @@ export class HomePage implements OnInit {
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
     this.publications = res;
     console.log('publi', res);
-    });
+    }).unsubscribe;
   }
 
   gotoEditPublication(id: string){

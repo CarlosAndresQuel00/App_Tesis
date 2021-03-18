@@ -9,7 +9,6 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate: [AuthGuardService]
   },
   {
     path: 'login',
@@ -19,7 +18,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./users/home/home.module').then( m => m.HomePageModule),
-    canActivate: [AuthGuardService]
+    //canActivate: [AuthGuardService]
   },
   {
     path: 'register',

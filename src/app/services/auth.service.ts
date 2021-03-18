@@ -67,7 +67,7 @@ export class AuthService {
     return this.fireAuth.user;
   }
   logout(){
-    this.fireAuth.signOut()
+    this.fireAuth.signOut();
     this.router.navigate(['login']);
   }
   stateAuth(){ // estado de autenticacion
@@ -76,11 +76,5 @@ export class AuthService {
   getAuth(){
     return this.fireAuth.authState.pipe(map(auth => auth));
   }
-/*  loginGoogleAndroid() {
-    return this.googlePlus.login({}).then(res => {
-      const user_data = res;
-      return this.fireAuth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(null, user_data.accessToken));
-    })
-  }*/
 }
 
