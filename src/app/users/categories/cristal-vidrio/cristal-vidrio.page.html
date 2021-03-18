@@ -10,8 +10,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-item *ngIf="publications == undefined || publications == null">
-    <ion-label style="text-align: center;color: orange;">No hay publicaciones</ion-label>
+  <ion-item *ngIf="noIdeas">
+    <ion-label style="text-align: center;color: orange;">No hay ideas de esta categoría</ion-label>
   </ion-item>
   <div *ngFor= "let publication of publications" class="publications-container" style="border: none;">
     <div style="border: none;">

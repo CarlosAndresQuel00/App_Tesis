@@ -22,6 +22,7 @@ export class UserProfilePage implements OnInit {
   idCurrentUser: string;
   private path = 'Ideas/';
   private path1 = 'Followed/';
+  noIdeas = true;
   existe = false;
   idFollowed = '';
   user: UserInterface = {
@@ -112,6 +113,11 @@ export class UserProfilePage implements OnInit {
       this.publications = res.filter(word => word.userId === this.idUser);
     });
     saved.unsubscribe;
+    if(this.publications.length !== 0){
+      this.noIdeas = false;
+    }else{
+      this.noIdeas = true;
+    }
   }
   getFollowed(){
     this.firestoreService.getCollection<UserInterface>(this.path1).subscribe( res => {  // res - respuesta del observador

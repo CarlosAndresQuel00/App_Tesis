@@ -14,7 +14,9 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
   styleUrls: ['./metales.page.scss'],
 })
 export class MetalesPage implements OnInit {
+
   saved = false;
+  noIdeas = true;
   newPublication: PublicationInterface = {
     id: '',
     title: '',
@@ -64,7 +66,11 @@ export class MetalesPage implements OnInit {
   getPublications(){
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
       this.publications = res.filter(publi => publi.category == 'Metales');
-      console.log('publi', this.publications);
+      if(this.publications.length !== 0){
+        this.noIdeas = false;
+      }else{
+        this.noIdeas = true;
+      }
    });
  }
  getUserInfo(uid: string){ // trae info de la bd

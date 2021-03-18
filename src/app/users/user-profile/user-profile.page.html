@@ -23,6 +23,9 @@
   </div>
   <hr color="#86C14F" size=1 width="100%">
   <h6 style="text-align: center;">Publicaciones</h6>
+  <ion-item *ngIf="noIdeas">
+    <ion-label style="text-align: center;color: orange;">{{user.name}} aún no ha publicado ideas</ion-label>
+  </ion-item>
   <div *ngFor= "let publication of publications" class="publications-container" style="border: none;">
     <div style="border: none;">
      <div class="publication-info" style="border: none;">

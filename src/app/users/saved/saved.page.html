@@ -5,6 +5,9 @@
 </ion-header>
 
 <ion-content class="sign-in-content"> 
+  <ion-item *ngIf="noIdeas">
+    <ion-label style="text-align: center;color: orange;">No tienes ideas guardadas</ion-label>
+  </ion-item>
   <div *ngFor= "let publication of publications" class="publications-container">
     <div>
      <div class="publication-info">

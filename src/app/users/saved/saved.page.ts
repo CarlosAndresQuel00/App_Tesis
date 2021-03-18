@@ -17,6 +17,7 @@ export class SavedPage implements OnInit {
   uid: string;
   idCurrentUser: string;
   private path = 'Saved/';
+  noIdeas = true;
   user: UserInterface = {
     uid: '',
     name: '',
@@ -68,7 +69,11 @@ export class SavedPage implements OnInit {
     if (res){
       this.publications = res.filter(word => word.idUserSave === this.idCurrentUser);
     }
-    console.log('guardados', res);
+    if(this.publications.length !== 0){
+      this.noIdeas = false;
+    }else{
+      this.noIdeas = true;
+    }
    });
   }
   getUserInfo(uid: string){ // trae info de la bd

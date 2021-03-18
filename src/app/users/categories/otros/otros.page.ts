@@ -27,6 +27,7 @@ export class OtrosPage implements OnInit {
     idUserSave: '',
     videoURL:'',
   };
+  noIdeas = true;
   private path = 'Ideas/';
   idCurrentUser: string;
   user: UserInterface = {
@@ -64,6 +65,11 @@ export class OtrosPage implements OnInit {
   getPublications(){
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
       this.publications = res.filter(publi => publi.category == 'Otros');
+      if(this.publications.length !== 0){
+        this.noIdeas = false;
+      }else{
+        this.noIdeas = true;
+      }
       console.log('publi', this.publications);
    });
  }

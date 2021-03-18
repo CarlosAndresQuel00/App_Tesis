@@ -14,6 +14,7 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./users/login/login.module').then( m => m.LoginPageModule),
+    canActivate : [NoLoginGuard]
   },
   {
     path: 'home',

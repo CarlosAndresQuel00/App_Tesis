@@ -14,7 +14,9 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
   styleUrls: ['./papel-carton.page.scss'],
 })
 export class PapelCartonPage implements OnInit {
+
   saved = false;
+  noIdeas = true;
   newPublication: PublicationInterface = {
     id: '',
     title: '',
@@ -64,7 +66,11 @@ export class PapelCartonPage implements OnInit {
   getPublications(){
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
       this.publications = res.filter(publi => publi.category == 'Papel y cartón');
-      console.log('publi', this.publications);
+      if(this.publications.length !== 0){
+        this.noIdeas = false;
+      }else{
+        this.noIdeas = true;
+      }
    });
  }
   getUserInfo(uid: string){ // trae info de la bd

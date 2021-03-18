@@ -15,7 +15,9 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
   styleUrls: ['./cristal-vidrio.page.scss'],
 })
 export class CristalVidrioPage implements OnInit {
+  
   saved = false;
+  noIdeas = true;
   newPublication: PublicationInterface = {
     id: '',
     title: '',
@@ -65,7 +67,11 @@ export class CristalVidrioPage implements OnInit {
   getPublications(){
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
     this.publications = res.filter(publi => publi.category == 'Cristal y vidrio');
-    console.log('publi', this.publications);
+    if(this.publications.length !== 0){
+      this.noIdeas = false;
+    }else{
+      this.noIdeas = true;
+    }
    });
  }
   getUserInfo(uid: string){ // trae info de la bd
