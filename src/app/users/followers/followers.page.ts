@@ -130,7 +130,7 @@ export class FollowersPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Dejar de seguir',
-      message: 'Quitar idea de tu lista de seguidos?',
+      message: '¿Quitar idea de tu lista de seguidos?',
       buttons: [
         {
           text: 'Cancelar',

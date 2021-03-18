@@ -235,7 +235,7 @@ export class EditPublicationPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Eliminar idea',
-      message: 'Estás seguro de eliminar este archivo?',
+      message: '¿Estás seguro de eliminar este archivo?',
       buttons: [
         {
           text: 'Cancelar',

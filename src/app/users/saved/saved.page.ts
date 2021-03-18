@@ -109,7 +109,7 @@ export class SavedPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Eliminar idea',
-      message: 'Quitar idea de tu lista de guardados?',
+      message: '¿Quitar idea de tu lista de guardados?',
       buttons: [
         {
           text: 'Cancelar',

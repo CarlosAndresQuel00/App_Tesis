@@ -8,7 +8,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import { AngularFireModule} from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -28,7 +27,6 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,
     AngularFireAuthModule,
@@ -37,6 +35,9 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.credencialesFirebase),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    IonicModule.forRoot({
+      hardwareBackButton: false
+    }),
   ],
   providers: [
     StatusBar,

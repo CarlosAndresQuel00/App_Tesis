@@ -152,7 +152,7 @@ export class CommentsPage implements OnInit {
   async presentAlertConfirm(id: string) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      message: 'Eiminar comentario?',
+      message: '¿Eiminar comentario?',
       buttons: [
         {
           text: 'Cancelar',

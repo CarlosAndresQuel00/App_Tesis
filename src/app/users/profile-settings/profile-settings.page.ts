@@ -106,7 +106,7 @@ export class ProfileSettingsPage implements OnInit {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Editar perfil',
-      message: 'Está seguro de deshacer cambios?',
+      message: '¿Está seguro de deshacer cambios?',
       buttons: [
         {
           text: 'Cancelar',

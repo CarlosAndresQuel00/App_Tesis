@@ -188,7 +188,7 @@ export class ProfilePage implements OnInit {
    const alert = await this.alertController.create({
      cssClass: 'my-custom-class',
      header: 'Eliminar idea',
-     message: 'Estás seguro de eliminar tu idea?',
+     message: '¿Estás seguro de eliminar tu idea?',
      buttons: [
        {
          text: 'Cancelar',
