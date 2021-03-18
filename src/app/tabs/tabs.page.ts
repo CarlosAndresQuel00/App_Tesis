@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tabs',
@@ -7,6 +9,14 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  constructor(private authSvc: AuthService,
+    private router: Router,) {
+    this.authSvc.stateAuth().subscribe(res => {
+      console.log(res);
+      if (!res){
+        this.router.navigate(['login']);
+      }
+    });
+  }
 
 }
