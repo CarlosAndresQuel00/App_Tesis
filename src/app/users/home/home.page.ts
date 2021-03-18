@@ -91,6 +91,7 @@ export class HomePage implements OnInit{
         console.log('id ini', this.idCurrentUser);
       }
     });
+
   }
   initUser(){
     this.idCurrentUser = '';
@@ -110,7 +111,7 @@ export class HomePage implements OnInit{
     this.getNotifications();
     const tag = document.createElement('script');
     tag.src = '//www.youtube.com/iframe_api';
-    document.body.appendChild(tag);
+   document.body.appendChild(tag);
   }
   openFirst() {
     this.menu.toggle();
