@@ -39,7 +39,6 @@ export class HomePage implements OnInit{
   public dato:String;
   //youtubeUrl : any;
 
-
   userName: string;
   countNotif = 0;
   notif = false;
