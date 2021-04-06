@@ -10,6 +10,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginPage implements OnInit {
   loading;
   errorMessage = '';
   error = false;
+  recaptchaVerifier:firebase.auth.RecaptchaVerifier;
   user: UserInterface = {
     uid: '',
     name: '',
@@ -30,6 +32,7 @@ export class LoginPage implements OnInit {
     email: '',
     photo: '',
     password: '',
+    number: ''
   };
 
   constructor(
@@ -41,6 +44,7 @@ export class LoginPage implements OnInit {
     private googlePlus: GooglePlus,
     private platform: Platform,
     public loadingController: LoadingController,
+    public alertController: AlertController
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -51,6 +55,7 @@ export class LoginPage implements OnInit {
   }
 
   async ngOnInit() {
+    recaptchaVerifier:firebase.auth.RecaptchaVerifier;
     this.segment1 = true;
     this.initUser();
   }
@@ -140,7 +145,74 @@ export class LoginPage implements OnInit {
       console.log(error.errorMessage);
     }
   }
+  /*onLoginPhone(){
+    const appVerifier = this.recaptchaVerifier;
+  const phoneNumberString = "+593" + this.user.number;
+  firebase.auth().signInWithPhoneNumber(phoneNumberString, appVerifier)
+    .then( async (confirmationResult) => {
+      // SMS sent. Prompt user to type the code from the message, then sign the
+      // user in with confirmationResult.confirm(code).
+      let prompt = await this.alertController.create({
+      header: 'Verificar código de autenticación',
+      inputs: [{ name: 'confirmationCode', placeholder: 'Confirmation Code' }],
+      buttons: [
+        { text: 'Cancel',
+          handler: data => { console.log('Cancel clicked'); }
+        },
+        { text: 'Send',
+          handler: data => {
+            confirmationResult.confirm(data.confirmationCode)
+            .then(function (result) {
+              // User signed in successfully.
+              this.presentToast(result.user);
+              // ...
+            }).catch(function (error) {
+              this.presentToast(error);
+            });
+          }
+        }
+      ]
+    });
+    await prompt.present();
+  })
+  .catch(function (error) {
+    console.error("SMS not sent", error);
+  });
+  }
+  /*
+  async verifyCode(vid: string){
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Verificar código de autenticación',
+      inputs: [
+        {
+          name: 'code',
+          type: 'number',
+          placeholder: 'Ingresa tu código'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Ok',
+          handler: (response) => {
+            const smsCode = response.code;
+            this.firebaseAuthentication.signInWithVerificationId(vid, smsCode).then( res =>{
+              this.presentToast(res);
+            });
+          }
+        }
+      ]
+    });
 
+    await alert.present();
+  }*/
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,

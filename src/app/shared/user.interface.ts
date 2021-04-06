@@ -10,4 +10,5 @@ export interface UserInterface{
     idUserFollower?: string;
     idUserFollow?: string;
     countFollowers?: number;
+    number?: string;
 }

@@ -1,7 +1,7 @@
 import { AuthService } from 'src/app/services/auth.service';
 import { UserInterface } from './../../shared/user.interface';
 import { FirestoreService } from '../../services/firestore.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AlertController, NavController, ToastController, ActionSheetController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
@@ -34,7 +34,6 @@ export class HomePage implements OnInit{
   private path = 'Ideas/';
 
   saved = false;
-
   //para buscar
   textoBuscar = '';
   public dato:String;
@@ -65,6 +64,9 @@ export class HomePage implements OnInit{
     photo: '',
     password: ''
   };
+  
+  idcomp;
+
   publications: PublicationInterface[] = [];
   savedPublications: PublicationInterface[] = [];
   publi: PublicationInterface[] = [];
@@ -107,7 +109,7 @@ export class HomePage implements OnInit{
   }
 
   ngOnInit() {
-    this.getPublications();
+    this.getPublications();   
     this.getPublicationsSaved();
     this.getNotifications();
     const tag = document.createElement('script');
@@ -382,15 +384,16 @@ export class HomePage implements OnInit{
 
 //urs domsanitazier
 
-getSafeUrl(url, id){
-  this.play=false;
-  this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); 
-  var form = document.createElement('iframe');
-    form.width="100%";
-    form.height="370px";
-    //form.id=id;
-    form.setAttribute("src", url);
-    form.setAttribute("id",id);
-    document.getElementById(id).appendChild(form);
-}
+  getSafeUrl(url, id){
+    this.idcomp = id;
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); 
+    var form = document.createElement('iframe');
+      form.width="100%";
+      form.height="370px";
+      //form.id=id;
+      form.setAttribute("src", url);
+      form.setAttribute("id",id);
+      document.getElementById(id).appendChild(form);
+  }
+ 
 }

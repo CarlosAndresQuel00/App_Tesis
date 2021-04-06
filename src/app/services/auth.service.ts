@@ -18,7 +18,7 @@ export class AuthService {
   public user: Observable<UserInterface>;
   public userData$: Observable<firebase.User>;
 
-  constructor(public fireAuth: AngularFireAuth, private googlePlus: GooglePlus, private fireStore: AngularFirestore, private router: Router){
+  constructor(public fireAuth: AngularFireAuth,  private router: Router){
     this.userData$ = fireAuth.authState;
   }
 
