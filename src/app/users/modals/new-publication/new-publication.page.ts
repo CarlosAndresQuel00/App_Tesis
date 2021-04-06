@@ -100,7 +100,11 @@ export class NewPublicationPage implements OnInit {
       this.newPublication.userId = this.uid;
       this.newPublication.userName = this.uName;
       this.newPublication.userPhoto = this.uPhoto;
-      this.newPublication.videoURL= this.getIdVideo(this.newPublication.videoURL);
+      if(this.newPublication.videoURL != ''){
+        this.newPublication.videoURL="https://www.youtube.com/embed/"+this.getIdVideo(this.newPublication.videoURL)+"?enablejsapi=1&origin=https://r-utiliza.web.app/";
+      }else{
+        this.newPublication.videoURL=''; 
+      } 
       this.firestoreService.createDoc(this.newPublication, this.path, this.newPublication.id).then(res => {
         this.presentToast('Idea publicada!');
         console.log(this.newPublication.id);
@@ -197,6 +201,10 @@ export class NewPublicationPage implements OnInit {
         ? match[2]
         : null;
     }
+
+  urlVideo(){
+    
+  }
    //Ocultar/mostrar item de Url
   accion1(){
     this.ocultar1 = !this.ocultar1;
