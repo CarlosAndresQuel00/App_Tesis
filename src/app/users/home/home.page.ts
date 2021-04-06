@@ -11,7 +11,7 @@ import { MenuController } from '@ionic/angular';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { NewPublicationPage } from './../modals/new-publication/new-publication.page';
 
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { NotificationInterface } from 'src/app/shared/notification.interface';
@@ -24,10 +24,11 @@ import { AngularFireAuth } from '@angular/fire/auth';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit{
-  
+  safeUrl: any;
+  link:string;
   yt_iframe_html: any;
   videoURL: string;
-
+  play=true;
   userEmail: string;
   idCurrentUser: string;
   private path = 'Ideas/';
@@ -38,7 +39,6 @@ export class HomePage implements OnInit{
   textoBuscar = '';
   public dato:String;
   //youtubeUrl : any;
-
 
   userName: string;
   countNotif = 0;
@@ -81,7 +81,8 @@ export class HomePage implements OnInit{
     public toastController: ToastController,
     private socialSharing:SocialSharing,
     public actionSheetController: ActionSheetController,
-    public fireAuth: AngularFireAuth
+    public fireAuth: AngularFireAuth,
+    private sanitizer: DomSanitizer
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -91,6 +92,7 @@ export class HomePage implements OnInit{
         console.log('id ini', this.idCurrentUser);
       }
     });
+
   }
   initUser(){
     this.idCurrentUser = '';
@@ -110,7 +112,7 @@ export class HomePage implements OnInit{
     this.getNotifications();
     const tag = document.createElement('script');
     tag.src = '//www.youtube.com/iframe_api';
-    document.body.appendChild(tag);
+   document.body.appendChild(tag);
   }
   openFirst() {
     this.menu.toggle();
@@ -358,4 +360,37 @@ export class HomePage implements OnInit{
   testClick(){
     this.router.navigate(["guide"]);
   }
+  linkvideo(){
+    this.link="http://www.youtube.com/embed/-jY723k20MU?enablejsapi=1&origin=https://r-utiliza.web.app/";
+    //this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl("http://www.youtube.com/embed/-jY723k20MU?enablejsapi=1&origin=https://r-utiliza.web.app/");
+    return this.link;
+    
+  }
+
+  iframeContacto(url, id){
+    var mail = "'http://www.youtube.com/embed/"+url+"?enablejsapi=1&origin=https://r-utiliza.web.app/'";
+    console.log("este es el link rul",mail);
+    var form = document.createElement('iframe');
+    
+    form.width="75%";
+    form.height="350px";
+    
+    form.id=id;
+    form.setAttribute("src", mail);
+    document.getElementById("form_mail").appendChild(form);
+}
+
+//urs domsanitazier
+
+getSafeUrl(url, id){
+  this.play=false;
+  this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); 
+  var form = document.createElement('iframe');
+    form.width="100%";
+    form.height="370px";
+    //form.id=id;
+    form.setAttribute("src", url);
+    form.setAttribute("id",id);
+    document.getElementById(id).appendChild(form);
+}
 }
