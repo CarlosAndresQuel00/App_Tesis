@@ -66,6 +66,7 @@ export class HomePage implements OnInit{
   };
   
   idcomp;
+  idsarray = [];
 
   publications: PublicationInterface[] = [];
   savedPublications: PublicationInterface[] = [];
@@ -114,7 +115,8 @@ export class HomePage implements OnInit{
     this.getNotifications();
     const tag = document.createElement('script');
     tag.src = '//www.youtube.com/iframe_api';
-   document.body.appendChild(tag);
+    document.body.appendChild(tag);
+    this.idsarray = [];
   }
   openFirst() {
     this.menu.toggle();
@@ -385,7 +387,12 @@ export class HomePage implements OnInit{
 //urs domsanitazier
 
   getSafeUrl(url, id){
-    this.idcomp = id;
+    //this.idcomp = id;
+    this.idsarray.push(id);
+    if(this.idsarray.includes(id)){
+
+    }
+
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); 
     var form = document.createElement('iframe');
       form.width="100%";
