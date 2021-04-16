@@ -8,12 +8,15 @@ import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../../modals/comments/comments.page';
 import { ReportPage } from '../../modals/report/report.page';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-otros',
   templateUrl: './otros.page.html',
   styleUrls: ['./otros.page.scss'],
 })
 export class OtrosPage implements OnInit {
+  idsarray = [];
+  safeUrl: any;
   saved = false;
   newPublication: PublicationInterface = {
     id: '',
@@ -48,6 +51,7 @@ export class OtrosPage implements OnInit {
     public toastController: ToastController,
     private socialSharing:SocialSharing,
     public actionSheetController: ActionSheetController,
+    private sanitizer: DomSanitizer
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -61,6 +65,7 @@ export class OtrosPage implements OnInit {
 
   ngOnInit() {
     this.getPublications();
+    this.idsarray = [];
   }
   getPublications(){
     this.firestoreService.getCollection<PublicationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
@@ -226,5 +231,18 @@ export class OtrosPage implements OnInit {
       }]
     });
     await actionSheet.present();
+  }
+  getSafeUrl(url, id){
+    this.idsarray.push(id);
+    if(this.idsarray.includes(id)){
+    }
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); 
+    var form = document.createElement('iframe');
+      form.width="100%";
+      form.height="370px";
+      //form.id=id;
+      form.setAttribute("src", url);
+      form.setAttribute("id",id);
+      document.getElementById(id).appendChild(form);
   }
 }

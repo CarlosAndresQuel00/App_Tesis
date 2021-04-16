@@ -74,14 +74,19 @@
           <img loading="lazy" [src]="image" class="preview"/>
         </ion-slide>
       </ion-slides>
-      <youtube-player 
-      [videoId]="publication.videoURL" 
-      suggestedQuality="highest"
-      [height]="250" 
-      [width]="390" 
-      [startSeconds]="1"
-      >
-      </youtube-player>
+      <div *ngIf="publication.videoURL != ''" >
+        <div  id="{{publication.id+3}}" class="publication-description">
+          <ion-row>
+            <ion-col size="7">
+              <br/>
+              <strong>Existe un video. Reprodúcelo</strong>
+            </ion-col>
+            <ion-col size="2" *ngIf="!this.idsarray.includes(publication.id+3)">
+              <ion-icon fill="clear" (click)="getSafeUrl(publication.videoURL, publication.id+3)" name="play-circle-outline" color="success" style="zoom:2.0;" ></ion-icon>
+            </ion-col>
+          </ion-row>
+        </div>
+      </div>
         <div class="publication-options">
           <ion-segment class="seg">
             <ion-segment-button class="option-n" (click)="modalComments(publication.id)">

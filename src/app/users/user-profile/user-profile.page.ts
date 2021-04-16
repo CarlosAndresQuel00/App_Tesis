@@ -12,13 +12,15 @@ import { ReportPage } from '../modals/report/report.page';
 import { NotificationInterface } from 'src/app/shared/notification.interface';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { NavController } from '@ionic/angular';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.page.html',
   styleUrls: ['./user-profile.page.scss'],
 })
 export class UserProfilePage implements OnInit {
-
+  idsarray = [];
+  safeUrl: any;
   idUser: string;
   idCurrentUser: string;
   private path = 'Ideas/';
@@ -85,7 +87,8 @@ export class UserProfilePage implements OnInit {
     public alertController: AlertController,
     private socialSharing:SocialSharing,
     public actionSheetController: ActionSheetController,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private sanitizer: DomSanitizer
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       if (res != null){
@@ -100,7 +103,7 @@ export class UserProfilePage implements OnInit {
     this.getUserInfo();
     await this.getPublications();
     this.getFollowed();
-   
+    this.idsarray = [];
   }
   getUserInfo(){ // trae info de la bd
     this.idUser = this.route.snapshot.paramMap.get('id');
@@ -336,5 +339,22 @@ export class UserProfilePage implements OnInit {
   }
   back(){
     this.navCtrl.back();
+  }
+
+  getSafeUrl(url, id){
+    //this.idcomp = id;
+    this.idsarray.push(id);
+    if(this.idsarray.includes(id)){
+
+    }
+
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); 
+    var form = document.createElement('iframe');
+      form.width="100%";
+      form.height="370px";
+      //form.id=id;
+      form.setAttribute("src", url);
+      form.setAttribute("id",id);
+      document.getElementById(id).appendChild(form);
   }
 }

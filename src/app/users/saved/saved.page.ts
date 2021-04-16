@@ -7,13 +7,15 @@ import { PublicationInterface } from 'src/app/shared/publication.interface';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-saved',
   templateUrl: './saved.page.html',
   styleUrls: ['./saved.page.scss'],
 })
 export class SavedPage implements OnInit {
-
+  idsarray = [];
+  safeUrl: any;
   uid: string;
   idCurrentUser: string;
   private path = 'Saved/';
@@ -36,6 +38,7 @@ export class SavedPage implements OnInit {
     public modalController: ModalController,
     private socialSharing:SocialSharing,
     public actionSheetController: ActionSheetController,
+    private sanitizer: DomSanitizer
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -51,6 +54,7 @@ export class SavedPage implements OnInit {
 
   ngOnInit() {
     this.getPublicationsSaved();
+    this.idsarray = [];
   }
   initUser(){
     this.idCurrentUser = '';
@@ -181,6 +185,19 @@ export class SavedPage implements OnInit {
   shareWhatsapp(ide, titlePublication){
     this.socialSharing.shareViaWhatsApp(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
     console.log("https://r-utiliza.web.app/publication/"+ide);
+  }
+  getSafeUrl(url, id){
+    this.idsarray.push(id);
+    if(this.idsarray.includes(id)){
+    }
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); 
+    var form = document.createElement('iframe');
+      form.width="100%";
+      form.height="370px";
+      //form.id=id;
+      form.setAttribute("src", url);
+      form.setAttribute("id",id);
+      document.getElementById(id).appendChild(form);
   }
   
 }

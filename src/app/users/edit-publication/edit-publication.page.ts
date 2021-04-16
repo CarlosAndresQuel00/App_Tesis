@@ -72,6 +72,11 @@ export class EditPublicationPage implements OnInit {
   async savePublication() { // registrar idea en firestorage y base de datos con id de auth
     if(this.newPublication.title != '' && this.newPublication.description != ''){
       this.presentLoading();
+      if(this.newPublication.videoURL != ''){
+        this.newPublication.videoURL="https://www.youtube.com/embed/"+this.getIdVideo(this.newPublication.videoURL)+"?enablejsapi=1&origin=https://r-utiliza.web.app/";
+      }else{
+        this.newPublication.videoURL=''; 
+      } 
       this.firestoreService.updateDoc(this.newPublication, this.path, this.newPublication.id).then(res => {
         this.presentToast('Cambios guardados');
         this.redirectUser(true);
@@ -82,6 +87,8 @@ export class EditPublicationPage implements OnInit {
     }else{
       this.presentWarningToast('Los campos con * son obligatorios');
     }
+    //window.location.href="/";
+    
   }
   getCategories(){
     const path = 'Categories/';
@@ -118,7 +125,18 @@ export class EditPublicationPage implements OnInit {
       this.presentToast(err.message);
     });
   }
-
+  /* VIDEOS*/
+//Obtiene el ID de las URL de los videos de Youtube
+getIdVideo(url) {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+console.log('este id', (match && match[2].length === 11)
+? match[2]
+: null)
+    return (match && match[2].length === 11)
+      ? match[2]
+      : null;
+  }
   //subir archivos
 
   public cambioArchivo(event) {
@@ -178,7 +196,12 @@ export class EditPublicationPage implements OnInit {
   }
   async redirectUser(ok: boolean){
     if (ok){
-      await this.router.navigate(['/profile']);
+      /*this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+this.router.navigate(['/profile'])
+);*/
+await this.router.navigate(['/profile']);
+window.location.reload();
+      
     }else{
       console.log('no');
     }
@@ -227,9 +250,7 @@ export class EditPublicationPage implements OnInit {
   }
   accion1(){
     this.ocultar1 = !this.ocultar1;
-    if(this.ocultar1==false){
-      this.newPublication.videoURL = "";
-    }
+   
   } 
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
