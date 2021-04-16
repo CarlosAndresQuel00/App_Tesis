@@ -22,7 +22,9 @@ export class RegisterPage implements OnInit {
   newImage: '';
   loading;
   segment1: boolean;
-  segment2: boolean;
+  errorMessage = '';
+  //segment2: boolean;
+  correctEmail = false;
   user: UserInterface = {
     uid: '',
     name: '',
@@ -46,8 +48,8 @@ export class RegisterPage implements OnInit {
   ){}
 
   async ngOnInit(){
- // retorna identificador de user
-    this.segment1 = true;
+    //this.segment1 = true;
+    this.initUser();
     console.log(this.user);
     const id = await this.authSvc.getUid();
     console.log(id);
@@ -62,24 +64,32 @@ export class RegisterPage implements OnInit {
       password: ''
     };
   }
-  onreg(){
+  /*onreg(){
     if (this.platform.is('android')) {
       this.googleRegisterAndroid();
     } else {
       this.onRegisterGoogleWeb();
     }
-  }
+  }*/
   async onRegister(){
-    const user = await this.authSvc.register(this.user.email, this.user.password);
-    if(user){
-      this.redirectUser(true);
+    if(this.user.email == '' || this.user.name == '' || this.user.password == ''){
+      this.presentWarningToast('Asegúrate de completar todos los campos');
+    }else{
+      const user = await this.authSvc.register(this.user.email, this.user.password);
+      this.errorMessage = this.authSvc.message;
+      if(user){
+        this.redirectUser(true);
+      }else{
+        this.presentWarningToast(this.errorMessage);
+      }
+      const id = await this.authSvc.getUid();
+      this.user.uid = id;
+      this.saveUser();
+      this.initUser();
+      console.log(id);
     }
-    const id = await this.authSvc.getUid();
-    this.user.uid = id;
-    this.saveUser();
-    console.log(id);
   }
-  googleRegisterAndroid(): Promise<any> {
+  /*googleRegisterAndroid(): Promise<any> {
     const path = 'Users';
     return new Promise((resolve, reject) => { 
         this.googlePlus.login({
@@ -131,7 +141,7 @@ export class RegisterPage implements OnInit {
     } catch (error){
       console.log(error);
     }
-  }
+  }*/
 
   async saveUser() { // registrar usuario en la base de datos con id de auth
     const path = 'Users';
@@ -160,8 +170,15 @@ export class RegisterPage implements OnInit {
     });
     toast.present();
   }
-  
-  segmentChanged(event){
+  async presentWarningToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 4500,
+      color: 'danger'
+    });
+    toast.present();
+  }
+  /*segmentChanged(event){
     const seg = event.target.value;
     if (seg === 'segment1'){
       this.segment1 = true;
@@ -171,7 +188,7 @@ export class RegisterPage implements OnInit {
       this.segment1 = false;
       this.segment2 = true;
     }
-  }
+  }*/
   async presentLoading() {
     this.loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
@@ -183,4 +200,6 @@ export class RegisterPage implements OnInit {
      const { role, data} = await this.loading.onDidDismiss();
      console.log('Loading dismissed!');
   }
+
+  
 }

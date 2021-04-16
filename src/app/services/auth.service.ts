@@ -27,6 +27,11 @@ export class AuthService {
       const {user} = await this.fireAuth.createUserWithEmailAndPassword(email, password);
       return user;
     }catch (error){
+      if(error.code == 'auth/invalid-email'){
+        this.message = 'Formato incorrecto del correo';
+      }else if(error.code == 'auth/weak-password'){
+        this.message = 'La contraseña debe tener al menos 6 dígitos';
+      }
       console.log('at', error);
     }
   }

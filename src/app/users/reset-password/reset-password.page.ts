@@ -10,6 +10,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class ResetPasswordPage implements OnInit {
   msg = '';
+  email =  '';
   constructor(
     private authSvc: AuthService,
     private router: Router,
@@ -17,11 +18,12 @@ export class ResetPasswordPage implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.email = '';
   }
 
-  async onResetPassword(email){
+  async onResetPassword(){
     try{
-      await this.authSvc.resetPassword(email.value);
+      await this.authSvc.resetPassword(this.email);
       this.msg = 'Si la dirección de correo existe. Llegará un mensaje para reestablecer tu contraseña. Revisa tu bandeja de entrada o tu correo spam';
       this.presentToast(this.msg);
       await this.router.navigate(['login']);
@@ -35,7 +37,7 @@ export class ResetPasswordPage implements OnInit {
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 4500,
+      duration: 5000,
       color: 'dark'
     });
     toast.present();
