@@ -10,14 +10,15 @@ import { CommentInterface } from 'src/app/shared/comments.interface';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { NewPublicationPage } from '../modals/new-publication/new-publication.page';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-
+  idsarray = [];
+  safeUrl: any;
   uid: string;
   idCurrentUser: string;
   path = 'Ideas/';
@@ -65,7 +66,7 @@ export class ProfilePage implements OnInit {
     public toastController: ToastController,
     private socialSharing:SocialSharing,
     public actionSheetController: ActionSheetController,
-    //private iab: InAppBrowser
+    private sanitizer: DomSanitizer
   ) {
     this.authSvc.stateAuth().subscribe(res => {
       console.log(res);
@@ -95,6 +96,7 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     this.getPublications();
     this.getPublicationsSaved();
+    this.idsarray = [];
   }
 
   getUserInfo(uid: string){ // trae info de la bd
@@ -277,5 +279,18 @@ export class ProfilePage implements OnInit {
         }]
       });
       await actionSheet.present();
+    }
+    getSafeUrl(url, id){
+      this.idsarray.push(id);
+      if(this.idsarray.includes(id)){
+      }
+      this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); 
+      var form = document.createElement('iframe');
+        form.width="100%";
+        form.height="370px";
+        //form.id=id;
+        form.setAttribute("src", url);
+        form.setAttribute("id",id);
+        document.getElementById(id).appendChild(form);
     }
 }

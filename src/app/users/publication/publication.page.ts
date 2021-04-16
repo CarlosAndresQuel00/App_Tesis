@@ -8,12 +8,15 @@ import { ReportPage } from '../modals/report/report.page';
 import { UserInterface } from 'src/app/shared/user.interface';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-publication',
   templateUrl: './publication.page.html',
   styleUrls: ['./publication.page.scss'],
 })
 export class PublicationPage implements OnInit {
+  idsarray = [];
+  safeUrl: any;
   saved = false;
   newPublication: PublicationInterface = {
     id: '',
@@ -64,6 +67,7 @@ export class PublicationPage implements OnInit {
     public toastController: ToastController,
     private socialSharing:SocialSharing,
     public actionSheetController: ActionSheetController,
+    private sanitizer: DomSanitizer
   ) {
    
    }
@@ -71,6 +75,7 @@ export class PublicationPage implements OnInit {
   ngOnInit() {
     this.getDetallesPubli();
     this.getPublicationsSaved();
+    this.idsarray = [];
   }
   getDetallesPubli(){
     this.idPublication = this.route.snapshot.paramMap.get('id');
@@ -261,6 +266,19 @@ export class PublicationPage implements OnInit {
       }]
     });
     await actionSheet.present();
+  }
+  getSafeUrl(url, id){
+    this.idsarray.push(id);
+    if(this.idsarray.includes(id)){
+    }
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); 
+    var form = document.createElement('iframe');
+      form.width="100%";
+      form.height="370px";
+      //form.id=id;
+      form.setAttribute("src", url);
+      form.setAttribute("id",id);
+      document.getElementById(id).appendChild(form);
   }
 
 }

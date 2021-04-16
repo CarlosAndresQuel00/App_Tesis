@@ -202,9 +202,6 @@ export class NewPublicationPage implements OnInit {
         : null;
     }
 
-  urlVideo(){
-    
-  }
    //Ocultar/mostrar item de Url
   accion1(){
     this.ocultar1 = !this.ocultar1;
