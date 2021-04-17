@@ -113,7 +113,7 @@ export class ReportPage implements OnInit {
   async presentLoading() {
     this.loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
-      message: 'Publicando...',
+      message: 'Enviando...',
       duration: 1000
     });
     await this.loading.present();

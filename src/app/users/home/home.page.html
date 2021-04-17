@@ -65,8 +65,9 @@
     <div class="publication-info">
       <ion-row>
         <ion-col size="1.5" size-lg >
-          <img *ngIf="!publication.userPhoto" src="../../../assets/icon/penguin.svg" class="user-photo-profile">        
-          <img *ngIf="publication.userPhoto" [src]="publication.userPhoto" class="user-photo-profile"/>   
+          <img *ngIf="!publication.userPhoto  && idCurrentUser != publication.userId" src="../../../assets/icon/penguin.svg" class="user-photo-profile">        
+          <img *ngIf="publication.userPhoto && publication.userPhoto != user.photo" [src]="publication.userPhoto" class="user-photo-profile"/>
+          <img *ngIf="idCurrentUser === publication.userId" [src]="user.photo" class="user-photo-profile"/>   
         </ion-col>
         <ion-col size="7.5" size-lg >
           <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>

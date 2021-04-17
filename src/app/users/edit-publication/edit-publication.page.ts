@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, ToastController, NavController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestorageService } from 'src/app/services/firestorage.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -62,6 +62,7 @@ export class EditPublicationPage implements OnInit {
     public loadingController: LoadingController,
     private route: ActivatedRoute,
     public alertController: AlertController,
+    private navCtl: NavController
   ) { }
 
   ngOnInit() {
@@ -199,8 +200,8 @@ console.log('este id', (match && match[2].length === 11)
       /*this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
 this.router.navigate(['/profile'])
 );*/
-await this.router.navigate(['/profile']);
-window.location.reload();
+      await this.router.navigate(['/home']);
+      window.location.reload();
       
     }else{
       console.log('no');
@@ -277,5 +278,8 @@ window.location.reload();
       ]
     });
     await alert.present();
+  }
+  back(){
+    this.navCtl.back();
   }
 }

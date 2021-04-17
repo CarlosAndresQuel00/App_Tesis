@@ -10,13 +10,11 @@ import { ReportPage } from '../modals/report/report.page';
 import { MenuController } from '@ionic/angular';
 import { CommentsPage } from '../modals/comments/comments.page';
 import { NewPublicationPage } from './../modals/new-publication/new-publication.page';
-
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { NotificationInterface } from 'src/app/shared/notification.interface';
 import { AngularFireAuth } from '@angular/fire/auth';
-
 
 @Component({
   selector: 'app-home',
@@ -42,6 +40,7 @@ export class HomePage implements OnInit{
   userName: string;
   countNotif = 0;
   notif = false;
+
 
   presentLoad = true;
   newPublication: PublicationInterface = {
@@ -95,7 +94,7 @@ export class HomePage implements OnInit{
         console.log('id ini', this.idCurrentUser);
       }
     });
-
+    this.idsarray = [];
   }
   initUser(){
     this.idCurrentUser = '';
@@ -110,13 +109,14 @@ export class HomePage implements OnInit{
   }
 
   ngOnInit() {
+    this.idsarray = [];
     this.getPublications();   
     this.getPublicationsSaved();
     this.getNotifications();
     const tag = document.createElement('script');
     tag.src = '//www.youtube.com/iframe_api';
     document.body.appendChild(tag);
-    this.idsarray = [];
+    console.log('ids',this.idsarray);
   }
   openFirst() {
     this.menu.toggle();

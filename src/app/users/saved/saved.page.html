@@ -20,7 +20,8 @@
            <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
            <ion-label class="user" >Idea creada por: 
             <a *ngIf="idCurrentUser !== publication.userId" (click)="gotoUserProfile(publication.userId)" >{{publication.userName}}</a>
-            </ion-label><br>
+            <a *ngIf="idCurrentUser === publication.userId" [routerLink]="['/profile']" >{{publication.userName}}</a>        
+           </ion-label><br>
            <ion-label class="date">
             Ctg: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
             • {{publication.date.toDate() | date: 'dd-MM-yyyy'}}
