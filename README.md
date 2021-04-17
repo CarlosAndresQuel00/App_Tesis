@@ -85,6 +85,4 @@ ionic serve
 
 
 ## 6. Anexos
-<br/><b>Informe Técnico:</b>
-<br/><b>Manual Técnico:</b> 
-<br/><b>Manual de Instalación:</b> 
+En el siguiente link se encuentra toda la documentacion como Manual Técnico, Manual de Instalación, Informe Técnico y los diferentes anexos del proyecto. <a href="https://github.com/Migueltorresp/Documentacion_Tesis">Link</a>
