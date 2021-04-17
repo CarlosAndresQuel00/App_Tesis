@@ -23,9 +23,8 @@ Los datos almacenados en Firebase muestran las siguiente estructura.<br/>
 ## 3. Funcionalidades principales
 Dentro del desarroLlo de la Aplicación Móvil se pudo recabar varios requerimientos y funcionalidades para la Aplicación Móvil, algunas de las más importantes son las siguientes:
 ### ° Iniciar sesión y registro de usuarios
-El usuario puede iniciar sesión o registrase dentro de la aplicación usando un correo y una contraseña generada por el mismo usuario al momento de ingresar al formulario de registro, para esto fue necesario activar este método de autenticación en Firebase Authentication habilitando Email/Password.
-Por otro lado el susuario tambein puded acceder mediante sus credenciales de Google.<br/>
-<img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210309-003450_MyApp.jpg" width="300">
+El usuario puede iniciar sesión o registrase dentro de la aplicación usando un correo y una contraseña generada por el mismo usuario al momento de ingresar al formulario de registro, para esto fue necesario activar este método de autenticación en Firebase Authentication habilitando Email/Password.<br/>
+
 <img src="https://github.com/Migueltorresp/App_Tesis/blob/dev/Captures/Screenshot_20210309-003454_MyApp.jpg" width="300" text-align=center>
 
 ### ° Visualización de la ventana principal
