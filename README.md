@@ -1,7 +1,7 @@
 # R-Utiliza
 El siguiente proyecto muestra el desarrollo una Aplicación Móvil que permite a usuarios compartir ideas de reutilización de materiales mediante videos, imagenes o guías.
-<br/><b>Video demostrativo:</b> 
-<br/><b>Realizado por:</b> 
+<br/><b>Video demostrativo: https://youtu.be/qtX4d4mzTR8</b> 
+<br/><b>Realizado por: </b> 
 <br/>   - Miguel Torres
 <br/>   - Yajaira Cuatis
 ## 1. Herramientas de Desarrollo
