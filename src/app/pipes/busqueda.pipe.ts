@@ -13,7 +13,8 @@ export class BusquedaPipe implements PipeTransform {
     texto = texto.toLowerCase();
 
     return publicaciones.filter(publi =>{
-      return publi.title.toLowerCase().includes(texto);
+      return publi.title.toLowerCase().includes(texto), publi.description.toLowerCase().includes(texto);
+      
     });
     // return publicacionesBuscadas;
   }

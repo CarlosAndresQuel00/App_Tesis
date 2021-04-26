@@ -1,5 +1,5 @@
 import { RouterModule } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ContentChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
@@ -11,6 +11,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { IonInput } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,11 @@ export class LoginPage implements OnInit {
   loading;
   errorMessage = '';
   error = false;
+  show = false;
+
+  passwordCheckbox = false;
+
+  @ContentChild(IonInput) input: IonInput;
 
   user: UserInterface = {
     uid: '',
@@ -182,5 +188,9 @@ export class LoginPage implements OnInit {
      const { role, data} = await this.loading.onDidDismiss();
      console.log('Loading dismissed!');
   }
+  showPassword(input: any): any {
+    this.passwordCheckbox = !this.passwordCheckbox;
+    input.type = input.type === 'password' ?  'text' : 'password';
+   }
 }
 

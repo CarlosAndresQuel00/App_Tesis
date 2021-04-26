@@ -25,6 +25,8 @@ export class RegisterPage implements OnInit {
   errorMessage = '';
   //segment2: boolean;
   correctEmail = false;
+  passwordCheckbox = false;
+
   user: UserInterface = {
     uid: '',
     name: '',
@@ -200,6 +202,9 @@ export class RegisterPage implements OnInit {
      const { role, data} = await this.loading.onDidDismiss();
      console.log('Loading dismissed!');
   }
-
+  showPassword(input: any): any {
+    this.passwordCheckbox = !this.passwordCheckbox;
+    input.type = input.type === 'password' ?  'text' : 'password';
+   }
   
 }

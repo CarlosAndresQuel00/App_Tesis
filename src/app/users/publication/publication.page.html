@@ -23,7 +23,7 @@
           <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
           <ion-label class="user" >Idea creada por: <a>{{publication.userName}}</a></ion-label><br>
           <ion-label class="date">
-            Ctg: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
+            Categoría: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
           </ion-label>        </ion-col> 
         <ion-col size="3">
         <ion-buttons>
@@ -71,7 +71,7 @@
             <br/>
             <strong>Existe un video. Reprodúcelo</strong>
           </ion-col>
-          <ion-col size="2" *ngIf="!this.idsarray.includes(publication.id+9)">
+          <ion-col size="2" *ngIf="!this.idsarray.includes(publication.id+9)" style="padding-top: 15px;">
             <ion-icon fill="clear" (click)="getSafeUrl(publication.videoURL, publication.id+9)" name="play-circle-outline" color="success" style="zoom:2.0;" ></ion-icon>
           </ion-col>
         </ion-row>
@@ -79,7 +79,7 @@
     </div>
       <div class="publication-options">
         <ion-segment class="seg">
-          <ion-segment-button class="option-n" (click)="modalComments(publication.id)"> 
+          <ion-segment-button class="option-n" (click)="modalComments(publication.id, publication.userId)"> 
             <img class="icon-comments" src="assets/icon/conversation.svg">
           </ion-segment-button>
           <ion-segment-button class="option-n" (click)="savePublication(publication.id)">

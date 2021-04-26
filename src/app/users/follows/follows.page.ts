@@ -18,7 +18,7 @@ export class FollowsPage implements OnInit {
   private path = 'Followed/';
   users: UserInterface[] = [];
   noFollows = true;
-
+  count = 0;
   constructor(
     private authSvc: AuthService,
     public firestoreService: FirestoreService,
@@ -40,6 +40,7 @@ export class FollowsPage implements OnInit {
     this.firestoreService.getCollection<UserInterface>(this.path).subscribe( res => {  // res - respuesta del observador
       if (res){
         this.users = res.filter(word => word.idUserFollower === this.idCurrentUser);
+        this.count = this.users.length;
       }
       if(this.users.length !== 0){
         this.noFollows = false;

@@ -7,6 +7,7 @@ import { FirestoreService } from './../../services/firestore.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { FirestorageService } from 'src/app/services/firestorage.service';
+import { PublicationInterface } from 'src/app/shared/publication.interface';
 
 @Component({
   selector: 'app-profile-settings',
@@ -18,6 +19,8 @@ export class ProfileSettingsPage implements OnInit {
   newFile: '';
   newImage: '';
   statusBar = false;
+
+  publications: PublicationInterface[] = [];
 
   uid: string;
   user: UserInterface = {
@@ -52,22 +55,36 @@ export class ProfileSettingsPage implements OnInit {
  // retorna identificador de user
     const id = await this.authSvc.getUid();
     console.log(id);
+    this.getPublications();
   }
 
   async saveUser() { // registrar usuario en la base de datos con id de auth
     this.statusBar = true;
-    const path = 'Users';
+    const pathUsers = 'Users';
+    const pathPublications = 'Ideas';
     const name = this.user.name;
     if (this.newFile !== undefined){
-      const res = await this.fireStorageService.uploadImage(this.newFile, path, name);
+      const res = await this.fireStorageService.uploadImage(this.newFile, pathUsers, name);
       this.user.photo = res;
     }
-    this.firestoreService.updateDoc(this.user, path, this.user.uid).then(res => {
+    this.firestoreService.updateDoc(this.user, pathUsers, this.user.uid).then(res => {
       this.statusBar = false;
       this.redirectUser(true);
     }).catch (err => {
       console.log(err);
     });
+    this.publications.forEach(e => {
+      e.userName = this.user.name;
+      e.userPhoto = this.user.photo;
+      this.firestoreService.updateDoc(e, pathPublications, e.id).then(res => {
+        this.presentToast('Cambios guardados');
+        console.log(e)
+      }).catch (err => {
+        console.log(err);
+        this.presentToast(err.message);
+      });
+    });
+    
   }
   onLogout(){
     this.authSvc.logout();
@@ -133,5 +150,12 @@ export class ProfileSettingsPage implements OnInit {
       color: 'success'
     });
     toast.present();
+  }
+  getPublications(){
+    const path= 'Ideas';
+    this.firestoreService.getCollection<PublicationInterface>(path).subscribe( res => {  // res - respuesta del observador
+    this.publications = res.filter(p => p.userId == this.uid);
+    console.log('publi mias', this.publications);
+    }).unsubscribe;
   }
 }

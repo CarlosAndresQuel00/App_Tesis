@@ -1,9 +1,8 @@
 .photo-profile{
-    width: 55px;
-    height:55px;
+    width: 60px;
+    height:60px;
     border-radius: 250px;
-    margin-left: 40px;
-    
+    margin-left: 44px;
     border: 1px solid;
 }
 .dividers{
@@ -23,6 +22,7 @@
     margin: 0 auto; 
     align-items: center;
     margin-top: 10px;
+    padding: 0 1rem;
 }
 .publication-info{
     margin-left: 5px;
@@ -63,4 +63,11 @@
     margin-left: 10px;
     margin-right: 10px;
     font-size: 13px;
+}
+.user-about{
+    border: 1px solid #EAEAEA;
+    padding: 6px;
+    font-size: 12px;
+    width: 250px;
+    text-align: center;
 }

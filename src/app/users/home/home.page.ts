@@ -63,7 +63,14 @@ export class HomePage implements OnInit{
     photo: '',
     password: ''
   };
-  
+  userPublication: UserInterface = {
+    uid: '',
+    name: '',
+    description: '',
+    email: '',
+    photo: '',
+    password: ''
+  };
   idcomp;
   idsarray = [];
 
@@ -153,7 +160,7 @@ export class HomePage implements OnInit{
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Cerrar Sesión',
-      message: 'Estás seguro de cerrar sesión?',
+      message: '¿Estás seguro de cerrar sesión?',
       buttons: [
         {
           text: 'Cancelar',
@@ -294,17 +301,21 @@ export class HomePage implements OnInit{
   //social sharing
 
   shareFacebook(ide, titlePublication){
-    this.socialSharing.shareViaFacebook(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+    const message = '¡Hola! Te comparto esta idea de Reutilización de materiales: "' + titlePublication + '". Puedes ver los detalles en el siguiente link ';
+    this.socialSharing.shareViaFacebook(message, null, "https://r-utiliza.web.app/publication/"+ide);
   }
 
   shareTwitter(ide, titlePublication){
-    this.socialSharing.shareViaTwitter(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+    const message = '¡Hola! Te comparto esta idea de Reutilización de materiales: "' + titlePublication + '". Puedes ver los detalles en el siguiente link ';
+    this.socialSharing.shareViaTwitter(message, null, "https://r-utiliza.web.app/publication/"+ide);
   }
 
   shareWhatsapp(ide, titlePublication){
-    this.socialSharing.shareViaWhatsApp(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+    const message = '¡Hola! Te comparto esta idea de Reutilización de materiales: "' + titlePublication + '". Puedes ver los detalles en el siguiente link ';
+    this.socialSharing.shareViaWhatsApp(message, null, "https://r-utiliza.web.app/publication/"+ide);
     console.log("https://r-utiliza.web.app/publication/"+ide);
   }
+  
   
   async presentActionSheet(ide, titlePublication) {
     const actionSheet = await this.actionSheetController.create ({
@@ -389,9 +400,6 @@ export class HomePage implements OnInit{
   getSafeUrl(url, id){
     //this.idcomp = id;
     this.idsarray.push(id);
-    if(this.idsarray.includes(id)){
-
-    }
 
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); 
     var form = document.createElement('iframe');
@@ -402,5 +410,5 @@ export class HomePage implements OnInit{
       form.setAttribute("id",id);
       document.getElementById(id).appendChild(form);
   }
- 
+
 }

@@ -14,7 +14,7 @@
   </ion-item>
   <div class="notifications-container" *ngFor="let notif of notifications">
     <div class="notification" >
-          <ion-item class="search" *ngIf="notif.idUser != idCurrentUser" [ngClass]="!open ? 'withcolor':'nocolor'">
+          <ion-item class="search" *ngIf="notif.idUser != idCurrentUser" [ngClass]="notif.status == 'sin_abrir' ? 'withcolor':'nocolor'">
             <div>
               <img *ngIf="notif.userPhoto" class="user-photo-profile" [src]="notif.uPhoto"/> 
               <img *ngIf="!notif.userPhoto" src="../../../assets/icon/penguin.svg" class="user-photo-profile" />

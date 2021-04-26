@@ -19,29 +19,44 @@
   </ion-segment>
   <form *ngIf="segment2">-->
   <form>
-    <ion-list class="inputs-list" lines="full">
       <ion-item class="input-item">
-        <ion-label position="floating" color="primary" class="label-input">Nombre</ion-label>
+        <ion-label position="floating" color="primary" class="label-input">Nombre/Alias</ion-label>
         <ion-input [(ngModel)]="user.name" type="text" name="name" required></ion-input>
       </ion-item>
       <ion-item class="input-item">
         <ion-label position="floating" color="primary" class="label-input">Correo electrónico</ion-label>
         <ion-input [(ngModel)]="user.email" type="email" name="email" required></ion-input>
       </ion-item>
- 
-      <ion-item class="input-item">
-        <ion-label position="floating" color="primary" class="label-input">Contraseña</ion-label>
-        <ion-input [(ngModel)]="user.password" type="password" name="password" required></ion-input>
-      </ion-item>  
-    </ion-list>
-
+      <ion-item >
+        <ion-label position="floating" color="primary" class="label-input" required>Contraseña</ion-label>
+        <ion-row style=" width: 295px;" >
+          <ion-col size="11">
+            <ion-input type="password" 
+              [(ngModel)]="user.password" 
+              class="form-control" 
+              name="password"
+              #input
+            >
+            </ion-input>
+          </ion-col >
+          <ion-col size="0.8" style="align-content: center; margin-top: 10px;" >
+            <a (click)="showPassword(input)" name="password-checked">
+            <ion-icon [hidden] ="!passwordCheckbox" name="eye-outline"></ion-icon>
+            <ion-icon [hidden]="passwordCheckbox" name="eye-off-outline"></ion-icon>
+            </a>
+          </ion-col>
+      </ion-row> 
+      </ion-item>   
     <ion-button class="sign-in-btn"  expand="block" (click)="onRegister()">
-      Registrarme
-    </ion-button>
+      Registrarse
+    </ion-button><br>
+    <div>
+      ¿Ya tienes cuenta? <a routerLink="/login" style="text-decoration: none;font-weight: bold;">Inicia sesión</a>
+    </div>
   </form>
-  <div *ngIf="segment1">
+  <!--<div *ngIf="segment1">
     <br>
-  <!--<div class="social-auth-options">
+  <div class="social-auth-options">
     <ion-button (click)="onreg()" color="danger" expand="block" >
       <ion-row>
         <ion-col>
@@ -52,14 +67,9 @@
         </ion-col>
       </ion-row> 
     </ion-button>
-  </div>-->
-</div>
-<ion-row class="sign-up-btn-wrapper">
-  <ion-button class="sign-up-btn" fill="clear" routerLink="/login" routerLinkActive="router-link-active">
-    Ya tienes cuenta?
-  </ion-button>
-</ion-row>
-<div style="margin-top: 60px;">
-  <a [routerLink]="['/slides']"> <ion-icon style="color: blue;" name="eye-outline"></ion-icon> Toma un tour</a>
+  </div>
+</div>-->
+<div style="margin-top: 40px;">
+  <ion-icon style="color: blue;margin-top: 15px;" name="eye-outline"></ion-icon> <a style="color: rgb(100, 100, 100);" [routerLink]="['/slides']"> Toma un tour</a>
 </div>
 </ion-content>

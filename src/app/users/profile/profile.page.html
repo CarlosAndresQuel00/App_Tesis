@@ -16,7 +16,8 @@
         <ion-col size="2.5" size-lg>
           <div class="user-photo-f">
             <img *ngIf="!user.photo" src="../../../assets/icon/penguin.svg" class="photo-profile">   
-            <img *ngIf="user.photo" [src]="user.photo" class="photo-profile">   
+            <img *ngIf="user.photo" [src]="user.photo" class="photo-profile">
+            <div class="count-followers"><a [routerLink]="['/followers']" style="text-decoration: none;"> {{count}} <ion-icon name="people" style="margin-top: 3px;"></ion-icon> </a></div>
           </div>
         </ion-col>
         <ion-col size="9.5" size-lg>
@@ -50,8 +51,9 @@
           <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
           <ion-label class="user" >Idea creada por: <a>{{publication.userName}}</a></ion-label><br>
           <ion-label class="date">
-            Ctg: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
-            • {{publication.date.toDate() | date: 'dd-MM-yyyy'}}
+            Categoría: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
+            • {{publication.date.toDate() | date: 'dd/MM/yyyy'}}
+            {{publication.userId}}
           </ion-label>        </ion-col> 
         <ion-col size="3">
         <ion-buttons>
@@ -99,7 +101,7 @@
             <br/>
             <strong>Existe un video. Reprodúcelo</strong>
           </ion-col>
-          <ion-col size="2" *ngIf="!this.idsarray.includes(publication.id+8)">
+          <ion-col size="2" *ngIf="!this.idsarray.includes(publication.id+8)" style="padding-top: 15px;">
             <ion-icon fill="clear" (click)="getSafeUrl(publication.videoURL, publication.id+8)" name="play-circle-outline" color="success" style="zoom:2.0;" ></ion-icon>
           </ion-col>
         </ion-row>
@@ -107,7 +109,7 @@
     </div>
       <div class="publication-options">
         <ion-segment class="seg">
-          <ion-segment-button class="option-n" (click)="modalComments(publication.id)"> 
+          <ion-segment-button class="option-n" (click)="modalComments(publication.id, publication.userId)"> 
             <img class="icon-comments" src="assets/icon/conversation.svg">
           </ion-segment-button>
           <ion-segment-button class="option-n" (click)="savePublication(publication.id)">

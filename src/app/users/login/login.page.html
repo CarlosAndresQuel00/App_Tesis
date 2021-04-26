@@ -41,30 +41,40 @@
         <ion-label position="floating" color="primary" class="label-input" required>Correo electrónico</ion-label>
         <ion-input type="email" [(ngModel)]="user.email" name="email"></ion-input>
       </ion-item>
-      <ion-item class="input-item">
+      <ion-item >
         <ion-label position="floating" color="primary" class="label-input" required>Contraseña</ion-label>
-        <ion-input type="password" 
-          [(ngModel)]="user.password" 
-          class="form-control" 
-          name="password">
-        </ion-input>
-      </ion-item>
+        <ion-row style=" width: 295px;" >
+          <ion-col size="11">
+            <ion-input type="password" 
+              [(ngModel)]="user.password" 
+              class="form-control" 
+              name="password"
+              #input
+            >
+            </ion-input>
+          </ion-col >
+          <ion-col size="0.8" style="align-content: center; margin-top: 10px;" >
+            <a (click)="showPassword(input)" name="password-checked">
+            <ion-icon [hidden] ="!passwordCheckbox" name="eye-outline"></ion-icon>
+            <ion-icon [hidden]="passwordCheckbox" name="eye-off-outline"></ion-icon>
+            </a>
+          </ion-col>
+      </ion-row> 
+      </ion-item> 
+      <br>
     <ion-button class="sign-in-btn" expand="block" (click)="onLogin()">
       Ingresar
-    </ion-button>
-  
-    <ion-row class="sign-up-btn-wrapper">
-      <ion-button class="reset-password-btn" fill="clear" routerLink="/reset-password" >
-        Olvidaste tu contraseña?
-      </ion-button>
-    </ion-row>  
+    </ion-button><br>
+    <div style="align-items: center;">
+      <a class="sign-up-btn" style="text-align: center; text-decoration: none;" routerLink="../reset-password">
+        ¿Olvidaste tu contraseña?
+      </a>
+    </div><br>
+    <div style="align-items: center;">
+      ¿No tienes una cuenta?&nbsp;<a routerLink="../register" style="font-weight: bold;text-decoration: none;">Regístrate</a>
+    </div>
   </form>
-  <ion-row class="sign-up-btn-wrapper">  
-      <ion-button class="sign-up-btn" fill="clear" routerLink="../register">
-        No tienes una cuenta?
-      </ion-button>
-  </ion-row>
   <div style="margin-top: 60px;">
-    <a [routerLink]="['/slides']"> <ion-icon style="color: blue;" name="eye-outline"></ion-icon> Toma un tour</a>
+    <ion-icon style="color: blue;margin-top: 15px;" name="eye-outline"></ion-icon> <a style="color: rgb(100, 100, 100);" [routerLink]="['/slides']"> Toma un tour</a>
   </div>
 </ion-content>

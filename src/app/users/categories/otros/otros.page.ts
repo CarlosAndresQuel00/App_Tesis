@@ -78,23 +78,24 @@ export class OtrosPage implements OnInit {
       console.log('publi', this.publications);
    });
  }
- getUserInfo(uid: string){ // trae info de la bd
-  const path = 'Users';
-  this.firestoreService.getDoc<UserInterface>(path, uid).subscribe( res => {
-    this.user = res;
-  });
- }
- gotoEditPublication(id: string){
-  this.router.navigate(['/edit-publication', id]);
- }
- async modalComments(id: string) {
-  const modal = await this.modalController.create({
-    component: CommentsPage,
-    componentProps: {
-      idPubli: id
-    }
-  });
-  return await modal.present();
+  getUserInfo(uid: string){ // trae info de la bd
+    const path = 'Users';
+    this.firestoreService.getDoc<UserInterface>(path, uid).subscribe( res => {
+      this.user = res;
+    });
+  }
+  gotoEditPublication(id: string){
+    this.router.navigate(['/edit-publication', id]);
+  }
+  async modalComments(id: string, idTo: string) {
+    const modal = await this.modalController.create({
+      component: CommentsPage,
+      componentProps: {
+        idPubli: id,
+        idToP: idTo
+      }
+    });
+    return await modal.present();
   }
   async modalReport(id: string) {
     const modal = await this.modalController.create({
@@ -185,17 +186,21 @@ export class OtrosPage implements OnInit {
   //social sharing
 
   shareFacebook(ide, titlePublication){
-    this.socialSharing.shareViaFacebook(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+    const message = '¡Hola! Te comparto esta idea de Reutilización de materiales: "' + titlePublication + '". Puedes ver los detalles en el siguiente link ';
+    this.socialSharing.shareViaFacebook(message, null, "https://r-utiliza.web.app/publication/"+ide);
   }
 
   shareTwitter(ide, titlePublication){
-    this.socialSharing.shareViaTwitter(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+    const message = '¡Hola! Te comparto esta idea de Reutilización de materiales: "' + titlePublication + '". Puedes ver los detalles en el siguiente link ';
+    this.socialSharing.shareViaTwitter(message, null, "https://r-utiliza.web.app/publication/"+ide);
   }
 
   shareWhatsapp(ide, titlePublication){
-    this.socialSharing.shareViaWhatsApp(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+    const message = '¡Hola! Te comparto esta idea de Reutilización de materiales: "' + titlePublication + '". Puedes ver los detalles en el siguiente link ';
+    this.socialSharing.shareViaWhatsApp(message, null, "https://r-utiliza.web.app/publication/"+ide);
     console.log("https://r-utiliza.web.app/publication/"+ide);
   }
+  
   
   async presentActionSheet(ide, titlePublication) {
     const actionSheet = await this.actionSheetController.create ({

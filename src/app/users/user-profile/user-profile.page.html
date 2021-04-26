@@ -13,19 +13,19 @@
       <img *ngIf="!user.photo" src="../../../assets/icon/penguin.svg" class="photo-profile">   
       <img *ngIf="user.photo" [src]="user.photo" class="photo-profile">   
     </div>
-    <div class="user-info">
-      <ion-item>
-        <ion-label name="user-name" ><strong>{{user.name}}</strong></ion-label>
-        <ion-button *ngIf="!existe"(click)="saveFollowed()" fill="clear"><ion-icon name="add-circle-outline"></ion-icon></ion-button>
-        <ion-button *ngIf="existe" (click)="presentAlertConfirm()"size="small" fill="outline">Dejar de seguir</ion-button>
-      </ion-item>
-      <div *ngIf="user.description" class="user-about">          
+    <div class="user-info" >
+      <div name="user-name" style="text-align: center;"><strong>{{user.name}}</strong></div>
+      <div style="text-align: center;">
+        <ion-button *ngIf="!existe"(click)="saveFollowed()" fill="outline" style="font-size: 11px; padding-top: 10px;">Seguir</ion-button>
+        <ion-button *ngIf="existe" (click)="presentAlertConfirm()" fill="outline" style="font-size: 11px; padding-top: 10px;">Dejar de seguir</ion-button>
+      </div>
+    <div *ngIf="user.description" class="user-about">          
         {{user.description}}    
       </div>
     </div>
   </div>
   <hr color="#86C14F" size=1 width="100%">
-  <h6 style="text-align: center;">Publicaciones</h6>
+  <ion-item style="text-align: center;">Ideas publicadas</ion-item>
   <div *ngFor= "let publication of publications" class="publications-container" style="border: none;">
     <div style="border: none;">
      <div class="publication-info" style="border: none;">
@@ -38,15 +38,11 @@
            <ion-label class="title"><strong>{{publication.title | uppercase}}</strong></ion-label><br>
            <ion-label class="user" >Idea creada por: <a>{{publication.userName}}</a></ion-label><br>
            <ion-label class="date">
-             Ctg: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
-             • {{publication.date.toDate() | date: 'dd-MM-yyyy'}}
+             Categoría: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
+             • {{publication.date.toDate() | date: 'dd/MM/yyyy'}}
            </ion-label>        </ion-col> 
          <ion-col size="3">
-          <ion-buttons>
-            <ion-button (click)="modalReport(publication.id)">
-              <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
-            </ion-button>
-        </ion-buttons>
+          <ion-button style="--padding-start: 2px; --padding-end: 2px; font-size: 10px;" *ngIf="idCurrentUser !== publication.userId" (click)="modalReport(publication.id)" size="small" fill="outline" color="danger">Reportar</ion-button>
          </ion-col>  
        </ion-row>
      </div>
@@ -84,7 +80,7 @@
             <br/>
             <strong>Existe un video. Reprodúcelo</strong>
           </ion-col>
-          <ion-col size="2" *ngIf="!this.idsarray.includes(publication.id+1)">
+          <ion-col size="2" *ngIf="!this.idsarray.includes(publication.id+1)" style="padding-top: 15px;">
             <ion-icon fill="clear" (click)="getSafeUrl(publication.videoURL, publication.id+1)" name="play-circle-outline" color="success" style="zoom:2.0;" ></ion-icon>
           </ion-col>
         </ion-row>
@@ -92,7 +88,7 @@
     </div>
        <div class="publication-options">
          <ion-segment class="seg">
-           <ion-segment-button class="option-n" (click)="modalComments(publication.id)"> 
+           <ion-segment-button class="option-n" (click)="modalComments(publication.id, publication.userId)"> 
              <img class="icon-comments" src="assets/icon/conversation.svg">
            </ion-segment-button>
            <ion-segment-button class="option-n" (click)="savePublication(publication.id)">

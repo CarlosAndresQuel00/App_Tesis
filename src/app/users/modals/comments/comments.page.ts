@@ -17,7 +17,7 @@ import { NotificationInterface } from 'src/app/shared/notification.interface';
 export class CommentsPage implements OnInit {
 
   @Input() idPubli: any;
-  @Input() idTo: any;
+  @Input() idToP: any;
   idCurrentUser = '';
   uName = '';
   uPhoto = '';
@@ -96,7 +96,7 @@ export class CommentsPage implements OnInit {
   }
   ngOnInit() {
     this.getComments();
-    console.log(this.idTo);
+    console.log(this.idToP);
   }
   dismiss() {
     this.modalCtrl.dismiss();
@@ -119,13 +119,13 @@ export class CommentsPage implements OnInit {
   }
   saveNotification(){
     const path = 'Notifications/';
-    if(this.idCurrentUser != this.idTo){
+    if(this.idCurrentUser != this.idToP){
       this.notification.id = this.firestoreService.getId();
       this.notification.comment = this.uName + ' comentó tu publicación';
       this.notification.idPublication = this.idPubli;
       this.notification.uPhoto = this.uPhoto;
       this.notification.idUser = this.idCurrentUser;
-      this.notification.idTo = this.idTo;
+      this.notification.idTo = this.idToP;
       this.notification.status = 'sin_abrir';
       this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
         console.log('notificacion guardarda!');

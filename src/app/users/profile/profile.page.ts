@@ -23,6 +23,7 @@ export class ProfilePage implements OnInit {
   idCurrentUser: string;
   path = 'Ideas/';
   noIdeas = true;
+  count = 0;
   user: UserInterface = {
     uid: '',
     name: '',
@@ -57,6 +58,7 @@ export class ProfilePage implements OnInit {
   publications: PublicationInterface[] = [];
   savedPublications: PublicationInterface[] = [];
   publi: PublicationInterface[] = [];
+  users: UserInterface[] = [];
   constructor(
     private authSvc: AuthService,
     public firestoreService: FirestoreService,
@@ -96,6 +98,7 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     this.getPublications();
     this.getPublicationsSaved();
+    this.getFollowers();
     this.idsarray = [];
   }
 
@@ -147,16 +150,16 @@ export class ProfilePage implements OnInit {
    // await this.firestoreService.deleteDoc(this.path, idea.id);
    console.log('eliminado');
   }
-  async modalComments(id: string) {
+  async modalComments(id: string, idTo: string) {
     const modal = await this.modalController.create({
       component: CommentsPage,
       componentProps: {
-        idPubli: id
+        idPubli: id,
+        idToP: idTo
       }
     });
     return await modal.present();
   }
-
   savePublication(id: string){
     const path = 'Saved/';
     this.publi = this.savedPublications.filter(i => i.id === id);
@@ -233,17 +236,21 @@ export class ProfilePage implements OnInit {
     //social sharing
 
     shareFacebook(ide, titlePublication){
-      this.socialSharing.shareViaFacebook(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+      const message = '¡Hola! Te comparto esta idea de Reutilización de materiales: "' + titlePublication + '". Puedes ver los detalles en el siguiente link ';
+      this.socialSharing.shareViaFacebook(message, null, "https://r-utiliza.web.app/publication/"+ide);
     }
   
     shareTwitter(ide, titlePublication){
-      this.socialSharing.shareViaTwitter(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+      const message = '¡Hola! Te comparto esta idea de Reutilización de materiales: "' + titlePublication + '". Puedes ver los detalles en el siguiente link ';
+      this.socialSharing.shareViaTwitter(message, null, "https://r-utiliza.web.app/publication/"+ide);
     }
   
     shareWhatsapp(ide, titlePublication){
-      this.socialSharing.shareViaWhatsApp(titlePublication, null, "https://r-utiliza.web.app/publication/"+ide);
+      const message = '¡Hola! Te comparto esta idea de Reutilización de materiales: "' + titlePublication + '". Puedes ver los detalles en el siguiente link ';
+      this.socialSharing.shareViaWhatsApp(message, null, "https://r-utiliza.web.app/publication/"+ide);
       console.log("https://r-utiliza.web.app/publication/"+ide);
     }
+    
     
     async presentActionSheet(ide, titlePublication) {
       const actionSheet = await this.actionSheetController.create ({
@@ -292,5 +299,16 @@ export class ProfilePage implements OnInit {
         form.setAttribute("src", url);
         form.setAttribute("id",id);
         document.getElementById(id).appendChild(form);
+    }
+    getFollowers(){
+      const pathF = 'Followers';
+      const followers = this.firestoreService.getCollection<UserInterface>(pathF).subscribe( res => {  // res - respuesta del observador
+        this.users = res.filter(word => this.idCurrentUser == word.idUserFollow);
+        this.count = this.users.length;
+      });
+      followers.unsubscribe;
+    }
+    goFollowers(){
+      this.router.navigate(['Followers']);
     }
 }

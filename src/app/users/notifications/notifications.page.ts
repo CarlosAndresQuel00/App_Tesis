@@ -16,7 +16,7 @@ export class NotificationsPage implements OnInit {
   num = 0;
   notif = false;
   notifications: NotificationInterface[] = [];
-  open = true;
+  
   notification: NotificationInterface = {
     status: ''
   }
@@ -42,11 +42,6 @@ export class NotificationsPage implements OnInit {
     this.firestoreService.getCollection<NotificationInterface>(this.path).subscribe( res => {  // res - respuesta del observador
       if (res){
         this.notifications = res.filter(e => this.idCurrentUser == e.idTo);
-        this.notifications.forEach(e => {
-          if(e.status == 'sin_abrir'){
-            this.open = false;
-          }
-        });
       }
       if(this.notifications.length != 0){
         this.notif = true;

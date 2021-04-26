@@ -50,7 +50,6 @@
 .sign-up-btn-wrapper {
     justify-content: flex-end;
     align-items: center;
-
     .sign-up-btn, .reset-password-btn {
       --padding-end: 0px;
     }
@@ -68,4 +67,7 @@ ion-segment-button{
 .footer{
     --background: #86C14F;
     color: #ffffff;
+}
+.sign-in-btn{
+    --background: #86C14F;
 }

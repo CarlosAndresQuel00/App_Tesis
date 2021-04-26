@@ -31,6 +31,8 @@ export class AuthService {
         this.message = 'Formato incorrecto del correo';
       }else if(error.code == 'auth/weak-password'){
         this.message = 'La contraseña debe tener al menos 6 dígitos';
+      }else if(error.code == 'auth/email-already-in-use'){
+        this.message = 'El correo electrónico ingresado ya está en uso'
       }
       console.log('at', error);
     }
