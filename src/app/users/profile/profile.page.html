@@ -36,6 +36,7 @@
       </ion-row>
   </div>
   <hr color="#86C14F" size=1 width="100%">
+  <div style="text-align: center; border-bottom: 1px solid #dcf5c5; height: 25px; font-weight: bold;">Mis ideas</div>
   <ion-item *ngIf="noIdeas">
     <ion-label style="text-align: center;color: orange;">Tu lista de ideas está vacía</ion-label>
   </ion-item>
@@ -53,8 +54,8 @@
           <ion-label class="date">
             Categoría: <a (click)="gotoCategory(publication.category)">{{publication.category}}</a> 
             • {{publication.date.toDate() | date: 'dd/MM/yyyy'}}
-            {{publication.userId}}
-          </ion-label>        </ion-col> 
+          </ion-label>        
+        </ion-col> 
         <ion-col size="3">
         <ion-buttons>
           <ion-button (click)="presentAlertConfirm(publication)">
