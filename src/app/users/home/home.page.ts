@@ -78,6 +78,8 @@ export class HomePage implements OnInit{
   savedPublications: PublicationInterface[] = [];
   publi: PublicationInterface[] = [];
   notifications: NotificationInterface[] = [];
+  reports: PublicationInterface[] = [];
+  paborrar = []
 
   constructor(
     private authSvc: AuthService,
@@ -120,6 +122,7 @@ export class HomePage implements OnInit{
     this.getPublications();   
     this.getPublicationsSaved();
     this.getNotifications();
+    this.getReports();
     const tag = document.createElement('script');
     tag.src = '//www.youtube.com/iframe_api';
     document.body.appendChild(tag);
@@ -258,6 +261,8 @@ export class HomePage implements OnInit{
   }
   
   async presentAlertConfirm(idea: PublicationInterface) {
+
+    const path2 = 'Reports';
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Eliminar idea',
@@ -274,6 +279,7 @@ export class HomePage implements OnInit{
           text: 'Sí',
           handler: () => {
             this.firestoreService.deleteDoc(this.path, idea.id);
+            this.deletofreport(idea.id);
             this.presentSuccessToast('Publicación eliminada');
             console.log('eliminado');
           }
@@ -319,6 +325,7 @@ export class HomePage implements OnInit{
   
   
   async presentActionSheet(ide, titlePublication) {
+
     const actionSheet = await this.actionSheetController.create ({
       header: 'Compartír vía:',
       cssClass: 'my-custom-class',
@@ -411,5 +418,24 @@ export class HomePage implements OnInit{
       form.setAttribute("id",id);
       document.getElementById(id).appendChild(form);
   }
-
+  getReports(){
+  this.firestoreService.getCollection<PublicationInterface>('Reports/').subscribe( res => {  // res - respuesta del observador
+    this.reports = res;
+    console.log('reportados', this.reports);
+   });
+  }
+  deletofreport(id){
+    let ids = []
+    console.log('a', this.reports);
+    console.log('el id', id);
+    this.paborrar = this.reports.filter(e => e.id == id);
+    this.paborrar.forEach(e => {
+      ids.push(e.idReport);
+    });
+    console.log('ides de repor', ids);
+    ids.forEach(e => {
+      console.log('ids a borr', e);
+      this.firestoreService.deleteDoc('Reports', e);
+    });
+  }
 }

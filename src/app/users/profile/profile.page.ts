@@ -138,10 +138,7 @@ export class ProfilePage implements OnInit {
       this.router.navigate(['/otros']);
     }
   }
-  async deletePublication(idea: PublicationInterface){
-   // await this.firestoreService.deleteDoc(this.path, idea.id);
-   console.log('eliminado');
-  }
+  
   async modalComments(id: string, idTo: string) {
     const modal = await this.modalController.create({
       component: CommentsPage,
