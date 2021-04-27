@@ -33,15 +33,7 @@ export class ProfilePage implements OnInit {
     password: ''
 
   };
-  comment: CommentInterface = {
-    id: '',
-    idPublication: '',
-    idUser: '',
-    time: null,
-    text: '',
-    uName: '',
-    uPhoto: '',
-  };
+  
   newPublication: PublicationInterface = {
     id: '',
     title: '',

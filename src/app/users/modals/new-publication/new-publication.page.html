@@ -35,10 +35,10 @@
       </ion-item>
       <div style="margin-left: 10px;">
         <ion-label color="primary"  class="label-input">Archivo</ion-label><br>
-        <ion-note>Si vas a añadir varias imágenes, comienza por la última imagen hasta la primera</ion-note>
+        <ion-note>Si vas a añadir varias imágenes, comienza por la última imagen hasta la primera. (Máx. 5)</ion-note>
       </div>
       <ion-item class="input-item">
-          <ion-button>
+          <ion-button disabled="{{block}}">
             <label for="img-upload">
               <ion-icon name="images"></ion-icon>
               Imágenes

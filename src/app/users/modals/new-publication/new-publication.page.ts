@@ -32,6 +32,7 @@ export class NewPublicationPage implements OnInit {
   errorMessage = '';
   imageUploads = [];
   pathImages = '';
+  block = false;
 
 /*archivos*/
   archivo = false;
@@ -128,6 +129,10 @@ export class NewPublicationPage implements OnInit {
       (res: any) => {
         if (res) {
           this.newPublication.image.unshift(res);
+          console.log(this.newPublication.image.length);
+          if(this.newPublication.image.length == 5){
+            this.block = true;
+          }
           console.log('theimgs', res);
           this.barStatus = false;
         } 
@@ -141,6 +146,9 @@ export class NewPublicationPage implements OnInit {
   removeImage(img){
     let index = this.newPublication.image.indexOf(img);
     this.newPublication.image.splice(index, 1);
+    this.newPublication.image.length-1;
+    this.block = false;
+    console.log(this.newPublication.image.length);
   }
 
   async presentToast(msg) {

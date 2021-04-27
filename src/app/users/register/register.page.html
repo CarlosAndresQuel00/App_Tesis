@@ -20,15 +20,17 @@
   <form *ngIf="segment2">-->
   <form>
       <ion-item class="input-item">
-        <ion-label position="floating" color="primary" class="label-input">Nombre/Alias</ion-label>
-        <ion-input [(ngModel)]="user.name" type="text" name="name" required></ion-input>
+        <ion-label position="floating" color="primary" class="label-input">Nombre/Alias *</ion-label>
+        <ion-input [(ngModel)]="user.name" type="text" name="name" (ionChange)="validarName($event)" required></ion-input>
       </ion-item>
+      <ion-label *ngIf="invalid" color="danger" style="font-size: 12px;"> <ion-icon *ngIf="invalid" name="alert-circle-outline" color="danger"></ion-icon>Asegúrate de ingresar solo letras.</ion-label> 
       <ion-item class="input-item">
-        <ion-label position="floating" color="primary" class="label-input">Correo electrónico</ion-label>
-        <ion-input [(ngModel)]="user.email" type="email" name="email" required></ion-input>
+        <ion-label position="floating" color="primary" class="label-input">Correo electrónico *</ion-label>
+        <ion-input [(ngModel)]="user.email" type="email" name="email" (ionChange)="validarEmail($event)" required></ion-input>
       </ion-item>
+        <ion-label *ngIf="invalidEmail" color="danger" style="font-size: 12px;"> <ion-icon *ngIf="invalid" name="alert-circle-outline" color="danger"></ion-icon>Ingresa una dirección de correo válida.</ion-label> 
       <ion-item >
-        <ion-label position="floating" color="primary" class="label-input" required>Contraseña</ion-label>
+        <ion-label position="floating" color="primary" class="label-input" required>Contraseña *</ion-label>
         <ion-row style=" width: 295px;" >
           <ion-col size="11">
             <ion-input type="password" 
@@ -36,6 +38,7 @@
               class="form-control" 
               name="password"
               #input
+              (ionChange)="validarPass($event)"
             >
             </ion-input>
           </ion-col >
@@ -46,7 +49,8 @@
             </a>
           </ion-col>
       </ion-row> 
-      </ion-item>   
+      </ion-item>  
+      <ion-label *ngIf="invalidPass" color="danger" style="font-size: 12px;"> <ion-icon *ngIf="invalid" name="alert-circle-outline" color="danger"></ion-icon>La contraseña debe tener al menos 6 dígitos.</ion-label>  
     <ion-button class="sign-in-btn"  expand="block" (click)="onRegister()">
       Registrarse
     </ion-button><br>

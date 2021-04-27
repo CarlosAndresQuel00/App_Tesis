@@ -62,7 +62,7 @@ export class UserProfilePage implements OnInit {
     idUserSave: '',
   };
   notification: NotificationInterface = {
-    id: '',
+    idNotif: '',
     idPublication: '',
     idUser: '',
     follow: '',
@@ -191,13 +191,13 @@ export class UserProfilePage implements OnInit {
 
   saveNotification(){
     const path = 'Notifications/';
-    this.notification.id = this.firestoreService.getId();
+    this.notification.idNotif = this.firestoreService.getId();
     this.notification.follow = this.userFollower.name + ' comenzó a seguirte';
     this.notification.uPhoto = this.userFollower.photo;
     this.notification.idUser = this.idCurrentUser;
     this.notification.idTo = this.userFollower.idUserFollow;
     this.notification.status = 'sin_abrir';
-    this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
+    this.firestoreService.createDoc(this.notification, path, this.notification.idNotif).then(res => {
       console.log('notificacion guardarda!');
     }).catch (err => {
       console.log(err);

@@ -26,6 +26,7 @@ export class EditPublicationPage implements OnInit {
   pathImages = '';
   newImage: '';
   ocultar1 =false;
+  block = false;
   
   /*archivos*/
   archivo = false;
@@ -107,6 +108,9 @@ export class EditPublicationPage implements OnInit {
       (res: any) => {
         if (res) {
           this.newPublication.image.unshift(res);
+          if(this.newPublication.image.length == 5){
+            this.block = true;
+          }
           console.log('theimgs', res);
           this.barStatus = false;
         } 
@@ -120,6 +124,8 @@ export class EditPublicationPage implements OnInit {
   removeImage(img){
     let index = this.newPublication.image.indexOf(img);
     this.newPublication.image.splice(index, 1);
+    this.newPublication.image.length-1;
+    this.block = false;
     this.firestoreService.updateDoc(this.newPublication, this.path, this.newPublication.id).then(res => {
     }).catch (err => {
       console.log(err);

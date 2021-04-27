@@ -1,5 +1,5 @@
 export interface NotificationInterface{
-    id?: string;
+    idNotif?: string;
     idUser?: string;
     idPublication?: string;
     follow?: string;

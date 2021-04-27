@@ -133,9 +133,10 @@ export class HomePage implements OnInit{
       component: CommentsPage,
       componentProps: {
         idPubli: id,
-        idTo: idUser
+        idToP: idUser
       }
     });
+    console.log('de to desde home', idUser);
     return await modal.present();
 
   }  

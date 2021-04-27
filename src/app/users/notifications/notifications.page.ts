@@ -16,7 +16,7 @@ export class NotificationsPage implements OnInit {
   num = 0;
   notif = false;
   notifications: NotificationInterface[] = [];
-  
+
   notification: NotificationInterface = {
     status: ''
   }
@@ -51,24 +51,24 @@ export class NotificationsPage implements OnInit {
   }
   goPublication(idPublication, id){
     this.getOneNotification(id);
-    console.log(id);
     this.router.navigate(['/publication', idPublication]);
     
   }
   goProfile(idUser, id){
     this.getOneNotification(id);
-    console.log(id);
     this.router.navigate(['/user-profile', idUser]);
   }
   getOneNotification(id){
-    this.firestoreService.getDoc<NotificationInterface>('Notifications/', id).subscribe(res => {
+    const a = this.firestoreService.getDoc<NotificationInterface>('Notifications/', id).subscribe(res => {
       this.notification = res;
+      this.notification.status = 'abierto';
+      this.firestoreService.updateDoc(this.notification, 'Notifications/', id).then(res => {
+        console.log('notificacon abierta!');
+        }).catch (err => {
+          console.log(err);
+        });
+      a.unsubscribe()
     });
-    this.notification.status = 'abierto';
-    this.firestoreService.updateDoc(this.notification, 'Notifications/', id).then(res => {
-      console.log('notificacon abierta!');
-      }).catch (err => {
-    console.log(err);
-    });
+    
   }
 }

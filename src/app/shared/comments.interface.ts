@@ -1,5 +1,5 @@
 export interface CommentInterface{
-    id?: string;
+    idComment?: string;
     idUser?: string;
     idPublication?: string;
     time: Date;

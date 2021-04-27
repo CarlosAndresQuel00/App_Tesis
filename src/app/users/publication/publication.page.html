@@ -9,10 +9,10 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="sign-in-content"> 
-  <ion-item *ngIf="publication == undefined">
-    <ion-label style="text-align: center;color: orange;">Ups! La idea que estás buscando ha sido borrada</ion-label>
-  </ion-item>
-  <div style="border: none;" *ngIf="publication != undefined">
+  <div *ngIf="noExists" style="background-color: rgb(255, 242, 217); padding: 10px;text-align: center;">
+    <ion-label style="color: orange; ">Ups! La idea que estás buscando ha sido borrada</ion-label>
+  </div>
+  <div style="border: none;" *ngIf="!noExists">
     <div class="publication-info" style="border: none;">
       <ion-row>
         <ion-col size="1.5" size-lg>

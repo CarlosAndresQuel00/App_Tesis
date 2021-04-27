@@ -20,10 +20,10 @@
               <img *ngIf="!notif.userPhoto" src="../../../assets/icon/penguin.svg" class="user-photo-profile" />
             </div>
             <div class="publication-about" style="margin-left: 10px;" *ngIf="notif.comment"> 
-              <ion-button (click)="goPublication(notif.idPublication, notif.id)" fill="clear" style="text-transform: none;color:#000;">{{notif.comment}}</ion-button> <br>         
+              <ion-button (click)="goPublication(notif.idPublication, notif.idNotif)" fill="clear" style="text-transform: none;color:#000;">{{notif.comment}}</ion-button> <br>         
             </div>
             <div class="publication-about" style="margin-left: 10px;" *ngIf="notif.follow"> 
-              <ion-button (click)="goProfile(notif.idUser, notif.id)" fill="clear" style="text-transform: none;color:#000;">{{notif.follow}}</ion-button> <br>         
+              <ion-button (click)="goProfile(notif.idUser, notif.idNotif)" fill="clear" style="text-transform: none;color:#000;">{{notif.follow}}</ion-button> <br>         
             </div>
           </ion-item>     
     </div>

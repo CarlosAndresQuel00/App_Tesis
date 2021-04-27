@@ -31,6 +31,7 @@ export class FirestorageService {
       ).subscribe();
     });
   }
+
   public uploadFile( filePath: string, file: any) {
     return this.storage.upload(filePath, file);
   }

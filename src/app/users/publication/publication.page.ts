@@ -36,6 +36,7 @@ export class PublicationPage implements OnInit {
   idUser = '';
   isOwner = false;
   private path = 'Ideas/';
+  noExists = false;
   // Para verificar guardados
   savedPublications: PublicationInterface[] = [];
   publi: PublicationInterface[] = [];
@@ -79,11 +80,16 @@ export class PublicationPage implements OnInit {
   }
   getDetallesPubli(){
     this.idPublication = this.route.snapshot.paramMap.get('id');
-    const path = 'Ideas/'
-    this.firestoreService.getDoc<PublicationInterface>(path,this.idPublication).subscribe(res => {
-      this.publication = res;
-      console.log('publication->', res);
-    });
+    if(this.idPublication){
+      const path = 'Ideas/'
+      this.firestoreService.getDoc<PublicationInterface>(path,this.idPublication).subscribe(res => {
+        this.publication = res;
+        console.log('publication->', res);
+      });
+    }else{
+      this.noExists = true;
+    }
+    
   }
 
   async modalReport(id: string) {

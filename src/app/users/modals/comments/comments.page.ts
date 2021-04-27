@@ -16,7 +16,7 @@ import { NotificationInterface } from 'src/app/shared/notification.interface';
 })
 export class CommentsPage implements OnInit {
 
-  @Input() idPubli: any;
+  @Input() idPubli: any ; 
   @Input() idToP: any;
   idCurrentUser = '';
   uName = '';
@@ -24,7 +24,7 @@ export class CommentsPage implements OnInit {
   private path = 'Comments/';
   comments: CommentInterface[] = [];
   comment: CommentInterface = {
-    id: '',
+    idComment: '',
     idPublication: '',
     idUser: '',
     text: '',
@@ -41,7 +41,7 @@ export class CommentsPage implements OnInit {
     password: ''
   };
   notification: NotificationInterface = {
-    id: '',
+    idNotif: '',
     idPublication: '',
     idUser: '',
     comment: '',
@@ -49,19 +49,7 @@ export class CommentsPage implements OnInit {
     uPhoto: '',
     status: ''
   }
-  newPublication: PublicationInterface = {
-    id: this.firestoreService.getId(),
-    title: '',
-    description: '',
-    image: [],
-    file: '',
-    date: new Date(),
-    userId: '',
-    userName: '',
-    userPhoto: '',
-    idSaved: '',
-    idUserSave: ''
-  };
+  
   constructor(
     public navCtrl: NavController,
     public modalCtrl: ModalController,
@@ -85,7 +73,7 @@ export class CommentsPage implements OnInit {
 
   initComment(){
     this.comment = {
-      id: '',
+      idComment: '',
       idPublication: '',
       idUser: '',
       time: new Date(),
@@ -96,38 +84,39 @@ export class CommentsPage implements OnInit {
   }
   ngOnInit() {
     this.getComments();
-    console.log(this.idToP);
+    console.log('ide de persona to', this.idToP);
+    console.log('ide de publication to', this.idPubli);
   }
   dismiss() {
     this.modalCtrl.dismiss();
   }
   async saveComment() { // registrar idea en firestorage y base de datos con id de auth
     const path = 'Comments/';
-    this.comment.id = this.firestoreService.getId();
+    this.comment.idComment = this.firestoreService.getId();
     this.comment.idUser = this.idCurrentUser;
     this.comment.uName = this.uName;
     this.comment.uPhoto = this.uPhoto;
     this.comment.idPublication = this.idPubli;
-    this.firestoreService.createDoc(this.comment, path, this.comment.id).then(res => {
+    this.firestoreService.createDoc(this.comment, path, this.comment.idComment).then(res => {
       console.log('Comentado!');
       this.saveNotification();
       this.comment.text = '';
     }).catch (err => {
       console.log(err);
     });
-    
+    console.log('id comment', this.comment.idComment);
   }
   saveNotification(){
     const path = 'Notifications/';
     if(this.idCurrentUser != this.idToP){
-      this.notification.id = this.firestoreService.getId();
+      this.notification.idNotif = this.firestoreService.getId();
       this.notification.comment = this.uName + ' comentó tu publicación';
       this.notification.idPublication = this.idPubli;
       this.notification.uPhoto = this.uPhoto;
       this.notification.idUser = this.idCurrentUser;
       this.notification.idTo = this.idToP;
       this.notification.status = 'sin_abrir';
-      this.firestoreService.createDoc(this.notification, path, this.notification.id).then(res => {
+      this.firestoreService.createDoc(this.notification, path, this.notification.idNotif).then(res => {
         console.log('notificacion guardarda!');
       }).catch (err => {
         console.log(err);

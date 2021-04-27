@@ -27,6 +27,10 @@ export class RegisterPage implements OnInit {
   correctEmail = false;
   passwordCheckbox = false;
 
+  invalid = false;
+  invalidPass = false;
+  invalidEmail = false;
+
   user: UserInterface = {
     uid: '',
     name: '',
@@ -36,6 +40,7 @@ export class RegisterPage implements OnInit {
     password: '',
     displayName: ''
   };
+  
 
   constructor(
     public firestoreService: FirestoreService,
@@ -55,6 +60,7 @@ export class RegisterPage implements OnInit {
     console.log(this.user);
     const id = await this.authSvc.getUid();
     console.log(id);
+    
   }
   initUser(){
     this.user = {
@@ -76,6 +82,8 @@ export class RegisterPage implements OnInit {
   async onRegister(){
     if(this.user.email == '' || this.user.name == '' || this.user.password == ''){
       this.presentWarningToast('Asegúrate de completar todos los campos');
+    }else if(this.invalid == true || this.invalidEmail == true || this.invalidPass == true){
+      this.presentWarningToast('Asegúrate de completar correctamente los campos');
     }else{
       const user = await this.authSvc.register(this.user.email, this.user.password);
       this.errorMessage = this.authSvc.message;
@@ -90,7 +98,42 @@ export class RegisterPage implements OnInit {
       this.initUser();
       console.log(id);
     }
+    
   }
+  validarName(event){
+    let numeros = '0123456789/*!"#$%&/()=?¡¿'
+    const texto = event.target.value;
+    for(let i=0; i < texto.length; i++){
+      if (numeros.indexOf(texto.charAt(i),0)!=-1){
+        this.invalid = true;
+      }else{
+        this.invalid = false;
+      }
+    }
+    console.log(texto, this.invalid);
+  }
+  validarPass(event){
+    const texto = event.target.value;
+    if(texto.length < 6){
+      this.invalidPass = true;
+    }else{
+      this.invalidPass = false;
+    }
+  }
+  validarEmail(event){
+    let caracteres = '@.com.es'
+    const texto = event.target.value;
+    for(let i=0; i < texto.length; i++){
+      if (caracteres.indexOf(texto.charAt(i),0)!=-1){
+        this.invalidEmail = false;
+      }else{
+        this.invalidEmail = true;
+      }
+    }
+    console.log(this.invalidEmail);
+    
+  }
+  
   /*googleRegisterAndroid(): Promise<any> {
     const path = 'Users';
     return new Promise((resolve, reject) => { 
