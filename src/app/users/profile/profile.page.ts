@@ -51,6 +51,9 @@ export class ProfilePage implements OnInit {
   savedPublications: PublicationInterface[] = [];
   publi: PublicationInterface[] = [];
   users: UserInterface[] = [];
+  reports: PublicationInterface[] = [];
+  toDelete = [];
+
   constructor(
     private authSvc: AuthService,
     public firestoreService: FirestoreService,
@@ -196,6 +199,7 @@ export class ProfilePage implements OnInit {
          handler: () => {
            this.firestoreService.deleteDoc(this.path, idea.id);
            this.noIdeas = false;
+           this.deletofReport(idea.id);
            this.presentSuccessToast('Publicación eliminada');
            console.log('eliminado');
          }
@@ -299,5 +303,25 @@ export class ProfilePage implements OnInit {
     }
     goFollowers(){
       this.router.navigate(['Followers']);
+    }
+    getReports(){
+    this.firestoreService.getCollection<PublicationInterface>('Reports/').subscribe( res => {  // res - respuesta del observador
+      this.reports = res;
+      console.log('reportados', this.reports);
+     });
+    }
+    deletofReport(id: string){
+      let ids = []
+      console.log('a', this.reports);
+      console.log('el id', id);
+      this.toDelete = this.reports.filter(e => e.id == id);
+      this.toDelete.forEach(e => {
+        ids.push(e.idReport);
+      });
+      console.log('ides de repor', ids);
+      ids.forEach(e => {
+        console.log('ids a borr', e);
+        this.firestoreService.deleteDoc('Reports', e);
+      });
     }
 }

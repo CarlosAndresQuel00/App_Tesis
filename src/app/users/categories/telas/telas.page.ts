@@ -42,6 +42,8 @@ export class TelasPage implements OnInit {
     password: '',
   };
   publications: PublicationInterface[] = [];
+  reports: PublicationInterface[] = [];
+  toDelete = [];
   constructor(
     public firestoreService: FirestoreService,
     private authSvc: AuthService,
@@ -122,6 +124,8 @@ export class TelasPage implements OnInit {
           text: 'Sí',
           handler: () => {
             this.firestoreService.deleteDoc(this.path, idea.id);
+            this.deletofReport(idea.id);
+            this.presentSuccessToast('Publicación eliminada');
             console.log('eliminado');
           }
         }
@@ -249,4 +253,24 @@ export class TelasPage implements OnInit {
       form.setAttribute("id",id);
       document.getElementById(id).appendChild(form);
   }
+  getReports(){
+    this.firestoreService.getCollection<PublicationInterface>('Reports/').subscribe( res => {  // res - respuesta del observador
+      this.reports = res;
+      console.log('reportados', this.reports);
+     });
+    }
+    deletofReport(id: string){
+      let ids = []
+      console.log('a', this.reports);
+      console.log('el id', id);
+      this.toDelete = this.reports.filter(e => e.id == id);
+      this.toDelete.forEach(e => {
+        ids.push(e.idReport);
+      });
+      console.log('ides de repor', ids);
+      ids.forEach(e => {
+        console.log('ids a borr', e);
+        this.firestoreService.deleteDoc('Reports', e);
+      });
+    }
 }
