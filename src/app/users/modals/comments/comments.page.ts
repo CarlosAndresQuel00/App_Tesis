@@ -153,7 +153,7 @@ export class CommentsPage implements OnInit {
         }, {
           text: 'Sí',
           handler: () => {
-            this.firestoreService.deleteDoc(this.path, id);
+            this.firestoreService.deleteDoc('Comments', id);
             this.presentSuccessToast('Eliminado correctamente');
           }
         }

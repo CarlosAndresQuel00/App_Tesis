@@ -15,7 +15,7 @@
 <div *ngFor="let comment of comments" class="comments-container">
     <ion-item  class="comment-div">
       <ion-buttons slot="end" *ngIf="comment.idUser === idCurrentUser">
-        <ion-button (click)="presentAlertConfirm(comment.id)">
+        <ion-button (click)="presentAlertConfirm(comment.idComment)">
           <ion-icon name="trash" color="danger"></ion-icon>
         </ion-button>
       </ion-buttons>
